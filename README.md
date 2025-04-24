@@ -5,18 +5,20 @@
 The Parallel Python library provides convenient access to the Parallel REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
+It is strongly encouraged to use the asynchronous client for best performance.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on [docs.parallel.ai](https://docs.parallel.ai). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on our [docs](https://docs.parallel.ai).
+The full API of this Python library can be found in [api.md](api.md).
 
 ## Installation
 
 ```sh
 # install from the production repo
-pip install git+ssh://git@github.com/shapleyai/parallel-sdk-python.git
+pip install git+ssh://git@github.com/shapleyai/parallel-sdk-internal-python.git
 ```
 
 > [!NOTE]
@@ -34,11 +36,12 @@ client = Parallel(
     api_key=os.environ.get("PARALLEL_API_KEY"),  # This is the default and can be omitted
 )
 
-task_run = client.task_run.create(
+run_result = client.task_run.execute(
     input="France (2023)",
-    processor="processor",
+    processor="core",
+    output="GDP"
 )
-print(task_run.run_id)
+print(run_result.output)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -61,33 +64,133 @@ client = AsyncParallel(
 
 
 async def main() -> None:
-    task_run = await client.task_run.create(
+    run_result = await client.task_run.execute(
         input="France (2023)",
-        processor="processor",
+        processor="core",
+        output="GDP"
     )
-    print(task_run.run_id)
+    print(run_result.output)
 
 
-asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(main())
 ```
 
-Functionality between the synchronous and asynchronous clients is otherwise identical.
+To get the best performance out of Parallel's API, we recommend
+using the asynchronous client, especially for executing multiple Task Runs concurrently.
+Functionality between the synchronous and asynchronous clients is identical.
 
-## Using types
+## Convenience methods
 
-Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
+### Execute
 
-- Serializing back into JSON, `model.to_json()`
-- Converting to a dictionary, `model.to_dict()`
+The `execute` method provides a single call which combines creating a task run,
+polling until it is completed, and parsing structured outputs (if specified).
 
-Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+If an output type which inherits from `BaseModel` is
+specified in the call to `.execute()`, the response content will be parsed into an
+instance of the provided output type. The parsed output can be accessed via the
+`parsed` property on the output field of the response.
 
-## Nested params
+```python
+import os
+import asyncio
+from parallel import AsyncParallel
+from pydantic import BaseModel
 
-Nested parameters are dictionaries, typed using `TypedDict`, for example:
+client = AsyncParallel()
+
+class SampleOutputStructure(BaseModel):
+    output: str
+
+async def main() -> None:
+    # with pydantic
+    run_result = await client.task_run.execute(
+        input="France (2023)",
+        processor="core",
+        output=SampleOutputStructure,
+    )
+    # parsed output of type SampleOutputStructure
+    print(run_result.output.parsed)
+    # without pydantic
+    run_result = await client.task_run.execute(
+        input="France (2023)",
+        processor="core",
+        output="GDP"
+    )
+    print(run_result.output)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+The async client allows creating several task runs without blocking.
+To create multiple task runs in one go, call execute and then gather the results at the end.
+
+```python
+import asyncio
+import os
+
+from parallel import AsyncParallel
+from pydantic import BaseModel, Field
+from typing import List
+
+class CountryInput(BaseModel):
+    country: str = Field(
+        description="Name of the country to research. Must be a recognized "
+        "sovereign nation (e.g., 'France', 'Japan')."
+    )
+    year: int = Field(
+        description="Year for which to retrieve data. Must be 2000 or later. "
+                    "Use most recent full-year estimates if year is current."
+    )
+
+class CountryOutput(BaseModel):
+    gdp: str = Field(
+        description="GDP in USD for the year, formatted like '$3.1 trillion (2023)'."
+    )
+    top_exports: List[str] = Field(
+        description="Top 3 exported goods/services by value. Use credible sources."
+    )
+    top_imports: List[str] = Field(
+        description="Top 3 imported goods/services by value. Use credible sources."
+    )
+
+async def main():
+    # Initialize the Parallel client
+    client = AsyncParallel(api_key=os.environ.get("PARALLEL_API_KEY"))
+
+    # Prepare structured input
+    input_data = [
+        CountryInput(country="France", year=2023),
+        CountryInput(country="Germany", year=2023),
+        CountryInput(country="Italy", year=2023)
+    ]
+
+    run_results = await asyncio.gather(*[
+        client.task_run.execute(
+            input=datum,
+            output=CountryOutput,
+            processor="core"
+        )
+        for datum in input_data
+    ])
+
+    for run_input, run_result in zip(input_data, run_results):
+        print(f"Task run output for {run_input}: {run_result.output.parsed}")
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## Low level API Access
+
+The library also provides access to the low level API for accessing the Parallel API.
 
 ```python
 from parallel import Parallel
+from parallel.types import TaskSpecParam
 
 client = Parallel()
 
@@ -125,8 +228,15 @@ task_run = client.task_run.create(
         },
     },
 )
-print(task_run.task_spec)
+
+run_result = client.task_run.result(task_run.id)
+print(run_result.output)
 ```
+
+For more information, please check out the relevant section in our docs:
+
+- [Task Spec](https://docs.parallel.ai/core-concepts/task-spec)
+- [Task Runs](https://docs.parallel.ai/core-concepts/task-runs)
 
 ## Handling errors
 
@@ -144,9 +254,10 @@ from parallel import Parallel
 client = Parallel()
 
 try:
-    client.task_run.create(
+    client.task_run.execute(
         input="France (2023)",
-        processor="processor",
+        processor="core",
+        output="GDP"
     )
 except parallel.APIConnectionError as e:
     print("The server could not be reached")
@@ -190,9 +301,10 @@ client = Parallel(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).task_run.create(
+client.with_options(max_retries=5).task_run.execute(
     input="France (2023)",
-    processor="processor",
+    processor="core",
+    output="GDP"
 )
 ```
 
@@ -216,9 +328,10 @@ client = Parallel(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).task_run.create(
+client.with_options(timeout=5.0).task_run.execute(
     input="France (2023)",
-    processor="processor",
+    processor="core",
+    output="GDP"
 )
 ```
 
@@ -260,19 +373,20 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from parallel import Parallel
 
 client = Parallel()
-response = client.task_run.with_raw_response.create(
+response = client.task_run.with_raw_response.execute(
     input="France (2023)",
-    processor="processor",
+    processor="core",
+    output="GDP"
 )
 print(response.headers.get('X-My-Header'))
 
-task_run = response.parse()  # get the object that `task_run.create()` would have returned
-print(task_run.run_id)
+task_run = response.parse()  # get the object that `task_run.execute()` would have returned
+print(task_run.output)
 ```
 
-These methods return an [`APIResponse`](https://github.com/shapleyai/parallel-sdk-python/tree/main/src/parallel/_response.py) object.
+These methods return an [`APIResponse`](https://github.com/shapleyai/parallel-sdk-internal-python/tree/main/src/parallel/_response.py) object.
 
-The async client returns an [`AsyncAPIResponse`](https://github.com/shapleyai/parallel-sdk-python/tree/main/src/parallel/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
+The async client returns an [`AsyncAPIResponse`](https://github.com/shapleyai/parallel-sdk-internal-python/tree/main/src/parallel/_response.py) with the same structure, the only difference being `await`able methods for reading the response content.
 
 #### `.with_streaming_response`
 
@@ -281,9 +395,10 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.task_run.with_streaming_response.create(
+with client.task_run.with_streaming_response.execute(
     input="France (2023)",
-    processor="processor",
+    processor="core",
+    output="GDP"
 ) as response:
     print(response.headers.get("X-My-Header"))
 

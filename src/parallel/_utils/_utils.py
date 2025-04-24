@@ -169,6 +169,10 @@ def is_dict(obj: object) -> TypeGuard[dict[object, object]]:
     return isinstance(obj, dict)
 
 
+def is_str(obj: object) -> TypeGuard[str]:
+    return isinstance(obj, str)
+
+
 def is_list(obj: object) -> TypeGuard[list[object]]:
     return isinstance(obj, list)
 

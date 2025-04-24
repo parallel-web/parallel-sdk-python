@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 from typing import Union, Optional
-from typing_extensions import Required, TypeAlias, TypedDict
+from typing_extensions import TypeVar, Required, TypeAlias, TypedDict, NotRequired
+
+from pydantic import BaseModel
 
 from .json_schema_param import JsonSchemaParam
 from .text_schema_param import TextSchemaParam
@@ -13,6 +15,8 @@ __all__ = ["TaskSpecParam", "OutputSchema", "InputSchema"]
 OutputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
 
 InputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
+
+OutputT = TypeVar("OutputT", bound=BaseModel)
 
 
 class TaskSpecParam(TypedDict, total=False):
@@ -24,7 +28,7 @@ class TaskSpecParam(TypedDict, total=False):
     description.
     """
 
-    input_schema: Optional[InputSchema]
+    input_schema: NotRequired[Optional[InputSchema]]
     """Optional JSON schema or text description of expected input to the task.
 
     A bare string is equivalent to a text schema with the same description.
