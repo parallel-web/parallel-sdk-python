@@ -17,12 +17,9 @@ The full API of this Python library can be found in [api.md](api.md).
 ## Installation
 
 ```sh
-# install from the production repo
-pip install git+ssh://git@github.com/shapleyai/parallel-sdk-python.git
+# install from PyPI
+pip install parallel-web
 ```
-
-> [!NOTE]
-> Once this package is [published to PyPI](https://app.stainless.com/docs/guides/publish), this will become: `pip install --pre parallel-web`
 
 ## Usage
 
