@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
+import time
+from typing import Dict, Type, Union, Optional, overload
 
 import httpx
+
+from parallel.lib._time import prepare_timeout_float
 
 from ..types import task_run_create_params, task_run_result_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
@@ -20,7 +23,14 @@ from .._response import (
 from .._base_client import make_request_options
 from ..types.task_run import TaskRun
 from ..types.task_run_result import TaskRunResult
-from ..types.task_spec_param import TaskSpecParam
+from ..types.task_spec_param import OutputT, OutputSchema, TaskSpecParam
+from ..lib._parsing._task_spec import build_task_spec_param
+from ..types.parsed_task_run_result import ParsedTaskRunResult
+from ..lib._parsing._task_run_result import (
+    wait_for_result as _wait_for_result,
+    wait_for_result_async as _wait_for_result_async,
+    task_run_result_parser,
+)
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
@@ -171,6 +181,134 @@ class TaskRunResource(SyncAPIResource):
             cast_to=TaskRunResult,
         )
 
+    def _wait_for_result(
+        self,
+        *,
+        run_id: str,
+        deadline: float,
+        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+        """Wait for a task run to complete within the given timeout."""
+
+        def _fetcher(run_id: str, deadline: float) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+            timeout = deadline - time.monotonic()
+            task_run_result = self.result(
+                run_id,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return task_run_result_parser(task_run_result, output)
+
+        return _wait_for_result(run_id=run_id, deadline=deadline, callable=_fetcher)
+
+    @overload
+    def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TaskRunResult: ...
+    @overload
+    def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Type[OutputT],
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ParsedTaskRunResult[OutputT]: ...
+    def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+        """
+        Convenience method to create and execute a task run in a single call.
+
+        Awaits run completion. If the run is successful, a `ParsedTaskRunResult`
+        is returned when a pydantic was specified in `output`. Otherwise, a
+        `TaskRunResult` is returned.
+
+        Possible errors:
+        - `TimeoutError`: If the run does not finish within the specified timeout.
+        - `APIStatusError`: If the API returns a non-200-range status code.
+        - `APIConnectionError`: If the connection to the API fails.
+
+        Args:
+          input: Input to the task, either text or a JSON object.
+
+          processor: Processor to use for the task.
+
+          metadata: User-provided metadata stored with the run. Keys and values must be strings with
+            a maximum length of 16 and 512 characters respectively.
+
+          output: Optional output schema or pydantic type. If pydantic is provided,
+            the response will have a parsed field.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds.
+            If the result is not available within the timeout, a `TimeoutError` is raised.
+        """
+        extra_headers = {"X-Stainless-Poll-Helper": "true", **(extra_headers or {})}
+
+        timeout = prepare_timeout_float(timeout)
+
+        deadline = time.monotonic() + timeout
+        task_run = self.create(
+            input=input,
+            processor=processor,
+            metadata=metadata,
+            task_spec=build_task_spec_param(output, input),
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+
+        return self._wait_for_result(
+            run_id=task_run.run_id,
+            deadline=deadline,
+            output=output,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+        )
+
 
 class AsyncTaskRunResource(AsyncAPIResource):
     @cached_property
@@ -318,6 +456,130 @@ class AsyncTaskRunResource(AsyncAPIResource):
                 ),
             ),
             cast_to=TaskRunResult,
+        )
+
+    async def _wait_for_result(
+        self,
+        *,
+        run_id: str,
+        deadline: float,
+        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+        """Wait for a task run to complete within the given timeout."""
+
+        async def _fetcher(run_id: str, deadline: float) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+            timeout = deadline - time.monotonic()
+            task_run_result = await self.result(
+                run_id,
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+            )
+            return task_run_result_parser(task_run_result, output)
+
+        return await _wait_for_result_async(run_id=run_id, deadline=deadline, callable=_fetcher)
+
+    @overload
+    async def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TaskRunResult: ...
+    @overload
+    async def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Type[OutputT],
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> ParsedTaskRunResult[OutputT]: ...
+    async def execute(
+        self,
+        *,
+        input: Union[str, object],
+        processor: str,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
+        """
+        Convenience method to create and execute a task run in a single call.
+
+        Awaits run completion. If the run is successful, a `ParsedTaskRunResult`
+        is returned when a pydantic was specified in `output`. Otherwise, a
+        `TaskRunResult` is returned.
+
+        Possible errors:
+        - `TimeoutError`: If the run does not finish within the specified timeout.
+        - `APIStatusError`: If the API returns a non-200-range status code.
+        - `APIConnectionError`: If the connection to the API fails.
+
+        Args:
+          input: Input to the task, either text or a JSON object.
+
+          processor: Processor to use for the task.
+
+          metadata: User-provided metadata stored with the run. Keys and values must be strings with
+            a maximum length of 16 and 512 characters respectively.
+
+          output: Optional output schema or pydantic type. If pydantic is provided,
+            the response will have a parsed field.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds.
+            If the result is not available within the timeout, a `TimeoutError` is raised.
+        """
+        extra_headers = {"X-Stainless-Poll-Helper": "true", **(extra_headers or {})}
+
+        timeout = prepare_timeout_float(timeout)
+        deadline = time.monotonic() + timeout
+
+        task_run = await self.create(
+            input=input,
+            processor=processor,
+            metadata=metadata,
+            task_spec=build_task_spec_param(output, input),
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
+            timeout=timeout,
+        )
+
+        return await self._wait_for_result(
+            run_id=task_run.run_id,
+            deadline=deadline,
+            output=output,
+            extra_headers=extra_headers,
+            extra_query=extra_query,
+            extra_body=extra_body,
         )
 
 
