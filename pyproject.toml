@@ -34,7 +34,8 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://parallel.ai"
+Homepage = "https://github.com/shapleyai/parallel-sdk-python"
+Repository = "https://github.com/shapleyai/parallel-sdk-python"
 
 
 [tool.rye]

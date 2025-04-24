@@ -1,7 +1,6 @@
 from ._sync import asyncify as asyncify
 from ._proxy import LazyProxy as LazyProxy
 from ._utils import (
-    is_str as is_str,
     flatten as flatten,
     is_dict as is_dict,
     is_list as is_list,
