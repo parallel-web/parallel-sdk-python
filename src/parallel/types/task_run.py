@@ -29,11 +29,8 @@ class TaskRun(BaseModel):
     is_active: bool
     """Whether the run is currently active; i.e.
 
-    status is one of {'queued', 'running', 'cancelling'}.
+    status is one of {'running', 'queued', 'cancelling'}.
     """
-
-    message: Optional[str] = None
-    """Human-readable status message for the run."""
 
     modified_at: Optional[str] = None
     """Timestamp of the last modification to the task, as an RFC 3339 string."""

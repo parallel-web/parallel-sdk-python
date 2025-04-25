@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.parallel.ai](https://docs.paral
 
 ```sh
 # install from PyPI
-pip install --pre parallel-web
+pip install parallel-web
 ```
 
 ## Usage
