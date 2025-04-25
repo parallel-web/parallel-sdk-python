@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.1.1 (2025-04-25)
+
+Full Changelog: [v0.1.0...v0.1.1](https://github.com/shapleyai/parallel-sdk-python/compare/v0.1.0...v0.1.1)
+
+### Features
+
+* **api:** update via SDK Studio ([4cc79c4](https://github.com/shapleyai/parallel-sdk-python/commit/4cc79c4d1edaa9d1d080b81830961252c8b327c1))
+
+
+### Bug Fixes
+
+* **pydantic:** add fields to json schema, better error messages ([38a2ddc](https://github.com/shapleyai/parallel-sdk-python/commit/38a2ddc348ac7acf11f9f75f69900b628e539c1d))
+
+
+### Chores
+
+* **readme:** update low level api examples ([f17e34e](https://github.com/shapleyai/parallel-sdk-python/commit/f17e34e0e0a6d3205c344c278f1643826938e9d1))
+
 ## 0.1.0 (2025-04-24)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0](https://github.com/shapleyai/parallel-sdk-python/compare/v0.0.1-alpha.0...v0.1.0)
