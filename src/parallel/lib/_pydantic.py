@@ -10,20 +10,22 @@ from .._compat import PYDANTIC_V2, model_json_schema
 
 
 def to_json_schema(
-    model: type[pydantic.BaseModel] | pydantic.TypeAdapter[Any],
+    model_type: type[pydantic.BaseModel] | pydantic.TypeAdapter[Any],
 ) -> dict[str, Any]:
     """Convert a Pydantic model/type adapter to a JSON schema."""
-    if inspect.isclass(model) and is_basemodel_type(model):
-        return model_json_schema(model)
+    if is_basemodel_type(model_type):
+        schema = model_json_schema(model_type)
+    elif isinstance(model_type, pydantic.TypeAdapter):
+        if not PYDANTIC_V2:
+            raise TypeError(f"TypeAdapters are only supported with Pydantic v2 - {model_type}")
+        schema = model_type.json_schema()
+    else:
+        raise TypeError(f"Unsupported type: {model_type}")
 
-    if PYDANTIC_V2 and isinstance(model, pydantic.TypeAdapter):
-        return model.json_schema()
+    # modify the schema to make it compatible with the API format
+    schema["additionalProperties"] = False
+    return schema
 
-    raise TypeError(f"Non BaseModel types are only supported with Pydantic v2 - {model}")
-
-
-def is_basemodel_type(typ: type | object) -> TypeGuard[type[pydantic.BaseModel]]:
-    """Check if a type is a Pydantic BaseModel."""
-    if not inspect.isclass(typ):
-        return False
-    return issubclass(typ, pydantic.BaseModel)
+def is_basemodel_type(model_type: object) -> TypeGuard[type[pydantic.BaseModel]]:
+    """Check if a type is a Pydantic BaseModel to avoid using type: ignore."""
+    return inspect.isclass(model_type) and issubclass(model_type, pydantic.BaseModel)
