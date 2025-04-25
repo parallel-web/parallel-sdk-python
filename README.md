@@ -192,15 +192,15 @@ from parallel.types import TaskSpecParam
 client = Parallel()
 
 task_run = client.task_run.create(
-    input="France (2023)",
-    processor="processor",
+    input={"country": "France", "year": 2023},
+    processor="core",
     task_spec={
         "output_schema": {
             "json_schema": {
                 "additionalProperties": False,
                 "properties": {
                     "gdp": {
-                        "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
+                        "description": "GDP in USD for the year",
                         "type": "string",
                     }
                 },
@@ -213,12 +213,16 @@ task_run = client.task_run.create(
             "json_schema": {
                 "additionalProperties": False,
                 "properties": {
-                    "gdp": {
-                        "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
+                    "country": {
+                        "description": "Name of the country to research",
                         "type": "string",
-                    }
+                    },
+                    "year": {
+                        "description": "Year for which to retrieve information",
+                        "type": "integer",
+                    },
                 },
-                "required": ["gdp"],
+                "required": ["country", "year"],
                 "type": "object",
             },
             "type": "json",
@@ -226,7 +230,7 @@ task_run = client.task_run.create(
     },
 )
 
-run_result = client.task_run.result(task_run.id)
+run_result = client.task_run.result(task_run.run_id)
 print(run_result.output)
 ```
 
