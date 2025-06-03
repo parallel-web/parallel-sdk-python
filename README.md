@@ -103,23 +103,8 @@ task_run = client.task_run.create(
                 },
                 "required": ["gdp"],
                 "type": "object",
-            },
-            "type": "json",
-        },
-        "input_schema": {
-            "json_schema": {
-                "additionalProperties": False,
-                "properties": {
-                    "gdp": {
-                        "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
-                        "type": "string",
-                    }
-                },
-                "required": ["gdp"],
-                "type": "object",
-            },
-            "type": "json",
-        },
+            }
+        }
     },
 )
 print(task_run.task_spec)
