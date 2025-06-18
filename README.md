@@ -1,6 +1,6 @@
 # Parallel Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/parallel-web.svg)](https://pypi.org/project/parallel-web/)
+[![PyPI version](<https://img.shields.io/pypi/v/parallel-web.svg?label=pypi%20(stable)>)](https://pypi.org/project/parallel-web/)
 
 The Parallel Python library provides convenient access to the Parallel REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
