@@ -23,9 +23,7 @@ from pydantic import ValidationError
 
 from parallel import Parallel, AsyncParallel, APIResponseValidationError
 from parallel._types import Omit
-from parallel._utils import maybe_transform
 from parallel._models import BaseModel, FinalRequestOptions
-from parallel._constants import RAW_RESPONSE_HEADER
 from parallel._exceptions import ParallelError, APIStatusError, APITimeoutError, APIResponseValidationError
 from parallel._base_client import (
     DEFAULT_TIMEOUT,
@@ -35,7 +33,6 @@ from parallel._base_client import (
     DefaultAsyncHttpxClient,
     make_request_options,
 )
-from parallel.types.task_run_create_params import TaskRunCreateParams
 
 from .utils import update_env
 
@@ -715,36 +712,21 @@ class TestParallel:
 
     @mock.patch("parallel._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter, client: Parallel) -> None:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/v1/tasks/runs",
-                body=cast(
-                    object, maybe_transform(dict(input="France (2023)", processor="processor"), TaskRunCreateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            client.task_run.with_streaming_response.create(input="France (2023)", processor="processor").__enter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("parallel._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter, client: Parallel) -> None:
         respx_mock.post("/v1/tasks/runs").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/v1/tasks/runs",
-                body=cast(
-                    object, maybe_transform(dict(input="France (2023)", processor="processor"), TaskRunCreateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            client.task_run.with_streaming_response.create(input="France (2023)", processor="processor").__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -1548,36 +1530,29 @@ class TestAsyncParallel:
 
     @mock.patch("parallel._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_timeout_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncParallel
+    ) -> None:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/v1/tasks/runs",
-                body=cast(
-                    object, maybe_transform(dict(input="France (2023)", processor="processor"), TaskRunCreateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
+            await async_client.task_run.with_streaming_response.create(
+                input="France (2023)", processor="processor"
+            ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
 
     @mock.patch("parallel._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
+    async def test_retrying_status_errors_doesnt_leak(
+        self, respx_mock: MockRouter, async_client: AsyncParallel
+    ) -> None:
         respx_mock.post("/v1/tasks/runs").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/v1/tasks/runs",
-                body=cast(
-                    object, maybe_transform(dict(input="France (2023)", processor="processor"), TaskRunCreateParams)
-                ),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
-            )
-
+            await async_client.task_run.with_streaming_response.create(
+                input="France (2023)", processor="processor"
+            ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
