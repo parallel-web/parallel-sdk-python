@@ -29,7 +29,20 @@ def _raise_timeout(run_id: str, exc: Union[Exception, None]) -> NoReturn:
 
 
 def _is_retryable_error(status_code: int) -> bool:
-    """Determine if an error is retryable."""
+    """Determine if an error is retryable.
+
+    We retry the following HTTP status codes within the SDK:
+    - 408 (Request Timeout): The server timed out waiting for the request
+    - 503 (Service Unavailable): The server is temporarily unable to handle the request
+    - 504 (Gateway Timeout): The gateway server timed out
+
+    These errors typically indicate temporary issues with the server or network
+    that may resolve upon retry. We don't include 429 (Too Many Requests) as this
+    indicates rate limiting, which requires backing off rather than immediate retries.
+
+    Note: This is a low-level retry mechanism within the SDK. Customers may want to
+    implement their own retry logic at the application level for other error types.
+    """
     return status_code in (408, 503, 504)
 
 
