@@ -28,6 +28,11 @@ def _raise_timeout(run_id: str, exc: Union[Exception, None]) -> NoReturn:
     raise TimeoutError(f"Fetching task run result for run id {run_id} timed out.") from exc
 
 
+def _is_retryable_error(status_code: int) -> bool:
+    """Determine if an error is retryable."""
+    return status_code in (408, 503, 504)
+
+
 @contextlib.contextmanager
 def timeout_retry_context(run_id: str, deadline: float) -> Iterator[None]:
     """Context manager for handling timeouts and retries when fetching task run results.
@@ -49,8 +54,7 @@ def timeout_retry_context(run_id: str, deadline: float) -> Iterator[None]:
             exc = e
             continue
         except APIStatusError as e:
-            # retry on timeouts from the API
-            if e.status_code == 408:
+            if _is_retryable_error(e.status_code):
                 exc = e
                 continue
             raise
