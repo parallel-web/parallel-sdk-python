@@ -1,4 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+from __future__ import annotations
 
 from typing import List, Union, Optional
 from typing_extensions import Literal, TypeAlias
@@ -22,13 +23,13 @@ class OutputTaskRunTextOutputBasisCitation(BaseModel):
     url: str
     """URL of the citation."""
 
-    excerpts: Optional[List[str]] = None
+    excerpts: List[str] | None = None
     """Excerpts from the citation supporting the output.
 
     Only certain processors provide excerpts.
     """
 
-    title: Optional[str] = None
+    title: str | None = None
     """Title of the citation."""
 
 
@@ -39,10 +40,10 @@ class OutputTaskRunTextOutputBasis(BaseModel):
     reasoning: str
     """Reasoning for the output field."""
 
-    citations: Optional[List[OutputTaskRunTextOutputBasisCitation]] = None
+    citations: List[OutputTaskRunTextOutputBasisCitation] | None = None
     """List of citations supporting the output field."""
 
-    confidence: Optional[str] = None
+    confidence: str | None = None
     """Confidence level for the output field.
 
     Only certain processors provide confidence levels.
@@ -67,13 +68,13 @@ class OutputTaskRunJsonOutputBasisCitation(BaseModel):
     url: str
     """URL of the citation."""
 
-    excerpts: Optional[List[str]] = None
+    excerpts: List[str] | None = None
     """Excerpts from the citation supporting the output.
 
     Only certain processors provide excerpts.
     """
 
-    title: Optional[str] = None
+    title: str | None = None
     """Title of the citation."""
 
 
@@ -84,10 +85,10 @@ class OutputTaskRunJsonOutputBasis(BaseModel):
     reasoning: str
     """Reasoning for the output field."""
 
-    citations: Optional[List[OutputTaskRunJsonOutputBasisCitation]] = None
+    citations: List[OutputTaskRunJsonOutputBasisCitation] | None = None
     """List of citations supporting the output field."""
 
-    confidence: Optional[str] = None
+    confidence: str | None = None
     """Confidence level for the output field.
 
     Only certain processors provide confidence levels.

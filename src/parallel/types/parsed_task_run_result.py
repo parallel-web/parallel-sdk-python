@@ -1,3 +1,4 @@
+from __future__ import annotations
 from typing import Union, Generic, TypeVar, Optional
 
 from pydantic import BaseModel
@@ -20,7 +21,7 @@ class ParsedOutputTaskRunTextOutput(OutputTaskRunTextOutput, GenericModel, Gener
 
 
 class ParsedOutputTaskRunJsonOutput(OutputTaskRunJsonOutput, GenericModel, Generic[ContentType]):
-    parsed: Optional[ContentType] = None
+    parsed: ContentType | None = None
     """The parsed output from the task run."""
 
 

@@ -183,7 +183,7 @@ class BasePage(GenericModel, Generic[_T]):
             return False
         return self.next_page_info() is not None
 
-    def next_page_info(self) -> Optional[PageInfo]: ...
+    def next_page_info(self) -> PageInfo | None: ...
 
     def _get_page_items(self) -> Iterable[_T]:  # type: ignore[empty-body]
         ...
@@ -361,7 +361,7 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
     _version: str
     _base_url: URL
     max_retries: int
-    timeout: Union[float, Timeout, None]
+    timeout: float | Timeout | None
     _strict_response_validation: bool
     _idempotency_header: str | None
     _default_stream_cls: type[_DefaultStreamT] | None = None
@@ -677,7 +677,7 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         # https://github.com/python/cpython/issues/88476
         return platform_headers(self._version, platform=self._platform)
 
-    def _parse_retry_after_header(self, response_headers: Optional[httpx.Headers] = None) -> float | None:
+    def _parse_retry_after_header(self, response_headers: httpx.Headers | None = None) -> float | None:
         """Returns a float of the number of seconds (not milliseconds) to wait after retrying, or None if unspecified.
 
         About the Retry-After header: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Retry-After
@@ -715,7 +715,7 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         self,
         remaining_retries: int,
         options: FinalRequestOptions,
-        response_headers: Optional[httpx.Headers] = None,
+        response_headers: httpx.Headers | None = None,
     ) -> float:
         max_retries = options.get_max_retries(self.max_retries)
 
@@ -1952,8 +1952,8 @@ def get_architecture() -> Arch:
 
 
 def _merge_mappings(
-    obj1: Mapping[_T_co, Union[_T, Omit]],
-    obj2: Mapping[_T_co, Union[_T, Omit]],
+    obj1: Mapping[_T_co, _T | Omit],
+    obj2: Mapping[_T_co, _T | Omit],
 ) -> Dict[_T_co, _T]:
     """Merge two mappings of the same type, removing any values that are instances of `Omit`.
 

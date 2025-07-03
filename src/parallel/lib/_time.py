@@ -1,3 +1,4 @@
+from __future__ import annotations
 import time
 import contextlib
 from typing import Union, Iterator, NoReturn

@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     def parse_date(value: date | StrBytesIntFloat) -> date:  # noqa: ARG001
         ...
 
-    def parse_datetime(value: Union[datetime, StrBytesIntFloat]) -> datetime:  # noqa: ARG001
+    def parse_datetime(value: datetime | StrBytesIntFloat) -> datetime:  # noqa: ARG001
         ...
 
     def get_args(t: type[Any]) -> tuple[Any, ...]:  # noqa: ARG001

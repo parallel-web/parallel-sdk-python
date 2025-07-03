@@ -83,7 +83,7 @@ async def test_list_of_typeddict(use_async: bool) -> None:
 
 
 class Foo4(TypedDict):
-    foo: Union[Bar4, Baz4]
+    foo: Bar4 | Baz4
 
 
 class Bar4(TypedDict):
@@ -105,7 +105,7 @@ async def test_union_of_typeddict(use_async: bool) -> None:
 
 
 class Foo5(TypedDict):
-    foo: Annotated[Union[Bar4, List[Baz4]], PropertyInfo(alias="FOO")]
+    foo: Annotated[Bar4 | List[Baz4], PropertyInfo(alias="FOO")]
 
 
 class Bar5(TypedDict):
@@ -164,13 +164,13 @@ async def test_ignores_invalid_input(use_async: bool) -> None:
 class DatetimeDict(TypedDict, total=False):
     foo: Annotated[datetime, PropertyInfo(format="iso8601")]
 
-    bar: Annotated[Optional[datetime], PropertyInfo(format="iso8601")]
+    bar: Annotated[datetime | None, PropertyInfo(format="iso8601")]
 
-    required: Required[Annotated[Optional[datetime], PropertyInfo(format="iso8601")]]
+    required: Required[Annotated[datetime | None, PropertyInfo(format="iso8601")]]
 
-    list_: Required[Annotated[Optional[List[datetime]], PropertyInfo(format="iso8601")]]
+    list_: Required[Annotated[List[datetime] | None, PropertyInfo(format="iso8601")]]
 
-    union: Annotated[Union[int, datetime], PropertyInfo(format="iso8601")]
+    union: Annotated[int | datetime, PropertyInfo(format="iso8601")]
 
 
 class DateDict(TypedDict, total=False):
@@ -182,7 +182,7 @@ class DatetimeModel(BaseModel):
 
 
 class DateModel(BaseModel):
-    foo: Optional[date]
+    foo: date | None
 
 
 @parametrize
@@ -331,7 +331,7 @@ async def test_pydantic_nested_objects(use_async: bool) -> None:
 
 class ModelWithDefaultField(BaseModel):
     foo: str
-    with_none_default: Union[str, None] = None
+    with_none_default: str | None = None
     with_str_default: str = "foo"
 
 
@@ -358,7 +358,7 @@ async def test_pydantic_default_field(use_async: bool) -> None:
 
 
 class TypedDictIterableUnion(TypedDict):
-    foo: Annotated[Union[Bar8, Iterable[Baz8]], PropertyInfo(alias="FOO")]
+    foo: Annotated[Bar8 | Iterable[Baz8], PropertyInfo(alias="FOO")]
 
 
 class Bar8(TypedDict):
@@ -398,7 +398,7 @@ async def test_dictionary_items(use_async: bool) -> None:
 
 
 class TypedDictIterableUnionStr(TypedDict):
-    foo: Annotated[Union[str, Iterable[Baz8]], PropertyInfo(alias="FOO")]
+    foo: Annotated[str | Iterable[Baz8], PropertyInfo(alias="FOO")]
 
 
 @parametrize
@@ -411,7 +411,7 @@ async def test_iterable_union_str(use_async: bool) -> None:
 
 
 class TypedDictBase64Input(TypedDict):
-    foo: Annotated[Union[str, Base64FileInput], PropertyInfo(format="base64")]
+    foo: Annotated[str | Base64FileInput, PropertyInfo(format="base64")]
 
 
 @parametrize

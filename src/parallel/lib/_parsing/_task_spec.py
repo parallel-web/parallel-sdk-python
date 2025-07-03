@@ -82,7 +82,7 @@ def _generate_output_schema(output_format: OutputSchema | Type[OutputT]) -> Outp
 
 def build_task_spec_param(
     output_format: OutputSchema | Type[OutputT] | None | NotGiven,
-    _: Union[str, object],  # placeholder for input
+    _: str | object,  # placeholder for input
 ) -> TaskSpecParam | NotGiven:
     """Build a TaskSpecParam from an OutputSchema or Type[OutputT] if provided."""
     if not is_given(output_format) or output_format is None:

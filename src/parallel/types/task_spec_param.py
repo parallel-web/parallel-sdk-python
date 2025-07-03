@@ -28,7 +28,7 @@ class TaskSpecParam(TypedDict, total=False):
     description.
     """
 
-    input_schema: NotRequired[Optional[InputSchema]]
+    input_schema: NotRequired[InputSchema | None]
     """Optional JSON schema or text description of expected input to the task.
 
     A bare string is equivalent to a text schema with the same description.

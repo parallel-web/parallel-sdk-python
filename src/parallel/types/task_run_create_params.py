@@ -11,20 +11,20 @@ __all__ = ["TaskRunCreateParams"]
 
 
 class TaskRunCreateParams(TypedDict, total=False):
-    input: Required[Union[str, object]]
+    input: Required[str | object]
     """Input to the task, either text or a JSON object."""
 
     processor: Required[str]
     """Processor to use for the task."""
 
-    metadata: Optional[Dict[str, Union[str, float, bool]]]
+    metadata: Dict[str, str | float | bool] | None
     """User-provided metadata stored with the run.
 
     Keys and values must be strings with a maximum length of 16 and 512 characters
     respectively.
     """
 
-    task_spec: Optional[TaskSpecParam]
+    task_spec: TaskSpecParam | None
     """Specification for a task.
 
     For convenience we allow bare strings as input or output schemas, which is

@@ -745,18 +745,18 @@ class FinalRequestOptions(pydantic.BaseModel):
     method: str
     url: str
     params: Query = {}
-    headers: Union[Headers, NotGiven] = NotGiven()
-    max_retries: Union[int, NotGiven] = NotGiven()
-    timeout: Union[float, Timeout, None, NotGiven] = NotGiven()
-    files: Union[HttpxRequestFiles, None] = None
-    idempotency_key: Union[str, None] = None
-    post_parser: Union[Callable[[Any], Any], NotGiven] = NotGiven()
-    follow_redirects: Union[bool, None] = None
+    headers: Headers | NotGiven = NotGiven()
+    max_retries: int | NotGiven = NotGiven()
+    timeout: float | Timeout | None | NotGiven = NotGiven()
+    files: HttpxRequestFiles | None = None
+    idempotency_key: str | None = None
+    post_parser: Callable[[Any], Any] | NotGiven = NotGiven()
+    follow_redirects: bool | None = None
 
     # It should be noted that we cannot use `json` here as that would override
     # a BaseModel method in an incompatible fashion.
-    json_data: Union[Body, None] = None
-    extra_json: Union[AnyMapping, None] = None
+    json_data: Body | None = None
+    extra_json: AnyMapping | None = None
 
     if PYDANTIC_V2:
         model_config: ClassVar[ConfigDict] = ConfigDict(arbitrary_types_allowed=True)

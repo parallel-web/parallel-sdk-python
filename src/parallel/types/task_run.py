@@ -1,4 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+from __future__ import annotations
 
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
@@ -18,12 +19,12 @@ class Warning(BaseModel):
     Note that adding new warning types is considered a backward-compatible change.
     """
 
-    detail: Optional[object] = None
+    detail: object | None = None
     """Optional detail supporting the warning."""
 
 
 class TaskRun(BaseModel):
-    created_at: Optional[str] = None
+    created_at: str | None = None
     """Timestamp of the creation of the task, as an RFC 3339 string."""
 
     is_active: bool
@@ -32,7 +33,7 @@ class TaskRun(BaseModel):
     status is one of {'running', 'queued', 'cancelling'}.
     """
 
-    modified_at: Optional[str] = None
+    modified_at: str | None = None
     """Timestamp of the last modification to the task, as an RFC 3339 string."""
 
     processor: str
@@ -44,8 +45,8 @@ class TaskRun(BaseModel):
     status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
     """Status of the run."""
 
-    metadata: Optional[Dict[str, Union[str, float, bool]]] = None
+    metadata: Dict[str, Union[str, float, bool]] | None = None
     """User-provided metadata stored with the run."""
 
-    warnings: Optional[List[Warning]] = None
+    warnings: List[Warning] | None = None
     """Warnings for the run."""

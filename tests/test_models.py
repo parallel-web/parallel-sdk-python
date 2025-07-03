@@ -1,3 +1,4 @@
+from __future__ import annotations
 import json
 from typing import Any, Dict, List, Union, Optional, cast
 from datetime import datetime, timezone
@@ -36,7 +37,7 @@ def test_directly_nested_model() -> None:
 
 def test_optional_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: Optional[BasicModel]
+        nested: BasicModel | None
 
     m1 = NestedModel.construct(nested=None)
     assert m1.nested is None
@@ -72,7 +73,7 @@ def test_list_nested_model() -> None:
 
 def test_optional_list_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: Optional[List[BasicModel]]
+        nested: List[BasicModel] | None
 
     m1 = NestedModel.construct(nested=[{"foo": "bar"}, {"foo": "2"}])
     assert m1.nested is not None
@@ -94,7 +95,7 @@ def test_optional_list_nested_model() -> None:
 
 def test_list_optional_items_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: List[Optional[BasicModel]]
+        nested: List[BasicModel | None]
 
     m = NestedModel.construct(nested=[None, {"foo": "bar"}])
     assert m.nested is not None
@@ -205,7 +206,7 @@ def test_optional_list() -> None:
         name: str
 
     class Model(BaseModel):
-        items: Optional[List[Submodel]]
+        items: List[Submodel] | None
 
     m = Model.construct(items=None)
     assert m.items is None
@@ -489,7 +490,7 @@ def test_deprecated_alias() -> None:
 
 def test_omitted_fields() -> None:
     class Model(BaseModel):
-        resource_id: Optional[str] = None
+        resource_id: str | None = None
 
     m = Model.construct()
     assert m.resource_id is None
@@ -506,7 +507,7 @@ def test_omitted_fields() -> None:
 
 def test_to_dict() -> None:
     class Model(BaseModel):
-        foo: Optional[str] = Field(alias="FOO", default=None)
+        foo: str | None = Field(alias="FOO", default=None)
 
     m = Model(FOO="hello")
     assert m.to_dict() == {"FOO": "hello"}
@@ -538,7 +539,7 @@ def test_to_dict() -> None:
 
 def test_forwards_compat_model_dump_method() -> None:
     class Model(BaseModel):
-        foo: Optional[str] = Field(alias="FOO", default=None)
+        foo: str | None = Field(alias="FOO", default=None)
 
     m = Model(FOO="hello")
     assert m.model_dump() == {"foo": "hello"}
@@ -566,7 +567,7 @@ def test_forwards_compat_model_dump_method() -> None:
 
 def test_compat_method_no_error_for_warnings() -> None:
     class Model(BaseModel):
-        foo: Optional[str]
+        foo: str | None
 
     m = Model(foo="hello")
     assert isinstance(model_dump(m, warnings=False), dict)
@@ -574,7 +575,7 @@ def test_compat_method_no_error_for_warnings() -> None:
 
 def test_to_json() -> None:
     class Model(BaseModel):
-        foo: Optional[str] = Field(alias="FOO", default=None)
+        foo: str | None = Field(alias="FOO", default=None)
 
     m = Model(FOO="hello")
     assert json.loads(m.to_json()) == {"FOO": "hello"}
@@ -602,7 +603,7 @@ def test_to_json() -> None:
 
 def test_forwards_compat_model_dump_json_method() -> None:
     class Model(BaseModel):
-        foo: Optional[str] = Field(alias="FOO", default=None)
+        foo: str | None = Field(alias="FOO", default=None)
 
     m = Model(FOO="hello")
     assert json.loads(m.model_dump_json()) == {"foo": "hello"}
@@ -637,7 +638,7 @@ def test_type_compat() -> None:
         ...
 
     class OurModel(BaseModel):
-        foo: Optional[str] = None
+        foo: str | None = None
 
     takes_pydantic(OurModel())
 
