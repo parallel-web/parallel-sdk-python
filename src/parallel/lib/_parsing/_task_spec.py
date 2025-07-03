@@ -63,12 +63,12 @@ def is_input_schema_param(input_schema: object) -> TypeGuard[InputSchema]:
     return _is_schema_param(input_schema)
 
 
-def _to_json_schema_param(output_format: Type[pydantic.BaseModel]) -> JsonSchemaParam:
+def _to_json_schema_param(output_format: type[pydantic.BaseModel]) -> JsonSchemaParam:
     """Convert a pydantic basemodel to a JsonSchemaParam."""
     return {"json_schema": to_json_schema(output_format), "type": "json"}
 
 
-def _generate_output_schema(output_format: OutputSchema | Type[OutputT]) -> OutputSchema:
+def _generate_output_schema(output_format: OutputSchema | type[OutputT]) -> OutputSchema:
     """Generate an OutputSchema from an OutputSchema or a generic output type."""
     if is_output_schema_param(output_format):
         return output_format
@@ -81,7 +81,7 @@ def _generate_output_schema(output_format: OutputSchema | Type[OutputT]) -> Outp
 
 
 def build_task_spec_param(
-    output_format: OutputSchema | Type[OutputT] | None | NotGiven,
+    output_format: OutputSchema | type[OutputT] | None | NotGiven,
     _: str | object,  # placeholder for input
 ) -> TaskSpecParam | NotGiven:
     """Build a TaskSpecParam from an OutputSchema or Type[OutputT] if provided."""

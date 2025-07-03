@@ -37,7 +37,7 @@ async def wait_for_result_async(
 
 
 def task_run_result_parser(
-    run_result: TaskRunResult, output_format: OutputSchema | Type[OutputT] | None | NotGiven
+    run_result: TaskRunResult, output_format: OutputSchema | type[OutputT] | None | NotGiven
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
     """Parse a TaskRunResult object into a ParsedTaskRunResult based on output_format."""
     if not is_given(output_format) or output_format is None or is_output_schema_param(output_format):
@@ -54,7 +54,7 @@ def task_run_result_parser(
 
 def _create_parsed_task_run_result(
     *,
-    response_format: Type[OutputT],
+    response_format: type[OutputT],
     task_run_result: TaskRunResult,
 ) -> ParsedTaskRunResult[OutputT]:
     """Convert a TaskRunResult object into a ParsedTaskRunResult."""

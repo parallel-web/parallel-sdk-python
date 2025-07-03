@@ -178,7 +178,7 @@ class BaseModel(pydantic.BaseModel):
     @classmethod
     @override
     def construct(  # pyright: ignore[reportIncompatibleMethodOverride]
-        __cls: Type[ModelT],
+        __cls: type[ModelT],
         _fields_set: set[str] | None = None,
         **values: object,
     ) -> ModelT:
@@ -722,7 +722,7 @@ elif not TYPE_CHECKING:  # TODO: condition is weird
         model = _create_pydantic_model(type_).validate(value)
         return cast(_T, model.__root__)
 
-    def _create_pydantic_model(type_: _T) -> Type[RootModel[_T]]:
+    def _create_pydantic_model(type_: _T) -> type[RootModel[_T]]:
         return RootModel[type_]  # type: ignore
 
 

@@ -60,7 +60,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
         task_spec: TaskSpecParam | None | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -186,7 +186,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         run_id: str,
         deadline: float,
-        output: OutputSchema | None | Type[OutputT] | NotGiven = NOT_GIVEN,
+        output: OutputSchema | None | type[OutputT] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -214,7 +214,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
         output: OutputSchema | None | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -229,8 +229,8 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
-        output: Type[OutputT],
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        output: type[OutputT],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -243,8 +243,8 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
-        output: OutputSchema | None | Type[OutputT] | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        output: OutputSchema | None | type[OutputT] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -335,7 +335,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
         task_spec: TaskSpecParam | None | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -463,7 +463,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         run_id: str,
         deadline: float,
-        output: OutputSchema | None | Type[OutputT] | NotGiven = NOT_GIVEN,
+        output: OutputSchema | None | type[OutputT] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -491,7 +491,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
         output: OutputSchema | None | NotGiven = NOT_GIVEN,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
@@ -504,8 +504,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
-        output: Type[OutputT],
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        output: type[OutputT],
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
@@ -516,8 +516,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: str | object,
         processor: str,
-        metadata: Dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
-        output: OutputSchema | None | Type[OutputT] | NotGiven = NOT_GIVEN,
+        metadata: dict[str, str | float | bool] | None | NotGiven = NOT_GIVEN,
+        output: OutputSchema | None | type[OutputT] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,

@@ -175,7 +175,7 @@ class BasePage(GenericModel, Generic[_T]):
     """
 
     _options: FinalRequestOptions = PrivateAttr()
-    _model: Type[_T] = PrivateAttr()
+    _model: type[_T] = PrivateAttr()
 
     def has_next_page(self) -> bool:
         items = self._get_page_items()
@@ -229,7 +229,7 @@ class BaseSyncPage(BasePage[_T], Generic[_T]):
     def _set_private_attributes(
         self,
         client: SyncAPIClient,
-        model: Type[_T],
+        model: type[_T],
         options: FinalRequestOptions,
     ) -> None:
         if PYDANTIC_V2 and getattr(self, "__pydantic_private__", None) is None:
@@ -277,8 +277,8 @@ class AsyncPaginator(Generic[_T, AsyncPageT]):
         self,
         client: AsyncAPIClient,
         options: FinalRequestOptions,
-        page_cls: Type[AsyncPageT],
-        model: Type[_T],
+        page_cls: type[AsyncPageT],
+        model: type[_T],
     ) -> None:
         self._model = model
         self._client = client
@@ -316,7 +316,7 @@ class BaseAsyncPage(BasePage[_T], Generic[_T]):
 
     def _set_private_attributes(
         self,
-        model: Type[_T],
+        model: type[_T],
         client: AsyncAPIClient,
         options: FinalRequestOptions,
     ) -> None:
@@ -671,7 +671,7 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
     def base_url(self, url: URL | str) -> None:
         self._base_url = self._enforce_trailing_slash(url if isinstance(url, URL) else URL(url))
 
-    def platform_headers(self) -> Dict[str, str]:
+    def platform_headers(self) -> dict[str, str]:
         # the actual implementation is in a separate `lru_cache` decorated
         # function because adding `lru_cache` to methods will leak memory
         # https://github.com/python/cpython/issues/88476
@@ -900,17 +900,17 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
     @overload
     def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: Literal[True],
-        stream_cls: Type[_StreamT],
+        stream_cls: type[_StreamT],
     ) -> _StreamT: ...
 
     @overload
     def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: Literal[False] = False,
@@ -919,16 +919,16 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
     @overload
     def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: bool = False,
-        stream_cls: Type[_StreamT] | None = None,
+        stream_cls: type[_StreamT] | None = None,
     ) -> ResponseT | _StreamT: ...
 
     def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: bool = False,
@@ -1062,7 +1062,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
     def _process_response(
         self,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         response: httpx.Response,
         stream: bool,
@@ -1115,8 +1115,8 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
 
     def _request_api_list(
         self,
-        model: Type[object],
-        page: Type[SyncPageT],
+        model: type[object],
+        page: type[SyncPageT],
         options: FinalRequestOptions,
     ) -> SyncPageT:
         def _parser(resp: SyncPageT) -> SyncPageT:
@@ -1136,7 +1136,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: Literal[False] = False,
     ) -> ResponseT: ...
@@ -1146,7 +1146,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: Literal[True],
         stream_cls: type[_StreamT],
@@ -1157,7 +1157,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: bool,
         stream_cls: type[_StreamT] | None = None,
@@ -1167,7 +1167,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: bool = False,
         stream_cls: type[_StreamT] | None = None,
@@ -1182,7 +1182,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
         files: RequestFiles | None = None,
@@ -1194,7 +1194,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
         files: RequestFiles | None = None,
@@ -1207,7 +1207,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
         files: RequestFiles | None = None,
@@ -1219,7 +1219,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
         files: RequestFiles | None = None,
@@ -1235,7 +1235,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
     ) -> ResponseT:
@@ -1246,7 +1246,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1260,7 +1260,7 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
     ) -> ResponseT:
@@ -1271,8 +1271,8 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         self,
         path: str,
         *,
-        model: Type[object],
-        page: Type[SyncPageT],
+        model: type[object],
+        page: type[SyncPageT],
         body: Body | None = None,
         options: RequestOptions = {},
         method: str = "get",
@@ -1405,7 +1405,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
     @overload
     async def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: Literal[False] = False,
@@ -1414,7 +1414,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
     @overload
     async def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: Literal[True],
@@ -1424,7 +1424,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
     @overload
     async def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: bool,
@@ -1433,7 +1433,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
 
     async def request(
         self,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         *,
         stream: bool = False,
@@ -1572,7 +1572,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
     async def _process_response(
         self,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: FinalRequestOptions,
         response: httpx.Response,
         stream: bool,
@@ -1625,8 +1625,8 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
 
     def _request_api_list(
         self,
-        model: Type[_T],
-        page: Type[AsyncPageT],
+        model: type[_T],
+        page: type[AsyncPageT],
         options: FinalRequestOptions,
     ) -> AsyncPaginator[_T, AsyncPageT]:
         return AsyncPaginator(client=self, options=options, page_cls=page, model=model)
@@ -1636,7 +1636,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: Literal[False] = False,
     ) -> ResponseT: ...
@@ -1646,7 +1646,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: Literal[True],
         stream_cls: type[_AsyncStreamT],
@@ -1657,7 +1657,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: bool,
         stream_cls: type[_AsyncStreamT] | None = None,
@@ -1667,7 +1667,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         options: RequestOptions = {},
         stream: bool = False,
         stream_cls: type[_AsyncStreamT] | None = None,
@@ -1680,7 +1680,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1692,7 +1692,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1705,7 +1705,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1717,7 +1717,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1733,7 +1733,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
     ) -> ResponseT:
@@ -1744,7 +1744,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         files: RequestFiles | None = None,
         options: RequestOptions = {},
@@ -1758,7 +1758,7 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        cast_to: Type[ResponseT],
+        cast_to: type[ResponseT],
         body: Body | None = None,
         options: RequestOptions = {},
     ) -> ResponseT:
@@ -1769,8 +1769,8 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         self,
         path: str,
         *,
-        model: Type[_T],
-        page: Type[AsyncPageT],
+        model: type[_T],
+        page: type[AsyncPageT],
         body: Body | None = None,
         options: RequestOptions = {},
         method: str = "get",
@@ -1888,7 +1888,7 @@ def get_platform() -> Platform:
 
 
 @lru_cache(maxsize=None)
-def platform_headers(version: str, *, platform: Platform | None) -> Dict[str, str]:
+def platform_headers(version: str, *, platform: Platform | None) -> dict[str, str]:
     return {
         "X-Stainless-Lang": "python",
         "X-Stainless-Package-Version": version,
@@ -1954,7 +1954,7 @@ def get_architecture() -> Arch:
 def _merge_mappings(
     obj1: Mapping[_T_co, _T | Omit],
     obj2: Mapping[_T_co, _T | Omit],
-) -> Dict[_T_co, _T]:
+) -> dict[_T_co, _T]:
     """Merge two mappings of the same type, removing any values that are instances of `Omit`.
 
     In cases with duplicate keys the second mapping takes precedence.

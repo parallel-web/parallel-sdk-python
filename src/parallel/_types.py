@@ -88,7 +88,7 @@ HttpxRequestFiles = Union[Mapping[str, HttpxFileTypes], Sequence[Tuple[str, Http
 #
 # client.get('/foo', cast_to=type(None))
 if TYPE_CHECKING:
-    NoneType: Type[None]
+    NoneType: type[None]
 else:
     NoneType = type(None)
 

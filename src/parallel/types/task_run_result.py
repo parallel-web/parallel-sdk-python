@@ -23,7 +23,7 @@ class OutputTaskRunTextOutputBasisCitation(BaseModel):
     url: str
     """URL of the citation."""
 
-    excerpts: List[str] | None = None
+    excerpts: list[str] | None = None
     """Excerpts from the citation supporting the output.
 
     Only certain processors provide excerpts.
@@ -40,7 +40,7 @@ class OutputTaskRunTextOutputBasis(BaseModel):
     reasoning: str
     """Reasoning for the output field."""
 
-    citations: List[OutputTaskRunTextOutputBasisCitation] | None = None
+    citations: list[OutputTaskRunTextOutputBasisCitation] | None = None
     """List of citations supporting the output field."""
 
     confidence: str | None = None
@@ -51,7 +51,7 @@ class OutputTaskRunTextOutputBasis(BaseModel):
 
 
 class OutputTaskRunTextOutput(BaseModel):
-    basis: List[OutputTaskRunTextOutputBasis]
+    basis: list[OutputTaskRunTextOutputBasis]
     """Basis for the output. The basis has a single field 'output'."""
 
     content: str
@@ -68,7 +68,7 @@ class OutputTaskRunJsonOutputBasisCitation(BaseModel):
     url: str
     """URL of the citation."""
 
-    excerpts: List[str] | None = None
+    excerpts: list[str] | None = None
     """Excerpts from the citation supporting the output.
 
     Only certain processors provide excerpts.
@@ -85,7 +85,7 @@ class OutputTaskRunJsonOutputBasis(BaseModel):
     reasoning: str
     """Reasoning for the output field."""
 
-    citations: List[OutputTaskRunJsonOutputBasisCitation] | None = None
+    citations: list[OutputTaskRunJsonOutputBasisCitation] | None = None
     """List of citations supporting the output field."""
 
     confidence: str | None = None
@@ -96,7 +96,7 @@ class OutputTaskRunJsonOutputBasis(BaseModel):
 
 
 class OutputTaskRunJsonOutput(BaseModel):
-    basis: List[OutputTaskRunJsonOutputBasis]
+    basis: list[OutputTaskRunJsonOutputBasis]
     """Basis for each top-level field in the JSON output."""
 
     content: object

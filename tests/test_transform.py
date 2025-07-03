@@ -68,7 +68,7 @@ async def test_recursive_typeddict(use_async: bool) -> None:
 
 
 class Foo3(TypedDict):
-    things: List[Bar3]
+    things: list[Bar3]
 
 
 class Bar3(TypedDict):
@@ -105,7 +105,7 @@ async def test_union_of_typeddict(use_async: bool) -> None:
 
 
 class Foo5(TypedDict):
-    foo: Annotated[Bar4 | List[Baz4], PropertyInfo(alias="FOO")]
+    foo: Annotated[Bar4 | list[Baz4], PropertyInfo(alias="FOO")]
 
 
 class Bar5(TypedDict):
@@ -146,7 +146,7 @@ async def test_includes_unknown_keys(use_async: bool) -> None:
 
 
 class Foo7(TypedDict):
-    bar: Annotated[List[Bar7], PropertyInfo(alias="bAr")]
+    bar: Annotated[list[Bar7], PropertyInfo(alias="bAr")]
     foo: Bar7
 
 
@@ -168,7 +168,7 @@ class DatetimeDict(TypedDict, total=False):
 
     required: Required[Annotated[datetime | None, PropertyInfo(format="iso8601")]]
 
-    list_: Required[Annotated[List[datetime] | None, PropertyInfo(format="iso8601")]]
+    list_: Required[Annotated[list[datetime] | None, PropertyInfo(format="iso8601")]]
 
     union: Annotated[int | datetime, PropertyInfo(format="iso8601")]
 

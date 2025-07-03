@@ -54,7 +54,7 @@ def test_optional_nested_model() -> None:
 
 def test_list_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: List[BasicModel]
+        nested: list[BasicModel]
 
     m = NestedModel.construct(nested=[{"foo": "bar"}, {"foo": "2"}])
     assert m.nested is not None
@@ -73,7 +73,7 @@ def test_list_nested_model() -> None:
 
 def test_optional_list_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: List[BasicModel] | None
+        nested: list[BasicModel] | None
 
     m1 = NestedModel.construct(nested=[{"foo": "bar"}, {"foo": "2"}])
     assert m1.nested is not None
@@ -95,7 +95,7 @@ def test_optional_list_nested_model() -> None:
 
 def test_list_optional_items_nested_model() -> None:
     class NestedModel(BaseModel):
-        nested: List[BasicModel | None]
+        nested: list[BasicModel | None]
 
     m = NestedModel.construct(nested=[None, {"foo": "bar"}])
     assert m.nested is not None
@@ -115,7 +115,7 @@ def test_list_optional_items_nested_model() -> None:
 
 def test_list_mismatched_type() -> None:
     class NestedModel(BaseModel):
-        nested: List[str]
+        nested: list[str]
 
     m = NestedModel.construct(nested=False)
     assert cast(Any, m.nested) is False
@@ -123,7 +123,7 @@ def test_list_mismatched_type() -> None:
 
 def test_raw_dictionary() -> None:
     class NestedModel(BaseModel):
-        nested: Dict[str, str]
+        nested: dict[str, str]
 
     m = NestedModel.construct(nested={"hello": "world"})
     assert m.nested == {"hello": "world"}
@@ -135,7 +135,7 @@ def test_raw_dictionary() -> None:
 
 def test_nested_dictionary_model() -> None:
     class NestedModel(BaseModel):
-        nested: Dict[str, BasicModel]
+        nested: dict[str, BasicModel]
 
     m = NestedModel.construct(nested={"hello": {"foo": "bar"}})
     assert isinstance(m.nested, dict)
@@ -206,7 +206,7 @@ def test_optional_list() -> None:
         name: str
 
     class Model(BaseModel):
-        items: List[Submodel] | None
+        items: list[Submodel] | None
 
     m = Model.construct(items=None)
     assert m.items is None
@@ -311,7 +311,7 @@ def test_list_of_unions() -> None:
         name: str
 
     class Model(BaseModel):
-        items: List[Union[Submodel1, Submodel2]]
+        items: list[Union[Submodel1, Submodel2]]
 
     m = Model.construct(items=[{"level": 1}, {"name": "Robert"}])
     assert len(m.items) == 2
@@ -335,7 +335,7 @@ def test_union_of_lists() -> None:
         name: str
 
     class Model(BaseModel):
-        items: Union[List[SubModel1], List[SubModel2]]
+        items: Union[list[SubModel1], list[SubModel2]]
 
     # with one valid entry
     m = Model.construct(items=[{"name": "Robert"}])
@@ -367,7 +367,7 @@ def test_dict_of_union() -> None:
         foo: str
 
     class Model(BaseModel):
-        data: Dict[str, Union[SubModel1, SubModel2]]
+        data: dict[str, Union[SubModel1, SubModel2]]
 
     m = Model.construct(data={"hello": {"name": "there"}, "foo": {"foo": "bar"}})
     assert len(list(m.data.keys())) == 2
@@ -387,7 +387,7 @@ def test_double_nested_union() -> None:
         bar: str
 
     class Model(BaseModel):
-        data: Dict[str, List[Union[SubModel1, SubModel2]]]
+        data: dict[str, list[Union[SubModel1, SubModel2]]]
 
     m = Model.construct(data={"foo": [{"bar": "baz"}, {"name": "Robert"}]})
     assert len(m.data["foo"]) == 2
@@ -411,7 +411,7 @@ def test_union_of_dict() -> None:
         foo: str
 
     class Model(BaseModel):
-        data: Union[Dict[str, SubModel1], Dict[str, SubModel2]]
+        data: Union[dict[str, SubModel1], dict[str, SubModel2]]
 
     m = Model.construct(data={"hello": {"name": "there"}, "foo": {"foo": "bar"}})
     assert len(list(m.data.keys())) == 2
@@ -869,7 +869,7 @@ def test_discriminated_union_case() -> None:
     class B(BaseModel):
         type: Literal["b"]
 
-        data: List[Union[A, object]]
+        data: list[Union[A, object]]
 
     class ModelA(BaseModel):
         type: Literal["modelA"]

@@ -17,7 +17,7 @@ class TaskRunCreateParams(TypedDict, total=False):
     processor: Required[str]
     """Processor to use for the task."""
 
-    metadata: Dict[str, str | float | bool] | None
+    metadata: dict[str, str | float | bool] | None
     """User-provided metadata stored with the run.
 
     Keys and values must be strings with a maximum length of 16 and 512 characters

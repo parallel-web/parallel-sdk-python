@@ -45,8 +45,8 @@ class TaskRun(BaseModel):
     status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
     """Status of the run."""
 
-    metadata: Dict[str, Union[str, float, bool]] | None = None
+    metadata: dict[str, Union[str, float, bool]] | None = None
     """User-provided metadata stored with the run."""
 
-    warnings: List[Warning] | None = None
+    warnings: list[Warning] | None = None
     """Warnings for the run."""
