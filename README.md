@@ -85,7 +85,6 @@ pip install parallel-web[aiohttp]
 Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
 ```python
-import os
 import asyncio
 from parallel import DefaultAioHttpClient
 from parallel import AsyncParallel
@@ -93,7 +92,7 @@ from parallel import AsyncParallel
 
 async def main() -> None:
     async with AsyncParallel(
-        api_key=os.environ.get("PARALLEL_API_KEY"),  # This is the default and can be omitted
+        api_key="My API Key",
         http_client=DefaultAioHttpClient(),
     ) as client:
         task_run = await client.task_run.create(
