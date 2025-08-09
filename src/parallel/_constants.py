@@ -5,6 +5,8 @@ import httpx
 RAW_RESPONSE_HEADER = "X-Stainless-Raw-Response"
 OVERRIDE_CAST_TO_HEADER = "____stainless_override_cast_to"
 
+# default timeout for execution requests which wait for results is 1 hour.
+DEFAULT_EXECUTE_TIMEOUT_SECONDS = 3600
 # default timeout for http requests is 10 minutes.
 DEFAULT_TIMEOUT_SECONDS = 600
 DEFAULT_TIMEOUT = httpx.Timeout(timeout=DEFAULT_TIMEOUT_SECONDS, connect=5.0)
