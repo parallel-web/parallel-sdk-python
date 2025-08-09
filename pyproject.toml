@@ -1,6 +1,6 @@
 [project]
 name = "parallel-web"
-version = "0.1.2"
+version = "0.1.3"
 description = "The official Python library for the Parallel API"
 dynamic = ["readme"]
 license = "MIT"

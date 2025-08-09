@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3 (2025-08-09)
+
+Full Changelog: [v0.1.2...v0.1.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.2...v0.1.3)
+
+### Chores
+
+* **readme:** update descriptions ([3212a0f](https://github.com/parallel-web/parallel-sdk-python/commit/3212a0fc32d744e7df3d0dcedf527b176a73a91b))
+
 ## 0.1.2 (2025-06-25)
 
 Full Changelog: [v0.1.1...v0.1.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.1...v0.1.2)
