@@ -11,7 +11,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found on our [docs](https://docs.parallel.ai).
+The REST API documentation can be found in our [docs](https://docs.parallel.ai).
 The full API of this Python library can be found in [api.md](api.md).
 
 ## Installation
@@ -38,13 +38,18 @@ run_result = client.task_run.execute(
     processor="core",
     output="GDP"
 )
-print(run_result.output)
+print(run_result.output.parsed)
 ```
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
 to add `PARALLEL_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
+
+The API also supports typed inputs and outputs via Pydantic objects. See the relevant
+section on [convenience methods](#convenience-methods).
+
+For information on what tasks are and how to specify them, see [our docs](https://docs.parallel.ai/task-api/core-concepts/specify-a-task).
 
 ## Async usage
 
@@ -66,7 +71,7 @@ async def main() -> None:
         processor="core",
         output="GDP"
     )
-    print(run_result.output)
+    print(run_result.output.parsed)
 
 
 if __name__ == "__main__":
@@ -75,16 +80,17 @@ if __name__ == "__main__":
 
 To get the best performance out of Parallel's API, we recommend
 using the asynchronous client, especially for executing multiple Task Runs concurrently.
-Functionality between the synchronous and asynchronous clients is identical.
+Functionality between the synchronous and asynchronous clients is identical, including
+the convenience methods.
 
 ## Convenience methods
 
 ### Execute
 
-The `execute` method provides a single call which combines creating a task run,
-polling until it is completed, and parsing structured outputs (if specified).
+The `execute` method provides a single call that combines creating a task run,
+polling until completion, and parsing structured outputs (if specified).
 
-If an output type which inherits from `BaseModel` is
+If an output type that inherits from `BaseModel` is
 specified in the call to `.execute()`, the response content will be parsed into an
 instance of the provided output type. The parsed output can be accessed via the
 `parsed` property on the output field of the response.
@@ -115,15 +121,15 @@ async def main() -> None:
         processor="core",
         output="GDP"
     )
-    print(run_result.output)
+    print(run_result.output.parsed)
 
 
 if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-The async client allows creating several task runs without blocking.
-To create multiple task runs in one go, call execute and then gather the results at the end.
+The async client lets you create multiple task runs without blocking.
+To submit several at once, call `execute()` and gather the results at the end.
 
 ```python
 import asyncio
@@ -181,9 +187,51 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-## Low level API Access
+#### `execute()` vs `create()`
 
-The library also provides access to the low level API for accessing the Parallel API.
+The `execute` and `create` methods differ slightly in their signatures and
+behavior — `create` requires a Task Spec object that contains the output schema,
+while `execute` accepts an output schema as a top‑level parameter. `execute` is
+also a one‑shot method that combines creation, polling, and parsing for you.
+
+Use `create` when you want a run ID immediately and prefer to control polling
+yourself. `execute` is best for one‑shot task execution and for typed inputs and
+outputs — note that no outputs are available until the call finishes. Finally, for
+the output of `execute`, parsed content is available via `run_result.output.parsed`.
+
+Both `execute` and `create` validate inputs when appropriate input types are
+provided. For `execute`, validation happens when a pydantic input is provided. For
+`create`, validation occurs when the input schema is specified inside the task spec
+parameter. Additionally, in both calls, the un-parsed result content is accessible via
+the `run_result.output.content`.
+
+## Frequently Asked Questions
+
+**Does the Task API accept prompts or objectives?**
+
+No, there are no `objective` or `prompt` parameters that can be specified for calls to
+the Task API. Instead, provide any directives or instructions via the schemas. For
+more information, check [our docs](https://docs.parallel.ai/task-api/core-concepts/specify-a-task).
+
+**Can I access beta parameters or endpoints via the SDK?**
+
+The SDK currently does not support beta parameters in the Task API. You can consider
+using [custom requests](#making-customundocumented-requests) in conjunction with
+[low level APIs](#lowlevel-api-access).
+
+**Can I specify a timeout for API calls?**
+
+Yes, all methods support a timeout. For more information, see [Timeouts](#timeouts).
+
+**Can I specify retries via the SDK?**
+
+Yes, errors can be retried via the SDK — the default retry count is 2. The maximum number
+of retries can be configured at the client level. For information on which errors
+are automatically retried and how to configure retry settings, see [Retries](#retries).
+
+## Low‑level API access
+
+The library also provides low‑level access to the Parallel API.
 
 ```python
 from parallel import Parallel
@@ -231,13 +279,13 @@ task_run = client.task_run.create(
 )
 
 run_result = client.task_run.result(task_run.run_id)
-print(run_result.output)
+print(run_result.output.content)
 ```
 
 For more information, please check out the relevant section in our docs:
 
-- [Task Spec](https://docs.parallel.ai/core-concepts/task-spec)
-- [Task Runs](https://docs.parallel.ai/core-concepts/task-runs)
+- [Task Spec](https://docs.parallel.ai/task-api/core-concepts/specify-a-task)
+- [Task Runs](https://docs.parallel.ai/task-api/core-concepts/execute-task-run)
 
 ## Handling errors
 
