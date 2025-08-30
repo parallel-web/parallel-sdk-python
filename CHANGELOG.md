@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 (2025-08-30)
+
+Full Changelog: [v0.1.3...v0.2.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.3...v0.2.0)
+
+### Features
+
+* **client:** add support for aiohttp ([4e2aa32](https://github.com/parallel-web/parallel-sdk-python/commit/4e2aa32ad8242745f56e5a8b810d33c362967dad))
+
+
+### Chores
+
+* **tests:** skip some failing tests on the latest python versions ([13b1533](https://github.com/parallel-web/parallel-sdk-python/commit/13b153381e9b7c998a7ebef878518222678dfa83))
+
 ## 0.1.3 (2025-08-09)
 
 Full Changelog: [v0.1.2...v0.1.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.2...v0.1.3)
