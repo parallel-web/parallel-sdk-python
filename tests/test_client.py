@@ -717,7 +717,9 @@ class TestParallel:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            client.task_run.with_streaming_response.create(input="France (2023)", processor="processor").__enter__()
+            client.task_run.with_streaming_response.create(
+                input="What was the GDP of France in 2023?", processor="base"
+            ).__enter__()
 
         assert _get_open_connections(self.client) == 0
 
@@ -727,7 +729,9 @@ class TestParallel:
         respx_mock.post("/v1/tasks/runs").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            client.task_run.with_streaming_response.create(input="France (2023)", processor="processor").__enter__()
+            client.task_run.with_streaming_response.create(
+                input="What was the GDP of France in 2023?", processor="base"
+            ).__enter__()
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
@@ -756,7 +760,9 @@ class TestParallel:
 
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
-        response = client.task_run.with_raw_response.create(input="France (2023)", processor="processor")
+        response = client.task_run.with_raw_response.create(
+            input="What was the GDP of France in 2023?", processor="base"
+        )
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -781,7 +787,9 @@ class TestParallel:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
         response = client.task_run.with_raw_response.create(
-            input="France (2023)", processor="processor", extra_headers={"x-stainless-retry-count": Omit()}
+            input="What was the GDP of France in 2023?",
+            processor="base",
+            extra_headers={"x-stainless-retry-count": Omit()},
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -806,7 +814,9 @@ class TestParallel:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
         response = client.task_run.with_raw_response.create(
-            input="France (2023)", processor="processor", extra_headers={"x-stainless-retry-count": "42"}
+            input="What was the GDP of France in 2023?",
+            processor="base",
+            extra_headers={"x-stainless-retry-count": "42"},
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1539,7 +1549,7 @@ class TestAsyncParallel:
 
         with pytest.raises(APITimeoutError):
             await async_client.task_run.with_streaming_response.create(
-                input="France (2023)", processor="processor"
+                input="What was the GDP of France in 2023?", processor="base"
             ).__aenter__()
 
         assert _get_open_connections(self.client) == 0
@@ -1553,7 +1563,7 @@ class TestAsyncParallel:
 
         with pytest.raises(APIStatusError):
             await async_client.task_run.with_streaming_response.create(
-                input="France (2023)", processor="processor"
+                input="What was the GDP of France in 2023?", processor="base"
             ).__aenter__()
         assert _get_open_connections(self.client) == 0
 
@@ -1584,7 +1594,9 @@ class TestAsyncParallel:
 
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
-        response = await client.task_run.with_raw_response.create(input="France (2023)", processor="processor")
+        response = await client.task_run.with_raw_response.create(
+            input="What was the GDP of France in 2023?", processor="base"
+        )
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1610,7 +1622,9 @@ class TestAsyncParallel:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
         response = await client.task_run.with_raw_response.create(
-            input="France (2023)", processor="processor", extra_headers={"x-stainless-retry-count": Omit()}
+            input="What was the GDP of France in 2023?",
+            processor="base",
+            extra_headers={"x-stainless-retry-count": Omit()},
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1636,7 +1650,9 @@ class TestAsyncParallel:
         respx_mock.post("/v1/tasks/runs").mock(side_effect=retry_handler)
 
         response = await client.task_run.with_raw_response.create(
-            input="France (2023)", processor="processor", extra_headers={"x-stainless-retry-count": "42"}
+            input="What was the GDP of France in 2023?",
+            processor="base",
+            extra_headers={"x-stainless-retry-count": "42"},
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

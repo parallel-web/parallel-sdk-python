@@ -5,14 +5,15 @@ from __future__ import annotations
 from typing import Union, Optional
 from typing_extensions import Required, TypeAlias, TypedDict
 
+from .auto_schema_param import AutoSchemaParam
 from .json_schema_param import JsonSchemaParam
 from .text_schema_param import TextSchemaParam
 
 __all__ = ["TaskSpecParam", "OutputSchema", "InputSchema"]
 
-OutputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
+OutputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, AutoSchemaParam, str]
 
-InputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
+InputSchema: TypeAlias = Union[str, JsonSchemaParam, TextSchemaParam]
 
 
 class TaskSpecParam(TypedDict, total=False):
