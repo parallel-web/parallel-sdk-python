@@ -7,15 +7,14 @@ from typing_extensions import TypeVar, Required, TypeAlias, TypedDict, NotRequir
 
 from pydantic import BaseModel
 
-from .auto_schema_param import AutoSchemaParam
 from .json_schema_param import JsonSchemaParam
 from .text_schema_param import TextSchemaParam
 
 __all__ = ["TaskSpecParam", "OutputSchema", "InputSchema"]
 
-OutputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, AutoSchemaParam, str]
+OutputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
 
-InputSchema: TypeAlias = Union[str, JsonSchemaParam, TextSchemaParam]
+InputSchema: TypeAlias = Union[JsonSchemaParam, TextSchemaParam, str]
 
 OutputT = TypeVar("OutputT", bound=BaseModel)
 

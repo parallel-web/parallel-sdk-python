@@ -1,5 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from typing import Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
@@ -12,5 +13,5 @@ class ErrorResponse(BaseModel):
     error: ErrorObject
     """An error message."""
 
-    type: Literal["error"]
+    type: Optional[Literal["error"]] = None
     """Always 'error'."""

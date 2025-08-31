@@ -6,13 +6,12 @@ from typing import Dict, Union, Optional
 from typing_extensions import Required, TypedDict
 
 from .task_spec_param import TaskSpecParam
-from .shared_params.source_policy import SourcePolicy
 
 __all__ = ["TaskRunCreateParams"]
 
 
 class TaskRunCreateParams(TypedDict, total=False):
-    input: Required[Union[str, Dict[str, object]]]
+    input: Required[Union[str, object]]
     """Input to the task, either text or a JSON object."""
 
     processor: Required[str]
@@ -25,17 +24,9 @@ class TaskRunCreateParams(TypedDict, total=False):
     respectively.
     """
 
-    source_policy: Optional[SourcePolicy]
-    """Source policy for web search results.
-
-    This policy governs which sources are allowed/disallowed in results.
-    """
-
     task_spec: Optional[TaskSpecParam]
     """Specification for a task.
 
-    Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
-    Not specifying a TaskSpec is the same as setting an auto output schema.
-
-    For convenience bare strings are also accepted as input or output schemas.
+    For convenience we allow bare strings as input or output schemas, which is
+    equivalent to a text schema with the same description.
     """

@@ -31,7 +31,6 @@ from ..lib._parsing._task_run_result import (
     wait_for_result_async as _wait_for_result_async,
     task_run_result_parser,
 )
-from ..types.shared_params.source_policy import SourcePolicy
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
@@ -59,10 +58,9 @@ class TaskRunResource(SyncAPIResource):
     def create(
         self,
         *,
-        input: Union[str, Dict[str, object]],
+        input: Union[str, object],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -72,11 +70,7 @@ class TaskRunResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRun:
         """
-        Initiates a task run.
-
-        Returns immediately with a run object in status 'queued'.
-
-        Beta features can be enabled by setting the 'parallel-beta' header.
+        Initiates a single task run.
 
         Args:
           input: Input to the task, either text or a JSON object.
@@ -86,16 +80,10 @@ class TaskRunResource(SyncAPIResource):
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
-          source_policy: Source policy for web search results.
-
-              This policy governs which sources are allowed/disallowed in results.
-
           task_spec: Specification for a task.
 
-              Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
-              Not specifying a TaskSpec is the same as setting an auto output schema.
-
-              For convenience bare strings are also accepted as input or output schemas.
+              For convenience we allow bare strings as input or output schemas, which is
+              equivalent to a text schema with the same description.
 
           extra_headers: Send extra headers
 
@@ -112,7 +100,6 @@ class TaskRunResource(SyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
-                    "source_policy": source_policy,
                     "task_spec": task_spec,
                 },
                 task_run_create_params.TaskRunCreateParams,
@@ -135,9 +122,7 @@ class TaskRunResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRun:
         """
-        Retrieves run status by run_id.
-
-        The run result is available from the `/result` endpoint.
+        Retrieves a run by run_id.
 
         Args:
           extra_headers: Send extra headers
@@ -171,7 +156,7 @@ class TaskRunResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRunResult:
         """
-        Retrieves a run result by run_id, blocking until the run is completed.
+        Retrieves a run by run_id, blocking until the run is completed.
 
         Args:
           extra_headers: Send extra headers
@@ -348,10 +333,9 @@ class AsyncTaskRunResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        input: Union[str, Dict[str, object]],
+        input: Union[str, object],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -361,11 +345,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRun:
         """
-        Initiates a task run.
-
-        Returns immediately with a run object in status 'queued'.
-
-        Beta features can be enabled by setting the 'parallel-beta' header.
+        Initiates a single task run.
 
         Args:
           input: Input to the task, either text or a JSON object.
@@ -375,16 +355,10 @@ class AsyncTaskRunResource(AsyncAPIResource):
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
-          source_policy: Source policy for web search results.
-
-              This policy governs which sources are allowed/disallowed in results.
-
           task_spec: Specification for a task.
 
-              Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
-              Not specifying a TaskSpec is the same as setting an auto output schema.
-
-              For convenience bare strings are also accepted as input or output schemas.
+              For convenience we allow bare strings as input or output schemas, which is
+              equivalent to a text schema with the same description.
 
           extra_headers: Send extra headers
 
@@ -401,7 +375,6 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
-                    "source_policy": source_policy,
                     "task_spec": task_spec,
                 },
                 task_run_create_params.TaskRunCreateParams,
@@ -424,9 +397,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRun:
         """
-        Retrieves run status by run_id.
-
-        The run result is available from the `/result` endpoint.
+        Retrieves a run by run_id.
 
         Args:
           extra_headers: Send extra headers
@@ -460,7 +431,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskRunResult:
         """
-        Retrieves a run result by run_id, blocking until the run is completed.
+        Retrieves a run by run_id, blocking until the run is completed.
 
         Args:
           extra_headers: Send extra headers

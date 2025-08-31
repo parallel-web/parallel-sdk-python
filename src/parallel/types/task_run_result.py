@@ -1,9 +1,8 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 from typing import Union
-from typing_extensions import Annotated, TypeAlias
+from typing_extensions import TypeAlias
 
-from .._utils import PropertyInfo
 from .._models import BaseModel
 from .citation import Citation
 from .task_run import TaskRun
@@ -41,7 +40,7 @@ OutputTaskRunJsonOutput = TaskRunJsonOutput  # for backwards compatibility with 
 """This is deprecated, `TaskRunJsonOutput` should be used instead"""
 
 
-Output: TypeAlias = Annotated[Union[TaskRunTextOutput, TaskRunJsonOutput], PropertyInfo(discriminator="type")]
+Output: TypeAlias = Union[TaskRunTextOutput, TaskRunJsonOutput]
 
 
 class TaskRunResult(BaseModel):
@@ -49,4 +48,4 @@ class TaskRunResult(BaseModel):
     """Output from the task conforming to the output schema."""
 
     run: TaskRun
-    """Status of a task run."""
+    """Status of a task."""
