@@ -97,7 +97,6 @@ instance of the provided output type. The parsed output can be accessed via the
 `parsed` property on the output field of the response.
 
 ```python
-import os
 import asyncio
 from parallel import AsyncParallel
 from pydantic import BaseModel
