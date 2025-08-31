@@ -3,23 +3,16 @@
 from typing import Dict, List, Union, Optional
 from typing_extensions import Literal
 
+from pydantic import Field as FieldInfo
+
 from .._models import BaseModel
+from .shared.warning import Warning
+from .shared.error_object import ErrorObject
 
-__all__ = ["TaskRun", "Warning"]
-
-
-class Warning(BaseModel):
-    message: str
-    """Human-readable message."""
-
-    type: str
-    """Type of warning.
-
-    Note that adding new warning types is considered a backward-compatible change.
-    """
-
-    detail: Optional[object] = None
-    """Optional detail supporting the warning."""
+__all__ = [
+    "TaskRun",
+    "Warning" # for backwards compatibility with v0.1.3
+]
 
 
 class TaskRun(BaseModel):
@@ -27,9 +20,9 @@ class TaskRun(BaseModel):
     """Timestamp of the creation of the task, as an RFC 3339 string."""
 
     is_active: bool
-    """Whether the run is currently active; i.e.
+    """Whether the run is currently active, i.e.
 
-    status is one of {'running', 'queued', 'cancelling'}.
+    status is one of {'cancelling', 'queued', 'running'}.
     """
 
     modified_at: Optional[str] = None
@@ -44,8 +37,14 @@ class TaskRun(BaseModel):
     status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
     """Status of the run."""
 
+    error: Optional[ErrorObject] = None
+    """An error message."""
+
     metadata: Optional[Dict[str, Union[str, float, bool]]] = None
     """User-provided metadata stored with the run."""
 
+    task_group_id: Optional[str] = FieldInfo(alias="taskgroup_id", default=None)
+    """ID of the taskgroup to which the run belongs."""
+
     warnings: Optional[List[Warning]] = None
-    """Warnings for the run."""
+    """Warnings for the run, if any."""

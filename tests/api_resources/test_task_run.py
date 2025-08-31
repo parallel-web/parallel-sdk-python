@@ -20,46 +20,32 @@ class TestTaskRun:
     @parametrize
     def test_method_create(self, client: Parallel) -> None:
         task_run = client.task_run.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Parallel) -> None:
         task_run = client.task_run.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
             metadata={"foo": "string"},
+            source_policy={
+                "exclude_domains": ["string"],
+                "include_domains": ["string"],
+            },
             task_spec={
                 "output_schema": {
                     "json_schema": {
-                        "additionalProperties": False,
-                        "properties": {
-                            "gdp": {
-                                "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
-                                "type": "string",
-                            }
-                        },
-                        "required": ["gdp"],
-                        "type": "object",
+                        "additionalProperties": "bar",
+                        "properties": "bar",
+                        "required": "bar",
+                        "type": "bar",
                     },
                     "type": "json",
                 },
-                "input_schema": {
-                    "json_schema": {
-                        "additionalProperties": False,
-                        "properties": {
-                            "gdp": {
-                                "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
-                                "type": "string",
-                            }
-                        },
-                        "required": ["gdp"],
-                        "type": "object",
-                    },
-                    "type": "json",
-                },
+                "input_schema": "string",
             },
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
@@ -67,8 +53,8 @@ class TestTaskRun:
     @parametrize
     def test_raw_response_create(self, client: Parallel) -> None:
         response = client.task_run.with_raw_response.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         )
 
         assert response.is_closed is True
@@ -79,8 +65,8 @@ class TestTaskRun:
     @parametrize
     def test_streaming_response_create(self, client: Parallel) -> None:
         with client.task_run.with_streaming_response.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -183,46 +169,32 @@ class TestAsyncTaskRun:
     @parametrize
     async def test_method_create(self, async_client: AsyncParallel) -> None:
         task_run = await async_client.task_run.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncParallel) -> None:
         task_run = await async_client.task_run.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
             metadata={"foo": "string"},
+            source_policy={
+                "exclude_domains": ["string"],
+                "include_domains": ["string"],
+            },
             task_spec={
                 "output_schema": {
                     "json_schema": {
-                        "additionalProperties": False,
-                        "properties": {
-                            "gdp": {
-                                "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
-                                "type": "string",
-                            }
-                        },
-                        "required": ["gdp"],
-                        "type": "object",
+                        "additionalProperties": "bar",
+                        "properties": "bar",
+                        "required": "bar",
+                        "type": "bar",
                     },
                     "type": "json",
                 },
-                "input_schema": {
-                    "json_schema": {
-                        "additionalProperties": False,
-                        "properties": {
-                            "gdp": {
-                                "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
-                                "type": "string",
-                            }
-                        },
-                        "required": ["gdp"],
-                        "type": "object",
-                    },
-                    "type": "json",
-                },
+                "input_schema": "string",
             },
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
@@ -230,8 +202,8 @@ class TestAsyncTaskRun:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncParallel) -> None:
         response = await async_client.task_run.with_raw_response.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         )
 
         assert response.is_closed is True
@@ -242,8 +214,8 @@ class TestAsyncTaskRun:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncParallel) -> None:
         async with async_client.task_run.with_streaming_response.create(
-            input="France (2023)",
-            processor="processor",
+            input="What was the GDP of France in 2023?",
+            processor="base",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

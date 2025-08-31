@@ -1,10 +1,15 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List, Union, Optional
-from typing_extensions import Literal, TypeAlias
+from typing import Union
+from typing_extensions import Annotated, TypeAlias
 
+from .._utils import PropertyInfo
 from .._models import BaseModel
+from .citation import Citation
 from .task_run import TaskRun
+from .field_basis import FieldBasis
+from .task_run_json_output import TaskRunJsonOutput
+from .task_run_text_output import TaskRunTextOutput
 
 __all__ = [
     "TaskRunResult",
@@ -17,101 +22,26 @@ __all__ = [
     "OutputTaskRunJsonOutputBasisCitation",
 ]
 
+OutputTaskRunTextOutputBasis = FieldBasis  # for backwards compatibility with v0.1.3
+"""This is deprecated, `FieldBasis` should be used instead"""
 
-class OutputTaskRunTextOutputBasisCitation(BaseModel):
-    url: str
-    """URL of the citation."""
+OutputTaskRunTextOutputBasisCitation = Citation  # for backwards compatibility with v0.1.3
+"""This is deprecated, `Citation` should be used instead"""
 
-    excerpts: Optional[List[str]] = None
-    """Excerpts from the citation supporting the output.
+OutputTaskRunJsonOutputBasis = FieldBasis  # for backwards compatibility with v0.1.3
+"""This is deprecated, `FieldBasis` should be used instead"""
 
-    Only certain processors provide excerpts.
-    """
+OutputTaskRunJsonOutputBasisCitation = Citation  # for backwards compatibility with v0.1.3
+"""This is deprecated, `Citation` should be used instead"""
 
-    title: Optional[str] = None
-    """Title of the citation."""
+OutputTaskRunTextOutput = TaskRunTextOutput  # for backwards compatibility with v0.1.3
+"""This is deprecated, `TaskRunTextOutput` should be used instead"""
 
-
-class OutputTaskRunTextOutputBasis(BaseModel):
-    field: str
-    """Name of the output field."""
-
-    reasoning: str
-    """Reasoning for the output field."""
-
-    citations: Optional[List[OutputTaskRunTextOutputBasisCitation]] = None
-    """List of citations supporting the output field."""
-
-    confidence: Optional[str] = None
-    """Confidence level for the output field.
-
-    Only certain processors provide confidence levels.
-    """
+OutputTaskRunJsonOutput = TaskRunJsonOutput  # for backwards compatibility with v0.1.3
+"""This is deprecated, `TaskRunJsonOutput` should be used instead"""
 
 
-class OutputTaskRunTextOutput(BaseModel):
-    basis: List[OutputTaskRunTextOutputBasis]
-    """Basis for the output. The basis has a single field 'output'."""
-
-    content: str
-    """Text output from the task."""
-
-    type: Literal["text"]
-    """
-    The type of output being returned, as determined by the output schema of the
-    task spec.
-    """
-
-
-class OutputTaskRunJsonOutputBasisCitation(BaseModel):
-    url: str
-    """URL of the citation."""
-
-    excerpts: Optional[List[str]] = None
-    """Excerpts from the citation supporting the output.
-
-    Only certain processors provide excerpts.
-    """
-
-    title: Optional[str] = None
-    """Title of the citation."""
-
-
-class OutputTaskRunJsonOutputBasis(BaseModel):
-    field: str
-    """Name of the output field."""
-
-    reasoning: str
-    """Reasoning for the output field."""
-
-    citations: Optional[List[OutputTaskRunJsonOutputBasisCitation]] = None
-    """List of citations supporting the output field."""
-
-    confidence: Optional[str] = None
-    """Confidence level for the output field.
-
-    Only certain processors provide confidence levels.
-    """
-
-
-class OutputTaskRunJsonOutput(BaseModel):
-    basis: List[OutputTaskRunJsonOutputBasis]
-    """Basis for each top-level field in the JSON output."""
-
-    content: object
-    """
-    Output from the task as a native JSON object, as determined by the output schema
-    of the task spec.
-    """
-
-    type: Literal["json"]
-    """
-    The type of output being returned, as determined by the output schema of the
-    task spec.
-    """
-
-
-Output: TypeAlias = Union[OutputTaskRunTextOutput, OutputTaskRunJsonOutput]
+Output: TypeAlias = Annotated[Union[TaskRunTextOutput, TaskRunJsonOutput], PropertyInfo(discriminator="type")]
 
 
 class TaskRunResult(BaseModel):
@@ -119,4 +49,4 @@ class TaskRunResult(BaseModel):
     """Output from the task conforming to the output schema."""
 
     run: TaskRun
-    """Status of a task."""
+    """Status of a task run."""

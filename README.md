@@ -34,11 +34,7 @@ client = Parallel(
     api_key=os.environ.get("PARALLEL_API_KEY"),  # This is the default and can be omitted
 )
 
-run_result = client.task_run.execute(
-    input="France (2023)",
-    processor="core",
-    output="GDP"
-)
+run_result = client.task_run.execute(input="France (2023)", processor="core", output="GDP")
 print(run_result.output.parsed)
 ```
 
@@ -68,9 +64,7 @@ client = AsyncParallel(
 
 async def main() -> None:
     run_result = await client.task_run.execute(
-        input="France (2023)",
-        processor="core",
-        output="GDP"
+        input="France (2023)", processor="core", output="GDP"
     )
     print(run_result.output.parsed)
 
@@ -103,8 +97,10 @@ from pydantic import BaseModel
 
 client = AsyncParallel()
 
+
 class SampleOutputStructure(BaseModel):
     output: str
+
 
 async def main() -> None:
     # with pydantic
@@ -117,9 +113,7 @@ async def main() -> None:
     print(run_result.output.parsed)
     # without pydantic
     run_result = await client.task_run.execute(
-        input="France (2023)",
-        processor="core",
-        output="GDP"
+        input="France (2023)", processor="core", output="GDP"
     )
     print(run_result.output.parsed)
 
@@ -139,6 +133,7 @@ from parallel import AsyncParallel
 from pydantic import BaseModel, Field
 from typing import List
 
+
 class CountryInput(BaseModel):
     country: str = Field(
         description="Name of the country to research. Must be a recognized "
@@ -146,19 +141,19 @@ class CountryInput(BaseModel):
     )
     year: int = Field(
         description="Year for which to retrieve data. Must be 2000 or later. "
-                    "Use most recent full-year estimates if year is current."
+        "Use most recent full-year estimates if year is current."
     )
 
+
 class CountryOutput(BaseModel):
-    gdp: str = Field(
-        description="GDP in USD for the year, formatted like '$3.1 trillion (2023)'."
-    )
+    gdp: str = Field(description="GDP in USD for the year, formatted like '$3.1 trillion (2023)'.")
     top_exports: List[str] = Field(
         description="Top 3 exported goods/services by value. Use credible sources."
     )
     top_imports: List[str] = Field(
         description="Top 3 imported goods/services by value. Use credible sources."
     )
+
 
 async def main():
     # Initialize the Parallel client
@@ -168,20 +163,19 @@ async def main():
     input_data = [
         CountryInput(country="France", year=2023),
         CountryInput(country="Germany", year=2023),
-        CountryInput(country="Italy", year=2023)
+        CountryInput(country="Italy", year=2023),
     ]
 
-    run_results = await asyncio.gather(*[
-        client.task_run.execute(
-            input=datum,
-            output=CountryOutput,
-            processor="core"
-        )
-        for datum in input_data
-    ])
+    run_results = await asyncio.gather(
+        *[
+            client.task_run.execute(input=datum, output=CountryOutput, processor="core")
+            for datum in input_data
+        ]
+    )
 
     for run_input, run_result in zip(input_data, run_results):
         print(f"Task run output for {run_input}: {run_result.output.parsed}")
+
 
 if __name__ == "__main__":
     asyncio.run(main())
@@ -303,11 +297,7 @@ from parallel import Parallel
 client = Parallel()
 
 try:
-    client.task_run.execute(
-        input="France (2023)",
-        processor="core",
-        output="GDP"
-    )
+    client.task_run.execute(input="France (2023)", processor="core", output="GDP")
 except parallel.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -351,9 +341,7 @@ client = Parallel(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).task_run.execute(
-    input="France (2023)",
-    processor="core",
-    output="GDP"
+    input="France (2023)", processor="core", output="GDP"
 )
 ```
 
@@ -378,9 +366,7 @@ client = Parallel(
 
 # Override per-request:
 client.with_options(timeout=5.0).task_run.execute(
-    input="France (2023)",
-    processor="core",
-    output="GDP"
+    input="France (2023)", processor="core", output="GDP"
 )
 ```
 
@@ -445,9 +431,7 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.task_run.with_streaming_response.execute(
-    input="France (2023)",
-    processor="core",
-    output="GDP"
+    input="France (2023)", processor="core", output="GDP"
 ) as response:
     print(response.headers.get("X-My-Header"))
 

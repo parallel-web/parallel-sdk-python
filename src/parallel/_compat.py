@@ -175,6 +175,7 @@ def model_json_schema(model: type[_ModelT]) -> dict[str, Any]:
         return model.model_json_schema()
     return model.schema()  # pyright: ignore[reportDeprecated]
 
+
 # generic models
 if TYPE_CHECKING:
 
