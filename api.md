@@ -1,7 +1,7 @@
 # Shared Types
 
 ```python
-from parallel.types import ErrorObject, ErrorResponse
+from parallel.types import ErrorObject, ErrorResponse, SourcePolicy, Warning
 ```
 
 # TaskRun
@@ -10,7 +10,9 @@ Types:
 
 ```python
 from parallel.types import (
+    AutoSchema,
     Citation,
+    FieldBasis,
     JsonSchema,
     ParsedTaskRunResult,
     RunInput,

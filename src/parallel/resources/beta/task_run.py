@@ -2,36 +2,31 @@
 
 from __future__ import annotations
 
-import time
-from typing import Dict, Type, Union, Optional, overload
+from typing import Any, Dict, List, Union, Iterable, Optional, cast
 
 import httpx
 
-from parallel.lib._time import prepare_timeout_float
-
-from ..types import task_run_create_params, task_run_result_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import maybe_transform, async_maybe_transform
-from .._compat import cached_property
-from .._resource import SyncAPIResource, AsyncAPIResource
-from .._response import (
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from .._base_client import make_request_options
-from ..types.task_run import TaskRun
-from ..types.task_run_result import TaskRunResult
-from ..types.task_spec_param import OutputT, OutputSchema, TaskSpecParam
-from ..lib._parsing._task_spec import build_task_spec_param
-from ..types.parsed_task_run_result import ParsedTaskRunResult
-from ..lib._parsing._task_run_result import (
-    wait_for_result as _wait_for_result,
-    wait_for_result_async as _wait_for_result_async,
-    task_run_result_parser,
-)
-from ..types.shared_params.source_policy import SourcePolicy
+from ..._streaming import Stream, AsyncStream
+from ...types.beta import task_run_create_params, task_run_result_params
+from ..._base_client import make_request_options
+from ...types.task_run import TaskRun
+from ...types.task_spec_param import TaskSpecParam
+from ...types.beta.webhook_param import WebhookParam
+from ...types.beta.mcp_server_param import McpServerParam
+from ...types.beta.parallel_beta_param import ParallelBetaParam
+from ...types.beta.beta_task_run_result import BetaTaskRunResult
+from ...types.shared_params.source_policy import SourcePolicy
+from ...types.beta.task_run_events_response import TaskRunEventsResponse
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
@@ -61,9 +56,13 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
+        enable_events: Optional[bool] | NotGiven = NOT_GIVEN,
+        mcp_servers: Optional[Iterable[McpServerParam]] | NotGiven = NOT_GIVEN,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
         source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
+        webhook: Optional[WebhookParam] | NotGiven = NOT_GIVEN,
+        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -83,6 +82,19 @@ class TaskRunResource(SyncAPIResource):
 
           processor: Processor to use for the task.
 
+          enable_events: Controls tracking of task run execution progress. When set to true, progress
+              events are recorded and can be accessed via the
+              [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+              false, no progress events are tracked. Note that progress tracking cannot be
+              enabled after a run has been created. The flag is set to true by default for
+              premium processors (pro and above). This feature is not available via the Python
+              SDK. To enable this feature in your API requests, specify the `parallel-beta`
+              header with `events-sse-2025-07-24` value.
+
+          mcp_servers: Optional list of MCP servers to use for the run. This feature is not available
+              via the Python SDK. To enable this feature in your API requests, specify the
+              `parallel-beta` header with `mcp-server-2025-07-17` value.
+
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
@@ -97,6 +109,10 @@ class TaskRunResource(SyncAPIResource):
 
               For convenience bare strings are also accepted as input or output schemas.
 
+          webhook: Webhooks for Task Runs.
+
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -105,15 +121,22 @@ class TaskRunResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
         return self._post(
-            "/v1/tasks/runs",
+            "/v1/tasks/runs?beta=true",
             body=maybe_transform(
                 {
                     "input": input,
                     "processor": processor,
+                    "enable_events": enable_events,
+                    "mcp_servers": mcp_servers,
                     "metadata": metadata,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
+                    "webhook": webhook,
                 },
                 task_run_create_params.TaskRunCreateParams,
             ),
@@ -123,7 +146,7 @@ class TaskRunResource(SyncAPIResource):
             cast_to=TaskRun,
         )
 
-    def retrieve(
+    def events(
         self,
         run_id: str,
         *,
@@ -133,11 +156,15 @@ class TaskRunResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRun:
+    ) -> Stream[TaskRunEventsResponse]:
         """
-        Retrieves run status by run_id.
+        Streams events for a task run.
 
-        The run result is available from the `/result` endpoint.
+        Returns a stream of events showing progress updates and state changes for the
+        task run.
+
+        For task runs that did not have enable_events set to true during creation, the
+        frequency of events will be reduced.
 
         Args:
           extra_headers: Send extra headers
@@ -150,12 +177,15 @@ class TaskRunResource(SyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return self._get(
-            f"/v1/tasks/runs/{run_id}",
+            f"/v1beta/tasks/runs/{run_id}/events",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TaskRun,
+            cast_to=cast(Any, TaskRunEventsResponse),  # Union types cannot be passed in as arguments in the type system
+            stream=True,
+            stream_cls=Stream[TaskRunEventsResponse],
         )
 
     def result(
@@ -163,17 +193,20 @@ class TaskRunResource(SyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | NotGiven = NOT_GIVEN,
+        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult:
+    ) -> BetaTaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
         Args:
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -184,8 +217,12 @@ class TaskRunResource(SyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        extra_headers = {
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
         return self._get(
-            f"/v1/tasks/runs/{run_id}/result",
+            f"/v1/tasks/runs/{run_id}/result?beta=true",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -193,135 +230,7 @@ class TaskRunResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams),
             ),
-            cast_to=TaskRunResult,
-        )
-
-    def _wait_for_result(
-        self,
-        *,
-        run_id: str,
-        deadline: float,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-        """Wait for a task run to complete within the given timeout."""
-
-        def _fetcher(run_id: str, deadline: float) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-            timeout = deadline - time.monotonic()
-            task_run_result = self.result(
-                run_id,
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            )
-            return task_run_result_parser(task_run_result, output)
-
-        return _wait_for_result(run_id=run_id, deadline=deadline, callable=_fetcher)
-
-    @overload
-    def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult: ...
-    @overload
-    def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Type[OutputT],
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ParsedTaskRunResult[OutputT]: ...
-    def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-        """
-        Convenience method to create and execute a task run in a single call.
-
-        Awaits run completion. If the run is successful, a `ParsedTaskRunResult`
-        is returned when a pydantic was specified in `output`. Otherwise, a
-        `TaskRunResult` is returned.
-
-        Possible errors:
-        - `TimeoutError`: If the run does not finish within the specified timeout.
-        - `APIStatusError`: If the API returns a non-200-range status code.
-        - `APIConnectionError`: If the connection to the API fails.
-
-        Args:
-          input: Input to the task, either text or a JSON object.
-
-          processor: Processor to use for the task.
-
-          metadata: User-provided metadata stored with the run. Keys and values must be strings with
-            a maximum length of 16 and 512 characters respectively.
-
-          output: Optional output schema or pydantic type. If pydantic is provided,
-            the response will have a parsed field.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds.
-            If the result is not available within the timeout, a `TimeoutError` is raised.
-        """
-        extra_headers = {"X-Stainless-Poll-Helper": "true", **(extra_headers or {})}
-
-        timeout = prepare_timeout_float(timeout)
-
-        deadline = time.monotonic() + timeout
-        task_run = self.create(
-            input=input,
-            processor=processor,
-            metadata=metadata,
-            task_spec=build_task_spec_param(output, input),
-            extra_headers=extra_headers,
-            extra_query=extra_query,
-            extra_body=extra_body,
-            timeout=timeout,
-        )
-
-        return self._wait_for_result(
-            run_id=task_run.run_id,
-            deadline=deadline,
-            output=output,
-            extra_headers=extra_headers,
-            extra_query=extra_query,
-            extra_body=extra_body,
+            cast_to=BetaTaskRunResult,
         )
 
 
@@ -350,9 +259,13 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
+        enable_events: Optional[bool] | NotGiven = NOT_GIVEN,
+        mcp_servers: Optional[Iterable[McpServerParam]] | NotGiven = NOT_GIVEN,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
         source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
+        webhook: Optional[WebhookParam] | NotGiven = NOT_GIVEN,
+        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -372,6 +285,19 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           processor: Processor to use for the task.
 
+          enable_events: Controls tracking of task run execution progress. When set to true, progress
+              events are recorded and can be accessed via the
+              [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+              false, no progress events are tracked. Note that progress tracking cannot be
+              enabled after a run has been created. The flag is set to true by default for
+              premium processors (pro and above). This feature is not available via the Python
+              SDK. To enable this feature in your API requests, specify the `parallel-beta`
+              header with `events-sse-2025-07-24` value.
+
+          mcp_servers: Optional list of MCP servers to use for the run. This feature is not available
+              via the Python SDK. To enable this feature in your API requests, specify the
+              `parallel-beta` header with `mcp-server-2025-07-17` value.
+
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
@@ -386,6 +312,10 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
               For convenience bare strings are also accepted as input or output schemas.
 
+          webhook: Webhooks for Task Runs.
+
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -394,15 +324,22 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
         return await self._post(
-            "/v1/tasks/runs",
+            "/v1/tasks/runs?beta=true",
             body=await async_maybe_transform(
                 {
                     "input": input,
                     "processor": processor,
+                    "enable_events": enable_events,
+                    "mcp_servers": mcp_servers,
                     "metadata": metadata,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
+                    "webhook": webhook,
                 },
                 task_run_create_params.TaskRunCreateParams,
             ),
@@ -412,7 +349,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
             cast_to=TaskRun,
         )
 
-    async def retrieve(
+    async def events(
         self,
         run_id: str,
         *,
@@ -422,11 +359,15 @@ class AsyncTaskRunResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRun:
+    ) -> AsyncStream[TaskRunEventsResponse]:
         """
-        Retrieves run status by run_id.
+        Streams events for a task run.
 
-        The run result is available from the `/result` endpoint.
+        Returns a stream of events showing progress updates and state changes for the
+        task run.
+
+        For task runs that did not have enable_events set to true during creation, the
+        frequency of events will be reduced.
 
         Args:
           extra_headers: Send extra headers
@@ -439,12 +380,15 @@ class AsyncTaskRunResource(AsyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         return await self._get(
-            f"/v1/tasks/runs/{run_id}",
+            f"/v1beta/tasks/runs/{run_id}/events",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=TaskRun,
+            cast_to=cast(Any, TaskRunEventsResponse),  # Union types cannot be passed in as arguments in the type system
+            stream=True,
+            stream_cls=AsyncStream[TaskRunEventsResponse],
         )
 
     async def result(
@@ -452,17 +396,20 @@ class AsyncTaskRunResource(AsyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | NotGiven = NOT_GIVEN,
+        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult:
+    ) -> BetaTaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
         Args:
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -473,8 +420,12 @@ class AsyncTaskRunResource(AsyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        extra_headers = {
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **(extra_headers or {}),
+        }
         return await self._get(
-            f"/v1/tasks/runs/{run_id}/result",
+            f"/v1/tasks/runs/{run_id}/result?beta=true",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -484,131 +435,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     {"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams
                 ),
             ),
-            cast_to=TaskRunResult,
-        )
-
-    async def _wait_for_result(
-        self,
-        *,
-        run_id: str,
-        deadline: float,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-        """Wait for a task run to complete within the given timeout."""
-
-        async def _fetcher(run_id: str, deadline: float) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-            timeout = deadline - time.monotonic()
-            task_run_result = await self.result(
-                run_id,
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-            )
-            return task_run_result_parser(task_run_result, output)
-
-        return await _wait_for_result_async(run_id=run_id, deadline=deadline, callable=_fetcher)
-
-    @overload
-    async def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult: ...
-    @overload
-    async def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Type[OutputT],
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> ParsedTaskRunResult[OutputT]: ...
-    async def execute(
-        self,
-        *,
-        input: Union[str, Dict[str, object]],
-        processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-        """
-        Convenience method to create and execute a task run in a single call.
-
-        Awaits run completion. If the run is successful, a `ParsedTaskRunResult`
-        is returned when a pydantic was specified in `output`. Otherwise, a
-        `TaskRunResult` is returned.
-
-        Possible errors:
-        - `TimeoutError`: If the run does not finish within the specified timeout.
-        - `APIStatusError`: If the API returns a non-200-range status code.
-        - `APIConnectionError`: If the connection to the API fails.
-
-        Args:
-          input: Input to the task, either text or a JSON object.
-
-          processor: Processor to use for the task.
-
-          metadata: User-provided metadata stored with the run. Keys and values must be strings with
-            a maximum length of 16 and 512 characters respectively.
-
-          output: Optional output schema or pydantic type. If pydantic is provided,
-            the response will have a parsed field.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds.
-            If the result is not available within the timeout, a `TimeoutError` is raised.
-        """
-        extra_headers = {"X-Stainless-Poll-Helper": "true", **(extra_headers or {})}
-
-        timeout = prepare_timeout_float(timeout)
-        deadline = time.monotonic() + timeout
-
-        task_run = await self.create(
-            input=input,
-            processor=processor,
-            metadata=metadata,
-            task_spec=build_task_spec_param(output, input),
-            extra_headers=extra_headers,
-            extra_query=extra_query,
-            extra_body=extra_body,
-            timeout=timeout,
-        )
-
-        return await self._wait_for_result(
-            run_id=task_run.run_id,
-            deadline=deadline,
-            output=output,
-            extra_headers=extra_headers,
-            extra_query=extra_query,
-            extra_body=extra_body,
+            cast_to=BetaTaskRunResult,
         )
 
 
@@ -619,8 +446,8 @@ class TaskRunResourceWithRawResponse:
         self.create = to_raw_response_wrapper(
             task_run.create,
         )
-        self.retrieve = to_raw_response_wrapper(
-            task_run.retrieve,
+        self.events = to_raw_response_wrapper(
+            task_run.events,
         )
         self.result = to_raw_response_wrapper(
             task_run.result,
@@ -634,8 +461,8 @@ class AsyncTaskRunResourceWithRawResponse:
         self.create = async_to_raw_response_wrapper(
             task_run.create,
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            task_run.retrieve,
+        self.events = async_to_raw_response_wrapper(
+            task_run.events,
         )
         self.result = async_to_raw_response_wrapper(
             task_run.result,
@@ -649,8 +476,8 @@ class TaskRunResourceWithStreamingResponse:
         self.create = to_streamed_response_wrapper(
             task_run.create,
         )
-        self.retrieve = to_streamed_response_wrapper(
-            task_run.retrieve,
+        self.events = to_streamed_response_wrapper(
+            task_run.events,
         )
         self.result = to_streamed_response_wrapper(
             task_run.result,
@@ -664,8 +491,8 @@ class AsyncTaskRunResourceWithStreamingResponse:
         self.create = async_to_streamed_response_wrapper(
             task_run.create,
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            task_run.retrieve,
+        self.events = async_to_streamed_response_wrapper(
+            task_run.events,
         )
         self.result = async_to_streamed_response_wrapper(
             task_run.result,
