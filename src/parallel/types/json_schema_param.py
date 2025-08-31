@@ -2,14 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Dict
 from typing_extensions import Literal, Required, TypedDict
 
 __all__ = ["JsonSchemaParam"]
 
 
 class JsonSchemaParam(TypedDict, total=False):
-    json_schema: Required[Dict[str, object]]
+    json_schema: Required[object]
     """A JSON Schema object. Only a subset of JSON Schema is supported."""
 
     type: Literal["json"]

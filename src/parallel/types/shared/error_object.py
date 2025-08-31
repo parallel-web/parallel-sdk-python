@@ -1,6 +1,6 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, Optional
+from typing import Optional
 
 from ..._models import BaseModel
 
@@ -14,5 +14,5 @@ class ErrorObject(BaseModel):
     ref_id: str
     """Reference ID for the error."""
 
-    detail: Optional[Dict[str, object]] = None
+    detail: Optional[object] = None
     """Optional detail supporting the error."""

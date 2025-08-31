@@ -33,8 +33,8 @@ client = Parallel(
 )
 
 task_run = client.task_run.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
+    input="France (2023)",
+    processor="processor",
 )
 print(task_run.run_id)
 ```
@@ -60,8 +60,8 @@ client = AsyncParallel(
 
 async def main() -> None:
     task_run = await client.task_run.create(
-        input="What was the GDP of France in 2023?",
-        processor="base",
+        input="France (2023)",
+        processor="processor",
     )
     print(task_run.run_id)
 
@@ -96,8 +96,8 @@ async def main() -> None:
         http_client=DefaultAioHttpClient(),
     ) as client:
         task_run = await client.task_run.create(
-            input="What was the GDP of France in 2023?",
-            processor="base",
+            input="France (2023)",
+            processor="processor",
         )
         print(task_run.run_id)
 
@@ -124,11 +124,25 @@ from parallel import Parallel
 client = Parallel()
 
 task_run = client.task_run.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
-    source_policy={},
+    input="France (2023)",
+    processor="processor",
+    task_spec={
+        "output_schema": {
+            "json_schema": {
+                "additionalProperties": False,
+                "properties": {
+                    "gdp": {
+                        "description": "GDP in USD for the year, formatted like '$3.1 trillion (2023)'",
+                        "type": "string",
+                    }
+                },
+                "required": ["gdp"],
+                "type": "object",
+            }
+        }
+    },
 )
-print(task_run.source_policy)
+print(task_run.task_spec)
 ```
 
 ## Handling errors
@@ -148,8 +162,8 @@ client = Parallel()
 
 try:
     client.task_run.create(
-        input="What was the GDP of France in 2023?",
-        processor="base",
+        input="France (2023)",
+        processor="processor",
     )
 except parallel.APIConnectionError as e:
     print("The server could not be reached")
@@ -194,8 +208,8 @@ client = Parallel(
 
 # Or, configure per-request:
 client.with_options(max_retries=5).task_run.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
+    input="France (2023)",
+    processor="processor",
 )
 ```
 
@@ -220,8 +234,8 @@ client = Parallel(
 
 # Override per-request:
 client.with_options(timeout=5.0).task_run.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
+    input="France (2023)",
+    processor="processor",
 )
 ```
 
@@ -264,8 +278,8 @@ from parallel import Parallel
 
 client = Parallel()
 response = client.task_run.with_raw_response.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
+    input="France (2023)",
+    processor="processor",
 )
 print(response.headers.get('X-My-Header'))
 
@@ -285,8 +299,8 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.task_run.with_streaming_response.create(
-    input="What was the GDP of France in 2023?",
-    processor="base",
+    input="France (2023)",
+    processor="processor",
 ) as response:
     print(response.headers.get("X-My-Header"))
 

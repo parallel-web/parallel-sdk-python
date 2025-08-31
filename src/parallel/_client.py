@@ -29,7 +29,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.beta import beta
 
 __all__ = [
     "Timeout",
@@ -45,7 +44,6 @@ __all__ = [
 
 class Parallel(SyncAPIClient):
     task_run: task_run.TaskRunResource
-    beta: beta.BetaResource
     with_raw_response: ParallelWithRawResponse
     with_streaming_response: ParallelWithStreamedResponse
 
@@ -104,7 +102,6 @@ class Parallel(SyncAPIClient):
         )
 
         self.task_run = task_run.TaskRunResource(self)
-        self.beta = beta.BetaResource(self)
         self.with_raw_response = ParallelWithRawResponse(self)
         self.with_streaming_response = ParallelWithStreamedResponse(self)
 
@@ -215,7 +212,6 @@ class Parallel(SyncAPIClient):
 
 class AsyncParallel(AsyncAPIClient):
     task_run: task_run.AsyncTaskRunResource
-    beta: beta.AsyncBetaResource
     with_raw_response: AsyncParallelWithRawResponse
     with_streaming_response: AsyncParallelWithStreamedResponse
 
@@ -274,7 +270,6 @@ class AsyncParallel(AsyncAPIClient):
         )
 
         self.task_run = task_run.AsyncTaskRunResource(self)
-        self.beta = beta.AsyncBetaResource(self)
         self.with_raw_response = AsyncParallelWithRawResponse(self)
         self.with_streaming_response = AsyncParallelWithStreamedResponse(self)
 
@@ -386,25 +381,21 @@ class AsyncParallel(AsyncAPIClient):
 class ParallelWithRawResponse:
     def __init__(self, client: Parallel) -> None:
         self.task_run = task_run.TaskRunResourceWithRawResponse(client.task_run)
-        self.beta = beta.BetaResourceWithRawResponse(client.beta)
 
 
 class AsyncParallelWithRawResponse:
     def __init__(self, client: AsyncParallel) -> None:
         self.task_run = task_run.AsyncTaskRunResourceWithRawResponse(client.task_run)
-        self.beta = beta.AsyncBetaResourceWithRawResponse(client.beta)
 
 
 class ParallelWithStreamedResponse:
     def __init__(self, client: Parallel) -> None:
         self.task_run = task_run.TaskRunResourceWithStreamingResponse(client.task_run)
-        self.beta = beta.BetaResourceWithStreamingResponse(client.beta)
 
 
 class AsyncParallelWithStreamedResponse:
     def __init__(self, client: AsyncParallel) -> None:
         self.task_run = task_run.AsyncTaskRunResourceWithStreamingResponse(client.task_run)
-        self.beta = beta.AsyncBetaResourceWithStreamingResponse(client.beta)
 
 
 Client = Parallel
