@@ -9,7 +9,8 @@ import pytest
 
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
-from parallel.types import TaskRun, TaskRunResult
+from parallel.types import TaskRun
+from parallel.types.beta import BetaTaskRunResult
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -19,7 +20,7 @@ class TestTaskRun:
 
     @parametrize
     def test_method_create(self, client: Parallel) -> None:
-        task_run = client.task_run.create(
+        task_run = client.beta.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         )
@@ -27,9 +28,19 @@ class TestTaskRun:
 
     @parametrize
     def test_method_create_with_all_params(self, client: Parallel) -> None:
-        task_run = client.task_run.create(
+        task_run = client.beta.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
+            enable_events=True,
+            mcp_servers=[
+                {
+                    "name": "name",
+                    "url": "url",
+                    "allowed_tools": ["string"],
+                    "headers": {"foo": "string"},
+                    "type": "url",
+                }
+            ],
             metadata={"foo": "string"},
             source_policy={
                 "exclude_domains": ["string"],
@@ -47,12 +58,17 @@ class TestTaskRun:
                 },
                 "input_schema": "string",
             },
+            webhook={
+                "url": "url",
+                "event_types": ["task_run.status"],
+            },
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Parallel) -> None:
-        response = client.task_run.with_raw_response.create(
+        response = client.beta.task_run.with_raw_response.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         )
@@ -64,7 +80,7 @@ class TestTaskRun:
 
     @parametrize
     def test_streaming_response_create(self, client: Parallel) -> None:
-        with client.task_run.with_streaming_response.create(
+        with client.beta.task_run.with_streaming_response.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         ) as response:
@@ -76,87 +92,91 @@ class TestTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    def test_method_retrieve(self, client: Parallel) -> None:
-        task_run = client.task_run.retrieve(
+    def test_method_events(self, client: Parallel) -> None:
+        task_run_stream = client.beta.task_run.events(
             "run_id",
         )
-        assert_matches_type(TaskRun, task_run, path=["response"])
+        task_run_stream.response.close()
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    def test_raw_response_retrieve(self, client: Parallel) -> None:
-        response = client.task_run.with_raw_response.retrieve(
+    def test_raw_response_events(self, client: Parallel) -> None:
+        response = client.beta.task_run.with_raw_response.events(
             "run_id",
         )
 
-        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        task_run = response.parse()
-        assert_matches_type(TaskRun, task_run, path=["response"])
+        stream = response.parse()
+        stream.close()
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    def test_streaming_response_retrieve(self, client: Parallel) -> None:
-        with client.task_run.with_streaming_response.retrieve(
+    def test_streaming_response_events(self, client: Parallel) -> None:
+        with client.beta.task_run.with_streaming_response.events(
             "run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            task_run = response.parse()
-            assert_matches_type(TaskRun, task_run, path=["response"])
+            stream = response.parse()
+            stream.close()
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    def test_path_params_retrieve(self, client: Parallel) -> None:
+    def test_path_params_events(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
-            client.task_run.with_raw_response.retrieve(
+            client.beta.task_run.with_raw_response.events(
                 "",
             )
 
     @parametrize
     def test_method_result(self, client: Parallel) -> None:
-        task_run = client.task_run.result(
+        task_run = client.beta.task_run.result(
             run_id="run_id",
         )
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     def test_method_result_with_all_params(self, client: Parallel) -> None:
-        task_run = client.task_run.result(
+        task_run = client.beta.task_run.result(
             run_id="run_id",
             api_timeout=0,
+            betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     def test_raw_response_result(self, client: Parallel) -> None:
-        response = client.task_run.with_raw_response.result(
+        response = client.beta.task_run.with_raw_response.result(
             run_id="run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task_run = response.parse()
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     def test_streaming_response_result(self, client: Parallel) -> None:
-        with client.task_run.with_streaming_response.result(
+        with client.beta.task_run.with_streaming_response.result(
             run_id="run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task_run = response.parse()
-            assert_matches_type(TaskRunResult, task_run, path=["response"])
+            assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_path_params_result(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
-            client.task_run.with_raw_response.result(
+            client.beta.task_run.with_raw_response.result(
                 run_id="",
             )
 
@@ -168,7 +188,7 @@ class TestAsyncTaskRun:
 
     @parametrize
     async def test_method_create(self, async_client: AsyncParallel) -> None:
-        task_run = await async_client.task_run.create(
+        task_run = await async_client.beta.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         )
@@ -176,9 +196,19 @@ class TestAsyncTaskRun:
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncParallel) -> None:
-        task_run = await async_client.task_run.create(
+        task_run = await async_client.beta.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
+            enable_events=True,
+            mcp_servers=[
+                {
+                    "name": "name",
+                    "url": "url",
+                    "allowed_tools": ["string"],
+                    "headers": {"foo": "string"},
+                    "type": "url",
+                }
+            ],
             metadata={"foo": "string"},
             source_policy={
                 "exclude_domains": ["string"],
@@ -196,12 +226,17 @@ class TestAsyncTaskRun:
                 },
                 "input_schema": "string",
             },
+            webhook={
+                "url": "url",
+                "event_types": ["task_run.status"],
+            },
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncParallel) -> None:
-        response = await async_client.task_run.with_raw_response.create(
+        response = await async_client.beta.task_run.with_raw_response.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         )
@@ -213,7 +248,7 @@ class TestAsyncTaskRun:
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncParallel) -> None:
-        async with async_client.task_run.with_streaming_response.create(
+        async with async_client.beta.task_run.with_streaming_response.create(
             input="What was the GDP of France in 2023?",
             processor="base",
         ) as response:
@@ -225,86 +260,90 @@ class TestAsyncTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncParallel) -> None:
-        task_run = await async_client.task_run.retrieve(
+    async def test_method_events(self, async_client: AsyncParallel) -> None:
+        task_run_stream = await async_client.beta.task_run.events(
             "run_id",
         )
-        assert_matches_type(TaskRun, task_run, path=["response"])
+        await task_run_stream.response.aclose()
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncParallel) -> None:
-        response = await async_client.task_run.with_raw_response.retrieve(
+    async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
+        response = await async_client.beta.task_run.with_raw_response.events(
             "run_id",
         )
 
-        assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        task_run = await response.parse()
-        assert_matches_type(TaskRun, task_run, path=["response"])
+        stream = await response.parse()
+        await stream.close()
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncParallel) -> None:
-        async with async_client.task_run.with_streaming_response.retrieve(
+    async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
+        async with async_client.beta.task_run.with_streaming_response.events(
             "run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
-            task_run = await response.parse()
-            assert_matches_type(TaskRun, task_run, path=["response"])
+            stream = await response.parse()
+            await stream.close()
 
         assert cast(Any, response.is_closed) is True
 
+    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncParallel) -> None:
+    async def test_path_params_events(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
-            await async_client.task_run.with_raw_response.retrieve(
+            await async_client.beta.task_run.with_raw_response.events(
                 "",
             )
 
     @parametrize
     async def test_method_result(self, async_client: AsyncParallel) -> None:
-        task_run = await async_client.task_run.result(
+        task_run = await async_client.beta.task_run.result(
             run_id="run_id",
         )
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     async def test_method_result_with_all_params(self, async_client: AsyncParallel) -> None:
-        task_run = await async_client.task_run.result(
+        task_run = await async_client.beta.task_run.result(
             run_id="run_id",
             api_timeout=0,
+            betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     async def test_raw_response_result(self, async_client: AsyncParallel) -> None:
-        response = await async_client.task_run.with_raw_response.result(
+        response = await async_client.beta.task_run.with_raw_response.result(
             run_id="run_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task_run = await response.parse()
-        assert_matches_type(TaskRunResult, task_run, path=["response"])
+        assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
     @parametrize
     async def test_streaming_response_result(self, async_client: AsyncParallel) -> None:
-        async with async_client.task_run.with_streaming_response.result(
+        async with async_client.beta.task_run.with_streaming_response.result(
             run_id="run_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task_run = await response.parse()
-            assert_matches_type(TaskRunResult, task_run, path=["response"])
+            assert_matches_type(BetaTaskRunResult, task_run, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_path_params_result(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
-            await async_client.task_run.with_raw_response.result(
+            await async_client.beta.task_run.with_raw_response.result(
                 run_id="",
             )

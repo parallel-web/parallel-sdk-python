@@ -3,14 +3,14 @@
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .error_object import ErrorObject
+from ..shared.error_object import ErrorObject
 
-__all__ = ["ErrorResponse"]
+__all__ = ["ErrorEvent"]
 
 
-class ErrorResponse(BaseModel):
+class ErrorEvent(BaseModel):
     error: ErrorObject
     """An error message."""
 
     type: Literal["error"]
-    """Always 'error'."""
+    """Event type; always 'error'."""
