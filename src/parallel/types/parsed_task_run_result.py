@@ -3,7 +3,9 @@ from typing import Union, Generic, TypeVar, Optional
 from pydantic import BaseModel
 
 from .._models import GenericModel
-from .task_run_result import TaskRunResult, OutputTaskRunJsonOutput, OutputTaskRunTextOutput
+from .task_run_result import TaskRunResult
+from .task_run_json_output import TaskRunJsonOutput
+from .task_run_text_output import TaskRunTextOutput
 
 ContentType = TypeVar("ContentType", bound=BaseModel)
 
@@ -14,16 +16,23 @@ ContentType = TypeVar("ContentType", bound=BaseModel)
 # pyright: reportIncompatibleVariableOverride=false
 
 
-class ParsedOutputTaskRunTextOutput(OutputTaskRunTextOutput, GenericModel, Generic[ContentType]):
+class ParsedTaskRunTextOutput(TaskRunTextOutput, GenericModel, Generic[ContentType]):
     parsed: None
     """The parsed output from the task run."""
 
 
-class ParsedOutputTaskRunJsonOutput(OutputTaskRunJsonOutput, GenericModel, Generic[ContentType]):
+class ParsedTaskRunJsonOutput(TaskRunJsonOutput, GenericModel, Generic[ContentType]):
     parsed: Optional[ContentType] = None
     """The parsed output from the task run."""
 
 
 class ParsedTaskRunResult(TaskRunResult, GenericModel, Generic[ContentType]):
-    output: Union[ParsedOutputTaskRunTextOutput[ContentType], ParsedOutputTaskRunJsonOutput[ContentType]]  # type: ignore[assignment]
+    output: Union[ParsedTaskRunTextOutput[ContentType], ParsedTaskRunJsonOutput[ContentType]]  # type: ignore[assignment]
     """The parsed output from the task run."""
+
+
+ParsedOutputTaskRunTextOutput = ParsedTaskRunTextOutput  # for backwards compatibility with v0.1.3
+"""This is deprecated, `ParsedTaskRunTextOutput` should be used instead"""
+
+ParsedOutputTaskRunJsonOutput = ParsedTaskRunJsonOutput  # for backwards compatibility with v0.1.3
+"""This is deprecated, `ParsedTaskRunJsonOutput` should be used instead"""

@@ -14,19 +14,16 @@ from .task_run_text_output import TaskRunTextOutput
 __all__ = [
     "TaskRunResult",
     "Output",
-    "OutputTaskRunTextOutput",
-    "OutputTaskRunTextOutputBasis",
-    "OutputTaskRunTextOutputBasisCitation",
     "OutputTaskRunJsonOutput",
     "OutputTaskRunJsonOutputBasis",
     "OutputTaskRunJsonOutputBasisCitation",
+    "OutputTaskRunTextOutput",
+    "OutputTaskRunTextOutputBasis",
+    "OutputTaskRunTextOutputBasisCitation",
 ]
 
-OutputTaskRunTextOutputBasis = FieldBasis  # for backwards compatibility with v0.1.3
-"""This is deprecated, `FieldBasis` should be used instead"""
-
-OutputTaskRunTextOutputBasisCitation = Citation  # for backwards compatibility with v0.1.3
-"""This is deprecated, `Citation` should be used instead"""
+OutputTaskRunJsonOutput = TaskRunJsonOutput  # for backwards compatibility with v0.1.3
+"""This is deprecated, `TaskRunJsonOutput` should be used instead"""
 
 OutputTaskRunJsonOutputBasis = FieldBasis  # for backwards compatibility with v0.1.3
 """This is deprecated, `FieldBasis` should be used instead"""
@@ -37,8 +34,11 @@ OutputTaskRunJsonOutputBasisCitation = Citation  # for backwards compatibility w
 OutputTaskRunTextOutput = TaskRunTextOutput  # for backwards compatibility with v0.1.3
 """This is deprecated, `TaskRunTextOutput` should be used instead"""
 
-OutputTaskRunJsonOutput = TaskRunJsonOutput  # for backwards compatibility with v0.1.3
-"""This is deprecated, `TaskRunJsonOutput` should be used instead"""
+OutputTaskRunTextOutputBasis = FieldBasis  # for backwards compatibility with v0.1.3
+"""This is deprecated, `FieldBasis` should be used instead"""
+
+OutputTaskRunTextOutputBasisCitation = Citation  # for backwards compatibility with v0.1.3
+"""This is deprecated, `Citation` should be used instead"""
 
 
 Output: TypeAlias = Annotated[Union[TaskRunTextOutput, TaskRunJsonOutput], PropertyInfo(discriminator="type")]

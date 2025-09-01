@@ -11,7 +11,7 @@ from .shared.error_object import ErrorObject
 
 __all__ = [
     "TaskRun",
-# for backwards compatibility with v0.1.3
+    "Warning",  # for backwards compatibility with v0.1.3
 ]
 
 
