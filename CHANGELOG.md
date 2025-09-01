@@ -1,5 +1,51 @@
 # Changelog
 
+## 0.2.0 (2025-09-01)
+
+Full Changelog: [v0.1.3...v0.2.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.3...v0.2.0)
+
+### Features
+
+* **api:** update via SDK Studio ([b048bd7](https://github.com/parallel-web/parallel-sdk-python/commit/b048bd7e1c5a992ae274aa4b6df16a9d5b0f843e))
+* **api:** update via SDK Studio ([b9abf3c](https://github.com/parallel-web/parallel-sdk-python/commit/b9abf3c8b0e22b260149f01b1ef608924eefe735))
+* **api:** update via SDK Studio ([4326698](https://github.com/parallel-web/parallel-sdk-python/commit/43266988c2123fa1aff00bf0b62c355b0c2bf04e))
+* clean up environment call outs ([3a102e9](https://github.com/parallel-web/parallel-sdk-python/commit/3a102e9a05476e4d28c0ac386cd156cc0fe8b5cf))
+* **client:** add support for aiohttp ([4e2aa32](https://github.com/parallel-web/parallel-sdk-python/commit/4e2aa32ad8242745f56e5a8b810d33c362967dad))
+* **client:** support file upload requests ([ec0c2cf](https://github.com/parallel-web/parallel-sdk-python/commit/ec0c2cf30bd24524567232ad0f661facda124203))
+
+
+### Bug Fixes
+
+* add types for backwards compatibility ([c975302](https://github.com/parallel-web/parallel-sdk-python/commit/c975302c0d61d1d6731ccaeb7977c2009cb0b666))
+* avoid newer type syntax ([2ea196d](https://github.com/parallel-web/parallel-sdk-python/commit/2ea196d5d4c7881e61dc848a1387770b4e27e304))
+* **ci:** correct conditional ([99d37f6](https://github.com/parallel-web/parallel-sdk-python/commit/99d37f657a249987ccae60dd0e62f296ab0c1d85))
+* **ci:** release-doctor — report correct token name ([310076b](https://github.com/parallel-web/parallel-sdk-python/commit/310076b2f8a75ed29ba2a1fae0f6e840ec43bb5b))
+* **client:** don't send Content-Type header on GET requests ([f103b4a](https://github.com/parallel-web/parallel-sdk-python/commit/f103b4a72fc25f6a8dd1bda0c8d040aba1f527d1))
+* **parsing:** correctly handle nested discriminated unions ([c9a2300](https://github.com/parallel-web/parallel-sdk-python/commit/c9a23002be2d78a11b5c1b7c901f4ddb32663393))
+* **parsing:** ignore empty metadata ([ab434aa](https://github.com/parallel-web/parallel-sdk-python/commit/ab434aa7bd088fc16279255ae36138ab6dff0730))
+* **parsing:** parse extra field types ([85f5cd4](https://github.com/parallel-web/parallel-sdk-python/commit/85f5cd4191ae168ed443e78a2c7bd747d51404b3))
+
+
+### Chores
+
+* **ci:** change upload type ([40dbd3b](https://github.com/parallel-web/parallel-sdk-python/commit/40dbd3b7d5becf0fe54b62a4acd8696957380053))
+* **ci:** only run for pushes and fork pull requests ([d55fbea](https://github.com/parallel-web/parallel-sdk-python/commit/d55fbea54037d2d833ecc281cbddbc8d6700d24d))
+* **internal:** add Sequence related utils ([cb9a7a9](https://github.com/parallel-web/parallel-sdk-python/commit/cb9a7a905ca4a4a9ba35e540f6c47a8bf89c87d2))
+* **internal:** bump pinned h11 dep ([818f1dd](https://github.com/parallel-web/parallel-sdk-python/commit/818f1ddb3ba1be6bfdb9aee1322d6a3d8a98667a))
+* **internal:** change ci workflow machines ([a90da34](https://github.com/parallel-web/parallel-sdk-python/commit/a90da34910585453eac918a5f273749c00d2f743))
+* **internal:** codegen related update ([47ea68b](https://github.com/parallel-web/parallel-sdk-python/commit/47ea68bd44ad52ac1c18e7215c013f408914890c))
+* **internal:** fix ruff target version ([4e5dbda](https://github.com/parallel-web/parallel-sdk-python/commit/4e5dbda03907f45ac31d18d89714e86f26e79866))
+* **internal:** update comment in script ([631b045](https://github.com/parallel-web/parallel-sdk-python/commit/631b045ae2f138e4c8098fafd9466451d61ca82a))
+* **internal:** update pyright exclude list ([8d2fb29](https://github.com/parallel-web/parallel-sdk-python/commit/8d2fb29b5d80a2fa9ee81a6f9510134fb7bab908))
+* **internal:** version bump ([90d26a5](https://github.com/parallel-web/parallel-sdk-python/commit/90d26a5e8db8bd6a27f9bbc96595da87bd7ea0f3))
+* **package:** mark python 3.13 as supported ([6fa54c4](https://github.com/parallel-web/parallel-sdk-python/commit/6fa54c42a17f5e731f5e97214f0212a0828d3cb8))
+* **project:** add settings file for vscode ([acdeda2](https://github.com/parallel-web/parallel-sdk-python/commit/acdeda2f1f95f5bade2da52d5a2aa8560e71369d))
+* **readme:** fix version rendering on pypi ([2bf10b0](https://github.com/parallel-web/parallel-sdk-python/commit/2bf10b073ab7e015b08c106d265a9091752df51a))
+* **readme:** Remove references to methods, update FAQ for beta ([cefefbf](https://github.com/parallel-web/parallel-sdk-python/commit/cefefbfccba78fdabcc925728836d70400d4e5aa))
+* **tests:** skip some failing tests on the latest python versions ([13b1533](https://github.com/parallel-web/parallel-sdk-python/commit/13b153381e9b7c998a7ebef878518222678dfa83))
+* update @stainless-api/prism-cli to v5.15.0 ([56b5aab](https://github.com/parallel-web/parallel-sdk-python/commit/56b5aab87a833c27b8e1a2bc7c4bf2169ee281a8))
+* update github action ([3d90e19](https://github.com/parallel-web/parallel-sdk-python/commit/3d90e196184e540242fb310cc55b0219d20dff45))
+
 ## 0.1.3 (2025-08-09)
 
 Full Changelog: [v0.1.2...v0.1.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.2...v0.1.3)
