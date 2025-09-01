@@ -26,6 +26,7 @@ def to_json_schema(
     schema["additionalProperties"] = False
     return schema
 
+
 def is_basemodel_type(model_type: object) -> TypeGuard[type[pydantic.BaseModel]]:
     """Check if a type is a Pydantic BaseModel to avoid using type: ignore."""
     return inspect.isclass(model_type) and issubclass(model_type, pydantic.BaseModel)
