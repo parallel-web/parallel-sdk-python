@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, SequenceNotStr
 from ..._utils import maybe_transform, async_maybe_transform
 from .task_run import (
     TaskRunResource,
@@ -76,7 +76,7 @@ class BetaResource(SyncAPIResource):
         max_results: Optional[int] | NotGiven = NOT_GIVEN,
         objective: Optional[str] | NotGiven = NOT_GIVEN,
         processor: Literal["base", "pro"] | NotGiven = NOT_GIVEN,
-        search_queries: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        search_queries: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -172,7 +172,7 @@ class AsyncBetaResource(AsyncAPIResource):
         max_results: Optional[int] | NotGiven = NOT_GIVEN,
         objective: Optional[str] | NotGiven = NOT_GIVEN,
         processor: Literal["base", "pro"] | NotGiven = NOT_GIVEN,
-        search_queries: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        search_queries: Optional[SequenceNotStr[str]] | NotGiven = NOT_GIVEN,
         source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
