@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 from typing_extensions import Literal, Required, TypedDict
+
+from ..._types import SequenceNotStr
 
 __all__ = ["McpServerParam"]
 
@@ -15,7 +17,7 @@ class McpServerParam(TypedDict, total=False):
     url: Required[str]
     """URL of the MCP server."""
 
-    allowed_tools: Optional[List[str]]
+    allowed_tools: Optional[SequenceNotStr[str]]
     """List of allowed tools for the MCP server."""
 
     headers: Optional[Dict[str, str]]
