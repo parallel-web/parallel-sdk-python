@@ -6,7 +6,7 @@ from typing_extensions import TypeGuard
 
 import pydantic
 
-from .._compat import PYDANTIC_V2, model_json_schema
+from .._compat import PYDANTIC_V1, model_json_schema
 
 
 def to_json_schema(
@@ -16,8 +16,8 @@ def to_json_schema(
     if is_basemodel_type(model_type):
         schema = model_json_schema(model_type)
     elif isinstance(model_type, pydantic.TypeAdapter):
-        if not PYDANTIC_V2:
-            raise TypeError(f"TypeAdapters are only supported with Pydantic v2 - {model_type}")
+        if PYDANTIC_V1:
+            raise TypeError(f"TypeAdapters are not supported with Pydantic v1 - {model_type}")
         schema = model_type.json_schema()
     else:
         raise TypeError(f"Unsupported type: {model_type}")

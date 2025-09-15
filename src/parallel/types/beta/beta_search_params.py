@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
+from typing import Optional
 from typing_extensions import Literal, TypedDict
 
+from ..._types import SequenceNotStr
 from ..shared_params.source_policy import SourcePolicy
 
 __all__ = ["BetaSearchParams"]
@@ -33,7 +34,7 @@ class BetaSearchParams(TypedDict, total=False):
     processor: Literal["base", "pro"]
     """Search processor."""
 
-    search_queries: Optional[List[str]]
+    search_queries: Optional[SequenceNotStr[str]]
     """Optional list of traditional keyword search queries to guide the search.
 
     May contain search operators. At least one of objective or search_queries must
