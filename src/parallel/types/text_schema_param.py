@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-from typing_extensions import Literal, Required, TypedDict
+from typing import Optional
+from typing_extensions import Literal, TypedDict
 
 __all__ = ["TextSchemaParam"]
 
 
 class TextSchemaParam(TypedDict, total=False):
-    description: Required[str]
+    description: Optional[str]
     """A text description of the desired output from the task."""
 
     type: Literal["text"]
