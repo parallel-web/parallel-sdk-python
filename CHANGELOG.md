@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.2.1 (2025-09-15)
+
+Full Changelog: [v0.2.0...v0.2.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.0...v0.2.1)
+
+### Features
+
+* **api:** Allow nullable text schemas ([dc87604](https://github.com/parallel-web/parallel-sdk-python/commit/dc87604a3c83bf7c30086c4c23c4e689628bc5a7))
+* improve future compat with pydantic v3 ([ea49f26](https://github.com/parallel-web/parallel-sdk-python/commit/ea49f26543681aa59de34577cae1fb8a57b077c5))
+* **types:** replace List[str] with SequenceNotStr in params ([6155c3f](https://github.com/parallel-web/parallel-sdk-python/commit/6155c3f30b46ce9bd39aaadc3dddf275d555e2ba))
+
+
+### Chores
+
+* **internal:** codegen related update ([72ec907](https://github.com/parallel-web/parallel-sdk-python/commit/72ec90723bac0b80a9c8e79f7cab985425beedad))
+* **internal:** move mypy configurations to `pyproject.toml` file ([e03d641](https://github.com/parallel-web/parallel-sdk-python/commit/e03d64154278ebd8d844751d4d55e275177cf4f1))
+* **tests:** simplify `get_platform` test ([9862221](https://github.com/parallel-web/parallel-sdk-python/commit/9862221997402f105c75df206004fc8d6e206ce8))
+
 ## 0.2.0 (2025-09-01)
 
 Full Changelog: [v0.1.3...v0.2.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.1.3...v0.2.0)
