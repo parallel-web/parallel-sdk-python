@@ -7,7 +7,7 @@ from typing import Dict, Union, Optional
 import httpx
 
 from ..types import task_run_create_params, task_run_result_params
-from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
@@ -51,15 +51,15 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
-        task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        source_policy: Optional[SourcePolicy] | Omit = omit,
+        task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Initiates a task run.
@@ -122,7 +122,7 @@ class TaskRunResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Retrieves run status by run_id.
@@ -152,13 +152,13 @@ class TaskRunResource(SyncAPIResource):
         self,
         run_id: str,
         *,
-        api_timeout: int | NotGiven = NOT_GIVEN,
+        api_timeout: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
@@ -212,15 +212,15 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
-        task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        source_policy: Optional[SourcePolicy] | Omit = omit,
+        task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Initiates a task run.
@@ -283,7 +283,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Retrieves run status by run_id.
@@ -313,13 +313,13 @@ class AsyncTaskRunResource(AsyncAPIResource):
         self,
         run_id: str,
         *,
-        api_timeout: int | NotGiven = NOT_GIVEN,
+        api_timeout: int | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.

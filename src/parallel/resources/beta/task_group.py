@@ -7,7 +7,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -59,13 +59,13 @@ class TaskGroupResource(SyncAPIResource):
     def create(
         self,
         *,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroup:
         """
         Initiates a TaskGroup to group and track multiple runs.
@@ -99,7 +99,7 @@ class TaskGroupResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroup:
         """
         Retrieves aggregated status across runs in a TaskGroup.
@@ -128,14 +128,14 @@ class TaskGroupResource(SyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
-        default_task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        default_task_spec: Optional[TaskSpecParam] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroupRunResponse:
         """
         Initiates multiple task runs within a TaskGroup.
@@ -163,7 +163,7 @@ class TaskGroupResource(SyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -185,14 +185,14 @@ class TaskGroupResource(SyncAPIResource):
         self,
         task_group_id: str,
         *,
-        last_event_id: Optional[str] | NotGiven = NOT_GIVEN,
-        api_timeout: Optional[float] | NotGiven = NOT_GIVEN,
+        last_event_id: Optional[str] | Omit = omit,
+        api_timeout: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Stream[TaskGroupEventsResponse]:
         """
         Streams events from a TaskGroup: status updates and run completions.
@@ -238,19 +238,19 @@ class TaskGroupResource(SyncAPIResource):
         self,
         task_group_id: str,
         *,
-        include_input: bool | NotGiven = NOT_GIVEN,
-        include_output: bool | NotGiven = NOT_GIVEN,
-        last_event_id: Optional[str] | NotGiven = NOT_GIVEN,
+        include_input: bool | Omit = omit,
+        include_output: bool | Omit = omit,
+        last_event_id: Optional[str] | Omit = omit,
         status: Optional[
             Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
         ]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Stream[TaskGroupGetRunsResponse]:
         """
         Retrieves task runs in a TaskGroup and optionally their inputs and outputs.
@@ -315,13 +315,13 @@ class AsyncTaskGroupResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroup:
         """
         Initiates a TaskGroup to group and track multiple runs.
@@ -355,7 +355,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroup:
         """
         Retrieves aggregated status across runs in a TaskGroup.
@@ -384,14 +384,14 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
-        default_task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        default_task_spec: Optional[TaskSpecParam] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskGroupRunResponse:
         """
         Initiates multiple task runs within a TaskGroup.
@@ -419,7 +419,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -441,14 +441,14 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         self,
         task_group_id: str,
         *,
-        last_event_id: Optional[str] | NotGiven = NOT_GIVEN,
-        api_timeout: Optional[float] | NotGiven = NOT_GIVEN,
+        last_event_id: Optional[str] | Omit = omit,
+        api_timeout: Optional[float] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[TaskGroupEventsResponse]:
         """
         Streams events from a TaskGroup: status updates and run completions.
@@ -494,19 +494,19 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         self,
         task_group_id: str,
         *,
-        include_input: bool | NotGiven = NOT_GIVEN,
-        include_output: bool | NotGiven = NOT_GIVEN,
-        last_event_id: Optional[str] | NotGiven = NOT_GIVEN,
+        include_input: bool | Omit = omit,
+        include_output: bool | Omit = omit,
+        last_event_id: Optional[str] | Omit = omit,
         status: Optional[
             Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
         ]
-        | NotGiven = NOT_GIVEN,
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[TaskGroupGetRunsResponse]:
         """
         Retrieves task runs in a TaskGroup and optionally their inputs and outputs.
