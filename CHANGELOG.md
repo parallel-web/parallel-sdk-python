@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2 (2025-09-20)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.1...v0.2.2)
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([c3250e2](https://github.com/parallel-web/parallel-sdk-python/commit/c3250e26311cc9b767d06a112317b74f73f78644))
+* **internal:** update pydantic dependency ([96f50db](https://github.com/parallel-web/parallel-sdk-python/commit/96f50dbffc919f591a149f89b387ebf19bd4deb0))
+* **types:** change optional parameter type from NotGiven to Omit ([0f0fa20](https://github.com/parallel-web/parallel-sdk-python/commit/0f0fa20994ddb2c89d0def2a16a68b9499e1abd4))
+
 ## 0.2.1 (2025-09-15)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.0...v0.2.1)
