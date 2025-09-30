@@ -163,7 +163,7 @@ class TaskGroupResource(SyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -419,7 +419,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return await self._post(
