@@ -122,7 +122,7 @@ class TaskRunResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -218,7 +218,7 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return self._get(
@@ -325,7 +325,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -421,7 +421,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else omit}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return await self._get(
