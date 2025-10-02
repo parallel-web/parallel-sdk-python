@@ -13,4 +13,4 @@ class SearchResult(BaseModel):
     """A list of WebSearchResult objects, ordered by decreasing relevance."""
 
     search_id: str
-    """Search ID. Example: `search_cad0a6d2-dec0-46bd-95ae-900527d880e7`"""
+    """Search ID. Example: `search_cad0a6d2dec046bd95ae900527d880e7`"""
