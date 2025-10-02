@@ -197,8 +197,8 @@ class TaskGroupResource(SyncAPIResource):
         """
         Streams events from a TaskGroup: status updates and run completions.
 
-        The connection will remain open for up to 10 minutes as long as at least one run
-        in the TaskGroup is active.
+        The connection will remain open for up to an hour as long as at least one run in
+        the group is still active.
 
         Args:
           extra_headers: Send extra headers
@@ -254,6 +254,15 @@ class TaskGroupResource(SyncAPIResource):
     ) -> Stream[TaskGroupGetRunsResponse]:
         """
         Retrieves task runs in a TaskGroup and optionally their inputs and outputs.
+
+        All runs within a TaskGroup are returned as a stream. To get the inputs and/or
+        outputs back in the stream, set the corresponding `include_input` and
+        `include_output` parameters to `true`.
+
+        The stream is resumable using the `event_id` as the cursor. To resume a stream,
+        specify the `last_event_id` parameter with the `event_id` of the last event in
+        the stream. The stream will resume from the next event after the
+        `last_event_id`.
 
         Args:
           extra_headers: Send extra headers
@@ -453,8 +462,8 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         """
         Streams events from a TaskGroup: status updates and run completions.
 
-        The connection will remain open for up to 10 minutes as long as at least one run
-        in the TaskGroup is active.
+        The connection will remain open for up to an hour as long as at least one run in
+        the group is still active.
 
         Args:
           extra_headers: Send extra headers
@@ -510,6 +519,15 @@ class AsyncTaskGroupResource(AsyncAPIResource):
     ) -> AsyncStream[TaskGroupGetRunsResponse]:
         """
         Retrieves task runs in a TaskGroup and optionally their inputs and outputs.
+
+        All runs within a TaskGroup are returned as a stream. To get the inputs and/or
+        outputs back in the stream, set the corresponding `include_input` and
+        `include_output` parameters to `true`.
+
+        The stream is resumable using the `event_id` as the cursor. To resume a stream,
+        specify the `last_event_id` parameter with the `event_id` of the last event in
+        the stream. The stream will resume from the next event after the
+        `last_event_id`.
 
         Args:
           extra_headers: Send extra headers

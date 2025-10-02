@@ -28,6 +28,12 @@ class TaskRunProgressStatsEventSourceStats(BaseModel):
 
 
 class TaskRunProgressStatsEvent(BaseModel):
+    progress_meter: float
+    """Completion percentage of the task run.
+
+    Ranges from 0 to 100 where 0 indicates no progress and 100 indicates completion.
+    """
+
     source_stats: TaskRunProgressStatsEventSourceStats
     """Source stats for a task run."""
 
