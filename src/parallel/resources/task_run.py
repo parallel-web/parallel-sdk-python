@@ -201,7 +201,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         run_id: str,
         deadline: float,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | Type[OutputT] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -229,14 +229,14 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        output: Optional[OutputSchema] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult: ...
     @overload
     def execute(
@@ -244,28 +244,28 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         output: Type[OutputT],
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ParsedTaskRunResult[OutputT]: ...
     def execute(
         self,
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        output: Optional[OutputSchema] | Type[OutputT] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
         """
         Convenience method to create and execute a task run in a single call.
@@ -492,7 +492,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         run_id: str,
         deadline: float,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        output: Optional[OutputSchema] | Type[OutputT] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -520,12 +520,12 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        output: Optional[OutputSchema] | Omit = omit,
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult: ...
     @overload
     async def execute(
@@ -533,26 +533,26 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         output: Type[OutputT],
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> ParsedTaskRunResult[OutputT]: ...
     async def execute(
         self,
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        output: Optional[OutputSchema] | Type[OutputT] | NotGiven = NOT_GIVEN,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        output: Optional[OutputSchema] | Type[OutputT] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
         """
         Convenience method to create and execute a task run in a single call.
