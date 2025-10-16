@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Union, Iterable, Optional, cast
 
 import httpx
 
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -56,19 +56,19 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        enable_events: Optional[bool] | NotGiven = NOT_GIVEN,
-        mcp_servers: Optional[Iterable[McpServerParam]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
-        task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
-        webhook: Optional[WebhookParam] | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        enable_events: Optional[bool] | Omit = omit,
+        mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        source_policy: Optional[SourcePolicy] | Omit = omit,
+        task_spec: Optional[TaskSpecParam] | Omit = omit,
+        webhook: Optional[WebhookParam] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Initiates a task run.
@@ -87,13 +87,13 @@ class TaskRunResource(SyncAPIResource):
               [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
               false, no progress events are tracked. Note that progress tracking cannot be
               enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). This feature is not available via the Python
-              SDK. To enable this feature in your API requests, specify the `parallel-beta`
-              header with `events-sse-2025-07-24` value.
+              premium processors (pro and above). To enable this feature in your requests,
+              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
+              (for API calls) or `betas` param (for the SDKs).
 
-          mcp_servers: Optional list of MCP servers to use for the run. This feature is not available
-              via the Python SDK. To enable this feature in your API requests, specify the
-              `parallel-beta` header with `mcp-server-2025-07-17` value.
+          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
+              requests, specify `mcp-server-2025-07-17` as one of the values in
+              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -122,7 +122,7 @@ class TaskRunResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return self._post(
@@ -155,7 +155,7 @@ class TaskRunResource(SyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> Stream[TaskRunEventsResponse]:
         """
         Streams events for a task run.
@@ -192,14 +192,14 @@ class TaskRunResource(SyncAPIResource):
         self,
         run_id: str,
         *,
-        api_timeout: int | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        api_timeout: int | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BetaTaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
@@ -218,7 +218,7 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return self._get(
@@ -259,19 +259,19 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        enable_events: Optional[bool] | NotGiven = NOT_GIVEN,
-        mcp_servers: Optional[Iterable[McpServerParam]] | NotGiven = NOT_GIVEN,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | NotGiven = NOT_GIVEN,
-        source_policy: Optional[SourcePolicy] | NotGiven = NOT_GIVEN,
-        task_spec: Optional[TaskSpecParam] | NotGiven = NOT_GIVEN,
-        webhook: Optional[WebhookParam] | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        enable_events: Optional[bool] | Omit = omit,
+        mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
+        metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        source_policy: Optional[SourcePolicy] | Omit = omit,
+        task_spec: Optional[TaskSpecParam] | Omit = omit,
+        webhook: Optional[WebhookParam] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> TaskRun:
         """
         Initiates a task run.
@@ -290,13 +290,13 @@ class AsyncTaskRunResource(AsyncAPIResource):
               [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
               false, no progress events are tracked. Note that progress tracking cannot be
               enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). This feature is not available via the Python
-              SDK. To enable this feature in your API requests, specify the `parallel-beta`
-              header with `events-sse-2025-07-24` value.
+              premium processors (pro and above). To enable this feature in your requests,
+              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
+              (for API calls) or `betas` param (for the SDKs).
 
-          mcp_servers: Optional list of MCP servers to use for the run. This feature is not available
-              via the Python SDK. To enable this feature in your API requests, specify the
-              `parallel-beta` header with `mcp-server-2025-07-17` value.
+          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
+              requests, specify `mcp-server-2025-07-17` as one of the values in
+              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -325,7 +325,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return await self._post(
@@ -358,7 +358,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> AsyncStream[TaskRunEventsResponse]:
         """
         Streams events for a task run.
@@ -395,14 +395,14 @@ class AsyncTaskRunResource(AsyncAPIResource):
         self,
         run_id: str,
         *,
-        api_timeout: int | NotGiven = NOT_GIVEN,
-        betas: List[ParallelBetaParam] | NotGiven = NOT_GIVEN,
+        api_timeout: int | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
     ) -> BetaTaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
@@ -421,7 +421,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else NOT_GIVEN}),
+            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
             **(extra_headers or {}),
         }
         return await self._get(

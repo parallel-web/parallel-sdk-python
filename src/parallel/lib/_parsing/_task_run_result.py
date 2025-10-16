@@ -4,14 +4,13 @@ from typing import Any, Type, Union, Callable, Coroutine, cast
 
 from .._time import timeout_retry_context
 from ...types import TaskRunResult, ParsedTaskRunResult
-from ..._types import NotGiven
+from ..._types import Omit
 from ..._utils import is_str, is_given
 from ..._compat import model_parse, model_parse_json
 from ..._models import construct_type_unchecked
 from .._pydantic import is_basemodel_type
 from ._task_spec import is_output_schema_param
 from ...types.task_spec_param import OutputT, OutputSchema
-from ...types.parsed_task_run_result import ParsedTaskRunResult
 
 
 def wait_for_result(
@@ -37,7 +36,7 @@ async def wait_for_result_async(
 
 
 def task_run_result_parser(
-    run_result: TaskRunResult, output_format: Union[OutputSchema, Type[OutputT]] | None | NotGiven
+    run_result: TaskRunResult, output_format: Union[OutputSchema, Type[OutputT]] | Omit | None
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
     """Parse a TaskRunResult object into a ParsedTaskRunResult based on output_format."""
     if not is_given(output_format) or output_format is None or is_output_schema_param(output_format):

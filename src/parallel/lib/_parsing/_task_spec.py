@@ -5,7 +5,7 @@ from typing_extensions import TypeGuard
 
 import pydantic
 
-from ..._types import NOT_GIVEN, NotGiven
+from ..._types import Omit
 from ..._utils import is_str, is_dict, is_given
 from .._pydantic import to_json_schema, is_basemodel_type
 from ...types.task_spec_param import (
@@ -81,12 +81,12 @@ def _generate_output_schema(output_format: OutputSchema | Type[OutputT]) -> Outp
 
 
 def build_task_spec_param(
-    output_format: OutputSchema | Type[OutputT] | None | NotGiven,
+    output_format: OutputSchema | Type[OutputT] | Omit | None,
     _: Union[str, object],  # placeholder for input
-) -> TaskSpecParam | NotGiven:
+) -> TaskSpecParam | Omit:
     """Build a TaskSpecParam from an OutputSchema or Type[OutputT] if provided."""
     if not is_given(output_format) or output_format is None:
-        return NOT_GIVEN
+        return Omit()
 
     # output format has type OutputSchema | Type[OutputT] here
     output_schema = _generate_output_schema(output_format)  # type: ignore[arg-type]
