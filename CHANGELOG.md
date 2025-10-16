@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.2.2 (2025-10-16)
+
+Full Changelog: [v0.2.1...v0.2.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.1...v0.2.2)
+
+### Features
+
+* **api:** Add progress meter to Task Run events ([176f9d3](https://github.com/parallel-web/parallel-sdk-python/commit/176f9d318d9d9367b61e40fb6f8c27576e75deb4))
+
+
+### Bug Fixes
+
+* do not set headers with default to omit ([8989f91](https://github.com/parallel-web/parallel-sdk-python/commit/8989f9120217bba2c95b2b256a2767f885311652))
+
+
+### Chores
+
+* do not install brew dependencies in ./scripts/bootstrap by default ([c3250e2](https://github.com/parallel-web/parallel-sdk-python/commit/c3250e26311cc9b767d06a112317b74f73f78644))
+* **internal:** detect missing future annotations with ruff ([db5980c](https://github.com/parallel-web/parallel-sdk-python/commit/db5980ce6d58ac926eea60d836b36dc8bdd651d7))
+* **internal:** update pydantic dependency ([96f50db](https://github.com/parallel-web/parallel-sdk-python/commit/96f50dbffc919f591a149f89b387ebf19bd4deb0))
+* **types:** change optional parameter type from NotGiven to Omit ([0f0fa20](https://github.com/parallel-web/parallel-sdk-python/commit/0f0fa20994ddb2c89d0def2a16a68b9499e1abd4))
+
 ## 0.2.1 (2025-09-15)
 
 Full Changelog: [v0.2.0...v0.2.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.0...v0.2.1)
