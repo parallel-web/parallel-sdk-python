@@ -37,6 +37,7 @@ from ...types.beta import beta_search_params, beta_extract_params
 from ..._base_client import make_request_options
 from ...types.beta.search_result import SearchResult
 from ...types.beta.extract_response import ExtractResponse
+from ...types.beta.fetch_policy_param import FetchPolicyParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.shared_params.source_policy import SourcePolicy
 
@@ -76,7 +77,7 @@ class BetaResource(SyncAPIResource):
         *,
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
-        fetch_policy: Optional[beta_extract_params.FetchPolicy] | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -252,7 +253,7 @@ class AsyncBetaResource(AsyncAPIResource):
         *,
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
-        fetch_policy: Optional[beta_extract_params.FetchPolicy] | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,

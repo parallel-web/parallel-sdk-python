@@ -7,10 +7,11 @@ from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
+from .fetch_policy_param import FetchPolicyParam
 from .parallel_beta_param import ParallelBetaParam
 from .excerpt_settings_param import ExcerptSettingsParam
 
-__all__ = ["BetaExtractParams", "Excerpts", "FetchPolicy", "FullContent", "FullContentFullContentSettings"]
+__all__ = ["BetaExtractParams", "Excerpts", "FullContent", "FullContentFullContentSettings"]
 
 
 class BetaExtractParams(TypedDict, total=False):
@@ -23,7 +24,7 @@ class BetaExtractParams(TypedDict, total=False):
     redundant with full content.
     """
 
-    fetch_policy: Optional[FetchPolicy]
+    fetch_policy: Optional[FetchPolicyParam]
     """Fetch policy.
 
     Determines when to return content from the cache (faster) vs fetching live
@@ -48,29 +49,6 @@ class BetaExtractParams(TypedDict, total=False):
 
 
 Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
-
-
-class FetchPolicy(TypedDict, total=False):
-    disable_cache_fallback: bool
-    """
-    If false, fallback to cached content older than max-age if live fetch fails or
-    times out. If true, returns an error instead.
-    """
-
-    max_age_seconds: Optional[int]
-    """Maximum age of cached content in seconds to trigger a live fetch.
-
-    Minimum value 600 seconds (10 minutes). If not provided, a dynamic age policy
-    will be used based on the search objective and url.
-    """
-
-    timeout_seconds: Optional[float]
-    """Timeout in seconds for fetching live content if unavailable in cache.
-
-    If unspecified a dynamic timeout will be used based on the url, generally 15
-    seconds for simple pages and up to 60 seconds for complex pages requiring
-    javascript or PDF rendering.
-    """
 
 
 class FullContentFullContentSettings(TypedDict, total=False):

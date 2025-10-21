@@ -18,6 +18,7 @@ from .mcp_server_param import McpServerParam as McpServerParam
 from .task_group_status import TaskGroupStatus as TaskGroupStatus
 from .web_search_result import WebSearchResult as WebSearchResult
 from .beta_search_params import BetaSearchParams as BetaSearchParams
+from .fetch_policy_param import FetchPolicyParam as FetchPolicyParam
 from .beta_extract_params import BetaExtractParams as BetaExtractParams
 from .parallel_beta_param import ParallelBetaParam as ParallelBetaParam
 from .beta_run_input_param import BetaRunInputParam as BetaRunInputParam
