@@ -40,6 +40,7 @@ from parallel.types.beta import (
     ExtractError,
     ExtractResponse,
     ExtractResult,
+    FetchPolicy,
     SearchResult,
     WebSearchResult,
 )
