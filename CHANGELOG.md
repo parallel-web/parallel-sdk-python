@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1 (2025-10-21)
+
+Full Changelog: [v0.3.0...v0.3.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.0...v0.3.1)
+
+### Features
+
+* **api:** manual updates ([0acbe77](https://github.com/parallel-web/parallel-sdk-python/commit/0acbe77da0148029c21e6b3c541e0b1ca163038d))
+
 ## 0.3.0 (2025-10-21)
 
 Full Changelog: [v0.2.2...v0.3.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.2...v0.3.0)
