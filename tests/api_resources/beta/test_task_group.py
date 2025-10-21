@@ -123,8 +123,8 @@ class TestTaskGroup:
                     ],
                     "metadata": {"foo": "string"},
                     "source_policy": {
-                        "exclude_domains": ["string"],
-                        "include_domains": ["string"],
+                        "exclude_domains": ["reddit.com", "x.com"],
+                        "include_domains": ["wikipedia.org", "usa.gov"],
                     },
                     "task_spec": {
                         "output_schema": {
@@ -422,8 +422,8 @@ class TestAsyncTaskGroup:
                     ],
                     "metadata": {"foo": "string"},
                     "source_policy": {
-                        "exclude_domains": ["string"],
-                        "include_domains": ["string"],
+                        "exclude_domains": ["reddit.com", "x.com"],
+                        "include_domains": ["wikipedia.org", "usa.gov"],
                     },
                     "task_spec": {
                         "output_schema": {

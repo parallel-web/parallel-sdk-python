@@ -40,11 +40,19 @@ Convenience methods:
 Types:
 
 ```python
-from parallel.types.beta import SearchResult, WebSearchResult
+from parallel.types.beta import (
+    ExcerptSettings,
+    ExtractError,
+    ExtractResponse,
+    ExtractResult,
+    SearchResult,
+    WebSearchResult,
+)
 ```
 
 Methods:
 
+- <code title="post /v1beta/extract">client.beta.<a href="./src/parallel/resources/beta/beta.py">extract</a>(\*\*<a href="src/parallel/types/beta/beta_extract_params.py">params</a>) -> <a href="./src/parallel/types/beta/extract_response.py">ExtractResponse</a></code>
 - <code title="post /v1beta/search">client.beta.<a href="./src/parallel/resources/beta/beta.py">search</a>(\*\*<a href="src/parallel/types/beta/beta_search_params.py">params</a>) -> <a href="./src/parallel/types/beta/search_result.py">SearchResult</a></code>
 
 ## TaskRun
