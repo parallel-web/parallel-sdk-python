@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.0 (2025-10-21)
+
+Full Changelog: [v0.2.2...v0.3.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.2...v0.3.0)
+
+### Features
+
+* **api:** Add /v1beta/extract ([df40ff5](https://github.com/parallel-web/parallel-sdk-python/commit/df40ff551e5a5e91576066de4c8216e3bd7e1bb1))
+
+
+### Chores
+
+* bump `httpx-aiohttp` version to 0.1.9 ([4da4812](https://github.com/parallel-web/parallel-sdk-python/commit/4da4812c00f76d6613eb14b388b84171ceee074d))
+
 ## 0.2.2 (2025-10-16)
 
 Full Changelog: [v0.2.1...v0.2.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.2.1...v0.2.2)
