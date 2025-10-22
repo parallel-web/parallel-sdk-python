@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, List, Union, Iterable, Optional, cast
+from itertools import chain
 
 import httpx
 
@@ -122,9 +123,16 @@ class TaskRunResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
             "/v1/tasks/runs?beta=true",
             body=maybe_transform(
@@ -178,6 +186,7 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
             f"/v1beta/tasks/runs/{run_id}/events",
             options=make_request_options(
@@ -218,9 +227,16 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
             f"/v1/tasks/runs/{run_id}/result?beta=true",
             options=make_request_options(
@@ -325,9 +341,16 @@ class AsyncTaskRunResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
             "/v1/tasks/runs?beta=true",
             body=await async_maybe_transform(
@@ -381,6 +404,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/tasks/runs/{run_id}/events",
             options=make_request_options(
@@ -421,9 +445,16 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
             f"/v1/tasks/runs/{run_id}/result?beta=true",
             options=make_request_options(
