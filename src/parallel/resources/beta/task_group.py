@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any, Dict, List, Union, Iterable, Optional, cast
+from itertools import chain
 from typing_extensions import Literal
 
 import httpx
@@ -81,6 +82,7 @@ class TaskGroupResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
             "/v1beta/tasks/groups",
             body=maybe_transform({"metadata": metadata}, task_group_create_params.TaskGroupCreateParams),
@@ -115,6 +117,7 @@ class TaskGroupResource(SyncAPIResource):
         """
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
             f"/v1beta/tasks/groups/{task_group_id}",
             options=make_request_options(
@@ -163,9 +166,16 @@ class TaskGroupResource(SyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
             f"/v1beta/tasks/groups/{task_group_id}/runs",
             body=maybe_transform(
@@ -212,6 +222,7 @@ class TaskGroupResource(SyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
             f"/v1beta/tasks/groups/{task_group_id}/events",
             options=make_request_options(
@@ -276,6 +287,7 @@ class TaskGroupResource(SyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
             f"/v1beta/tasks/groups/{task_group_id}/runs",
             options=make_request_options(
@@ -346,6 +358,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
             "/v1beta/tasks/groups",
             body=await async_maybe_transform({"metadata": metadata}, task_group_create_params.TaskGroupCreateParams),
@@ -380,6 +393,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         """
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/tasks/groups/{task_group_id}",
             options=make_request_options(
@@ -428,9 +442,16 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/tasks/groups/{task_group_id}/runs",
             body=await async_maybe_transform(
@@ -477,6 +498,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/tasks/groups/{task_group_id}/events",
             options=make_request_options(
@@ -541,6 +563,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         if not task_group_id:
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/tasks/groups/{task_group_id}/runs",
             options=make_request_options(
