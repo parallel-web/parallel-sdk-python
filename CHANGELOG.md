@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.2 (2025-10-22)
+
+Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.1...v0.3.2)
+
+### Bug Fixes
+
+* **api:** default beta headers for v1beta/search and v1beta/extract ([9f8d8dd](https://github.com/parallel-web/parallel-sdk-python/commit/9f8d8dd6e40f77fb0d1eaf6cc300cb853e734cdf))
+
 ## 0.3.1 (2025-10-21)
 
 Full Changelog: [v0.3.0...v0.3.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.0...v0.3.1)
