@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.3.3 (2025-10-31)
+
+Full Changelog: [v0.3.2...v0.3.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.2...v0.3.3)
+
+### Bug Fixes
+
+* **client:** close streams without requiring full consumption ([e6ba5dc](https://github.com/parallel-web/parallel-sdk-python/commit/e6ba5dc8bb4cc3ad283540e46375e799e5a10cea))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([4ec359d](https://github.com/parallel-web/parallel-sdk-python/commit/4ec359dbc78ec6bf64780fcf7499d684205442a8))
+
 ## 0.3.2 (2025-10-22)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.1...v0.3.2)
