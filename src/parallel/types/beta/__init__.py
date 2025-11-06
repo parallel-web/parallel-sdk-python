@@ -5,6 +5,7 @@ from __future__ import annotations
 from .webhook import Webhook as Webhook
 from .mcp_server import McpServer as McpServer
 from .task_group import TaskGroup as TaskGroup
+from .usage_item import UsageItem as UsageItem
 from .error_event import ErrorEvent as ErrorEvent
 from .extract_error import ExtractError as ExtractError
 from .mcp_tool_call import McpToolCall as McpToolCall

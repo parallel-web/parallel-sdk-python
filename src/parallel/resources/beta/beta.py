@@ -40,6 +40,7 @@ from ...types.beta.search_result import SearchResult
 from ...types.beta.extract_response import ExtractResponse
 from ...types.beta.fetch_policy_param import FetchPolicyParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
+from ...types.beta.excerpt_settings_param import ExcerptSettingsParam
 from ...types.shared_params.source_policy import SourcePolicy
 
 __all__ = ["BetaResource", "AsyncBetaResource"]
@@ -77,12 +78,12 @@ class BetaResource(SyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
+        betas: List[ParallelBetaParam],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -97,14 +98,17 @@ class BetaResource(SyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          betas: Optional header to specify the beta version(s) to enable.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
 
-          fetch_policy: Fetch policy.
+          fetch_policy: Policy for live fetching web results.
 
-              Determines when to return content from the cache (faster) vs fetching live
-              content (fresher).
+              Determines when to return cached content from the index (faster) vs fetching
+              live content (fresher). The default policy for search uses cached results only,
+              while extract uses a dynamic policy based on the search objective and url.
 
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
@@ -112,8 +116,6 @@ class BetaResource(SyncAPIResource):
           objective: If provided, focuses extracted content on the specified search objective.
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
-
-          betas: Optional header to specify the beta version(s) to enable.
 
           extra_headers: Send extra headers
 
@@ -124,16 +126,10 @@ class BetaResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
-                    if is_given(betas)
-                    else not_given
-                }
-            ),
+            "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"])),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
+        extra_headers.update({"parallel-beta": "search-extract-2025-10-10"})
         return self._post(
             "/v1beta/extract",
             body=maybe_transform(
@@ -156,10 +152,11 @@ class BetaResource(SyncAPIResource):
     def search(
         self,
         *,
-        max_chars_per_result: Optional[int] | Omit = omit,
+        excerpts: ExcerptSettingsParam | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
-        processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -173,18 +170,29 @@ class BetaResource(SyncAPIResource):
         """
         Searches the web.
 
+        To access this endpoint, pass the `parallel-beta` header with the value
+        `search-extract-2025-10-10`.
+
         Args:
-          max_chars_per_result: Upper bound on the number of characters to include in excerpts for each search
-              result.
+          excerpts: Optional settings for returning relevant excerpts.
+
+          fetch_policy: Policy for live fetching web results.
+
+              Determines when to return cached content from the index (faster) vs fetching
+              live content (fresher). The default policy for search uses cached results only,
+              while extract uses a dynamic policy based on the search objective and url.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
 
+          mode: Presets default values for parameters for different use cases. `one-shot`
+              returns more comprehensive results and longer excerpts to answer questions from
+              a single response, while `agentic` returns more concise, token-efficient results
+              for use in an agentic loop.
+
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
-
-          processor: Search processor.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -219,10 +227,11 @@ class BetaResource(SyncAPIResource):
             "/v1beta/search",
             body=maybe_transform(
                 {
-                    "max_chars_per_result": max_chars_per_result,
+                    "excerpts": excerpts,
+                    "fetch_policy": fetch_policy,
                     "max_results": max_results,
+                    "mode": mode,
                     "objective": objective,
-                    "processor": processor,
                     "search_queries": search_queries,
                     "source_policy": source_policy,
                 },
@@ -267,12 +276,12 @@ class AsyncBetaResource(AsyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
+        betas: List[ParallelBetaParam],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -287,14 +296,17 @@ class AsyncBetaResource(AsyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          betas: Optional header to specify the beta version(s) to enable.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
 
-          fetch_policy: Fetch policy.
+          fetch_policy: Policy for live fetching web results.
 
-              Determines when to return content from the cache (faster) vs fetching live
-              content (fresher).
+              Determines when to return cached content from the index (faster) vs fetching
+              live content (fresher). The default policy for search uses cached results only,
+              while extract uses a dynamic policy based on the search objective and url.
 
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
@@ -302,8 +314,6 @@ class AsyncBetaResource(AsyncAPIResource):
           objective: If provided, focuses extracted content on the specified search objective.
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
-
-          betas: Optional header to specify the beta version(s) to enable.
 
           extra_headers: Send extra headers
 
@@ -314,16 +324,10 @@ class AsyncBetaResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            **strip_not_given(
-                {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
-                    if is_given(betas)
-                    else not_given
-                }
-            ),
+            "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"])),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
+        extra_headers.update({"parallel-beta": "search-extract-2025-10-10"})
         return await self._post(
             "/v1beta/extract",
             body=await async_maybe_transform(
@@ -346,10 +350,11 @@ class AsyncBetaResource(AsyncAPIResource):
     async def search(
         self,
         *,
-        max_chars_per_result: Optional[int] | Omit = omit,
+        excerpts: ExcerptSettingsParam | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
-        processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -363,18 +368,29 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         Searches the web.
 
+        To access this endpoint, pass the `parallel-beta` header with the value
+        `search-extract-2025-10-10`.
+
         Args:
-          max_chars_per_result: Upper bound on the number of characters to include in excerpts for each search
-              result.
+          excerpts: Optional settings for returning relevant excerpts.
+
+          fetch_policy: Policy for live fetching web results.
+
+              Determines when to return cached content from the index (faster) vs fetching
+              live content (fresher). The default policy for search uses cached results only,
+              while extract uses a dynamic policy based on the search objective and url.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
 
+          mode: Presets default values for parameters for different use cases. `one-shot`
+              returns more comprehensive results and longer excerpts to answer questions from
+              a single response, while `agentic` returns more concise, token-efficient results
+              for use in an agentic loop.
+
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
-
-          processor: Search processor.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -409,10 +425,11 @@ class AsyncBetaResource(AsyncAPIResource):
             "/v1beta/search",
             body=await async_maybe_transform(
                 {
-                    "max_chars_per_result": max_chars_per_result,
+                    "excerpts": excerpts,
+                    "fetch_policy": fetch_policy,
                     "max_results": max_results,
+                    "mode": mode,
                     "objective": objective,
-                    "processor": processor,
                     "search_queries": search_queries,
                     "source_policy": source_policy,
                 },

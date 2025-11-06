@@ -17,6 +17,9 @@ __all__ = ["BetaExtractParams", "Excerpts", "FullContent", "FullContentFullConte
 class BetaExtractParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
 
+    betas: Required[Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]]
+    """Optional header to specify the beta version(s) to enable."""
+
     excerpts: Excerpts
     """Include excerpts from each URL relevant to the search objective and queries.
 
@@ -25,10 +28,11 @@ class BetaExtractParams(TypedDict, total=False):
     """
 
     fetch_policy: Optional[FetchPolicyParam]
-    """Fetch policy.
+    """Policy for live fetching web results.
 
-    Determines when to return content from the cache (faster) vs fetching live
-    content (fresher).
+    Determines when to return cached content from the index (faster) vs fetching
+    live content (fresher). The default policy for search uses cached results only,
+    while extract uses a dynamic policy based on the search objective and url.
     """
 
     full_content: FullContent
@@ -43,9 +47,6 @@ class BetaExtractParams(TypedDict, total=False):
 
     search_queries: Optional[SequenceNotStr[str]]
     """If provided, focuses extracted content on the specified keyword search queries."""
-
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
-    """Optional header to specify the beta version(s) to enable."""
 
 
 Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
