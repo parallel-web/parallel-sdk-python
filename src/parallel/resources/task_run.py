@@ -3,15 +3,12 @@
 from __future__ import annotations
 
 import time
-from typing import Any, Dict, Type, List, Union, Iterable, Optional, overload, cast
-
+from typing import Dict, Type, Union, Optional, overload
 import httpx
-
 from parallel.lib._time import prepare_timeout_float
-
 from ..types import task_run_create_params, task_run_result_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from .._utils import maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -30,10 +27,7 @@ from ..lib._parsing._task_run_result import (
     wait_for_result_async as _wait_for_result_async,
     task_run_result_parser,
 )
-from ..types.beta.webhook_param import WebhookParam
-from ..types.beta.mcp_server_param import McpServerParam
-from ..types.beta.parallel_beta_param import ParallelBetaParam
-from ..types.task_run_result_response import TaskRunResultResponse
+from ..types.task_run_result import TaskRunResult
 from ..types.shared_params.source_policy import SourcePolicy
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
@@ -64,13 +58,9 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        enable_events: Optional[bool] | Omit = omit,
-        mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
-        webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -90,19 +80,6 @@ class TaskRunResource(SyncAPIResource):
 
           processor: Processor to use for the task.
 
-          enable_events: Controls tracking of task run execution progress. When set to true, progress
-              events are recorded and can be accessed via the
-              [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
-              false, no progress events are tracked. Note that progress tracking cannot be
-              enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). To enable this feature in your requests,
-              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-              (for API calls) or `betas` param (for the SDKs).
-
-          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
-              requests, specify `mcp-server-2025-07-17` as one of the values in
-              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
-
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
@@ -117,10 +94,6 @@ class TaskRunResource(SyncAPIResource):
 
               For convenience bare strings are also accepted as input or output schemas.
 
-          webhook: Webhooks for Task Runs.
-
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -129,22 +102,15 @@ class TaskRunResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
-            **(extra_headers or {}),
-        }
         return self._post(
             "/v1/tasks/runs",
             body=maybe_transform(
                 {
                     "input": input,
                     "processor": processor,
-                    "enable_events": enable_events,
-                    "mcp_servers": mcp_servers,
                     "metadata": metadata,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
-                    "webhook": webhook,
                 },
                 task_run_create_params.TaskRunCreateParams,
             ),
@@ -194,20 +160,17 @@ class TaskRunResource(SyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TaskRunResultResponse:
+    ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
         Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -218,25 +181,16 @@ class TaskRunResource(SyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
-        extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
-            **(extra_headers or {}),
-        }
-        return cast(
-            TaskRunResultResponse,
-            self._get(
-                f"/v1/tasks/runs/{run_id}/result",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=maybe_transform({"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams),
-                ),
-                cast_to=cast(
-                    Any, TaskRunResultResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return self._get(
+            f"/v1/tasks/runs/{run_id}/result",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams),
             ),
+            cast_to=TaskRunResult,
         )
 
     def _wait_for_result(
@@ -393,13 +347,9 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        enable_events: Optional[bool] | Omit = omit,
-        mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
-        webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -419,19 +369,6 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           processor: Processor to use for the task.
 
-          enable_events: Controls tracking of task run execution progress. When set to true, progress
-              events are recorded and can be accessed via the
-              [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
-              false, no progress events are tracked. Note that progress tracking cannot be
-              enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). To enable this feature in your requests,
-              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-              (for API calls) or `betas` param (for the SDKs).
-
-          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
-              requests, specify `mcp-server-2025-07-17` as one of the values in
-              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
-
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
 
@@ -446,10 +383,6 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
               For convenience bare strings are also accepted as input or output schemas.
 
-          webhook: Webhooks for Task Runs.
-
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -458,22 +391,15 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
-            **(extra_headers or {}),
-        }
         return await self._post(
             "/v1/tasks/runs",
             body=await async_maybe_transform(
                 {
                     "input": input,
                     "processor": processor,
-                    "enable_events": enable_events,
-                    "mcp_servers": mcp_servers,
                     "metadata": metadata,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
-                    "webhook": webhook,
                 },
                 task_run_create_params.TaskRunCreateParams,
             ),
@@ -523,20 +449,17 @@ class AsyncTaskRunResource(AsyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> TaskRunResultResponse:
+    ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
         Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -547,27 +470,18 @@ class AsyncTaskRunResource(AsyncAPIResource):
         """
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
-        extra_headers = {
-            **strip_not_given({"parallel-beta": ",".join(str(e) for e in betas) if is_given(betas) else not_given}),
-            **(extra_headers or {}),
-        }
-        return cast(
-            TaskRunResultResponse,
-            await self._get(
-                f"/v1/tasks/runs/{run_id}/result",
-                options=make_request_options(
-                    extra_headers=extra_headers,
-                    extra_query=extra_query,
-                    extra_body=extra_body,
-                    timeout=timeout,
-                    query=await async_maybe_transform(
-                        {"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams
-                    ),
+        return await self._get(
+            f"/v1/tasks/runs/{run_id}/result",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams
                 ),
-                cast_to=cast(
-                    Any, TaskRunResultResponse
-                ),  # Union types cannot be passed in as arguments in the type system
             ),
+            cast_to=TaskRunResult,
         )
 
     async def _wait_for_result(
