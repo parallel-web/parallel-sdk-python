@@ -25,6 +25,8 @@ from .parallel_beta_param import ParallelBetaParam as ParallelBetaParam
 from .beta_run_input_param import BetaRunInputParam as BetaRunInputParam
 from .beta_task_run_result import BetaTaskRunResult as BetaTaskRunResult
 from .excerpt_settings_param import ExcerptSettingsParam as ExcerptSettingsParam
+from .task_run_create_params import TaskRunCreateParams as TaskRunCreateParams
+from .task_run_result_params import TaskRunResultParams as TaskRunResultParams
 from .task_group_run_response import TaskGroupRunResponse as TaskGroupRunResponse
 from .task_group_create_params import TaskGroupCreateParams as TaskGroupCreateParams
 from .task_group_events_params import TaskGroupEventsParams as TaskGroupEventsParams
