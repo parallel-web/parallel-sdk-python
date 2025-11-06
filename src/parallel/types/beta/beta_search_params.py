@@ -7,23 +7,36 @@ from typing_extensions import Literal, Annotated, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
+from .fetch_policy_param import FetchPolicyParam
 from .parallel_beta_param import ParallelBetaParam
+from .excerpt_settings_param import ExcerptSettingsParam
 from ..shared_params.source_policy import SourcePolicy
 
 __all__ = ["BetaSearchParams"]
 
 
 class BetaSearchParams(TypedDict, total=False):
+    excerpts: ExcerptSettingsParam
+    """Optional settings for returning relevant excerpts."""
+
+    fetch_policy: Optional[FetchPolicyParam]
+    """Policy for live fetching web results."""
+
     max_chars_per_result: Optional[int]
-    """
-    Upper bound on the number of characters to include in excerpts for each search
-    result.
-    """
+    """DEPRECATED: Use `excerpts.max_chars_per_result` instead."""
 
     max_results: Optional[int]
     """Upper bound on the number of results to return.
 
     May be limited by the processor. Defaults to 10 if not provided.
+    """
+
+    mode: Optional[Literal["one-shot", "agentic"]]
+    """Presets default values for parameters for different use cases.
+
+    `one-shot` returns more comprehensive results and longer excerpts to answer
+    questions from a single response, while `agentic` returns more concise,
+    token-efficient results for use in an agentic loop.
     """
 
     objective: Optional[str]
@@ -34,7 +47,7 @@ class BetaSearchParams(TypedDict, total=False):
     """
 
     processor: Optional[Literal["base", "pro"]]
-    """Search processor."""
+    """DEPRECATED: use `mode` instead."""
 
     search_queries: Optional[SequenceNotStr[str]]
     """Optional list of traditional keyword search queries to guide the search.

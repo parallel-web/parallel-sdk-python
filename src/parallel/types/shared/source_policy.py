@@ -11,11 +11,15 @@ class SourcePolicy(BaseModel):
     exclude_domains: Optional[List[str]] = None
     """List of domains to exclude from results.
 
-    If specified, sources from these domains will be excluded.
+    If specified, sources from these domains will be excluded. Accepts plain domains
+    (e.g., example.com, subdomain.example.gov) or bare domain extension starting
+    with a period (e.g., .gov, .edu, .co.uk).
     """
 
     include_domains: Optional[List[str]] = None
     """List of domains to restrict the results to.
 
-    If specified, only sources from these domains will be included.
+    If specified, only sources from these domains will be included. Accepts plain
+    domains (e.g., example.com, subdomain.example.gov) or bare domain extension
+    starting with a period (e.g., .gov, .edu, .co.uk).
     """

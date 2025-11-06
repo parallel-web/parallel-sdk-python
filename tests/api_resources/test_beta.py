@@ -9,7 +9,10 @@ import pytest
 
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
-from parallel.types.beta import SearchResult, ExtractResponse
+from parallel.types.beta import (
+    SearchResult,
+    ExtractResponse,
+)
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -31,8 +34,8 @@ class TestBeta:
             excerpts=True,
             fetch_policy={
                 "disable_cache_fallback": True,
-                "max_age_seconds": 0,
-                "timeout_seconds": 0,
+                "max_age_seconds": 86400,
+                "timeout_seconds": 60,
             },
             full_content=True,
             objective="objective",
@@ -73,14 +76,21 @@ class TestBeta:
     @parametrize
     def test_method_search_with_all_params(self, client: Parallel) -> None:
         beta = client.beta.search(
+            excerpts={"max_chars_per_result": 0},
+            fetch_policy={
+                "disable_cache_fallback": True,
+                "max_age_seconds": 86400,
+                "timeout_seconds": 60,
+            },
             max_chars_per_result=0,
             max_results=0,
+            mode="one-shot",
             objective="objective",
             processor="base",
             search_queries=["string"],
             source_policy={
-                "exclude_domains": ["reddit.com", "x.com"],
-                "include_domains": ["wikipedia.org", "usa.gov"],
+                "exclude_domains": ["reddit.com", "x.com", ".ai"],
+                "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
             betas=["mcp-server-2025-07-17"],
         )
@@ -126,8 +136,8 @@ class TestAsyncBeta:
             excerpts=True,
             fetch_policy={
                 "disable_cache_fallback": True,
-                "max_age_seconds": 0,
-                "timeout_seconds": 0,
+                "max_age_seconds": 86400,
+                "timeout_seconds": 60,
             },
             full_content=True,
             objective="objective",
@@ -168,14 +178,21 @@ class TestAsyncBeta:
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncParallel) -> None:
         beta = await async_client.beta.search(
+            excerpts={"max_chars_per_result": 0},
+            fetch_policy={
+                "disable_cache_fallback": True,
+                "max_age_seconds": 86400,
+                "timeout_seconds": 60,
+            },
             max_chars_per_result=0,
             max_results=0,
+            mode="one-shot",
             objective="objective",
             processor="base",
             search_queries=["string"],
             source_policy={
-                "exclude_domains": ["reddit.com", "x.com"],
-                "include_domains": ["wikipedia.org", "usa.gov"],
+                "exclude_domains": ["reddit.com", "x.com", ".ai"],
+                "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
             betas=["mcp-server-2025-07-17"],
         )

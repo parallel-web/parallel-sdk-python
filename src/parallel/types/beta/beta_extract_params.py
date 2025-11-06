@@ -25,11 +25,7 @@ class BetaExtractParams(TypedDict, total=False):
     """
 
     fetch_policy: Optional[FetchPolicyParam]
-    """Fetch policy.
-
-    Determines when to return content from the cache (faster) vs fetching live
-    content (fresher).
-    """
+    """Policy for live fetching web results."""
 
     full_content: FullContent
     """Include full content from each URL.

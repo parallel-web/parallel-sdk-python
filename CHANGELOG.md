@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.3.3 (2025-11-06)
+
+Full Changelog: [v0.3.2...v0.3.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.2...v0.3.3)
+
+### Features
+
+* **api:** add fetch_policy and mode to /v1beta/search ([1d7200a](https://github.com/parallel-web/parallel-sdk-python/commit/1d7200a56264719ea109e352c3ef0a02609495fd))
+
+
+### Bug Fixes
+
+* **api:** add back /v1/tasks/runs?=beta ([bdecee5](https://github.com/parallel-web/parallel-sdk-python/commit/bdecee5bfd3811751c340ef4ac38e76cdf264c29))
+* **api:** Make beta headers optional in /v1beta/extract ([bc9e1c2](https://github.com/parallel-web/parallel-sdk-python/commit/bc9e1c205267203806d09cf52c0a30482fff40b8))
+* **api:** re-add deprecated max_chars_per_result ([e0976a1](https://github.com/parallel-web/parallel-sdk-python/commit/e0976a12f85f88c82d40ee8129963c483d53cf3b))
+* **api:** re-add deprecated processor to /v1beta/extract ([d656151](https://github.com/parallel-web/parallel-sdk-python/commit/d6561513ed508f4337b650269090c55eea00d7f9))
+* **api:** remove full_content from /v1beta/search output ([c13d6db](https://github.com/parallel-web/parallel-sdk-python/commit/c13d6db25c054a91d0a4c0fa0ad09c051cf0a92a))
+* **client:** close streams without requiring full consumption ([e6ba5dc](https://github.com/parallel-web/parallel-sdk-python/commit/e6ba5dc8bb4cc3ad283540e46375e799e5a10cea))
+
+
+### Chores
+
+* **internal/tests:** avoid race condition with implicit client cleanup ([4ec359d](https://github.com/parallel-web/parallel-sdk-python/commit/4ec359dbc78ec6bf64780fcf7499d684205442a8))
+* **internal:** grammar fix (it's -&gt; its) ([fd8a351](https://github.com/parallel-web/parallel-sdk-python/commit/fd8a3518051b452c6e9aff121592c67f60e1be13))
+* **lint:** reorder imports ([901e4f1](https://github.com/parallel-web/parallel-sdk-python/commit/901e4f1a5597a662764ce9d4a890d3075f484984))
+
 ## 0.3.2 (2025-10-22)
 
 Full Changelog: [v0.3.1...v0.3.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.1...v0.3.2)

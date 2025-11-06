@@ -40,6 +40,7 @@ from ...types.beta.search_result import SearchResult
 from ...types.beta.extract_response import ExtractResponse
 from ...types.beta.fetch_policy_param import FetchPolicyParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
+from ...types.beta.excerpt_settings_param import ExcerptSettingsParam
 from ...types.shared_params.source_policy import SourcePolicy
 
 __all__ = ["BetaResource", "AsyncBetaResource"]
@@ -101,10 +102,7 @@ class BetaResource(SyncAPIResource):
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
 
-          fetch_policy: Fetch policy.
-
-              Determines when to return content from the cache (faster) vs fetching live
-              content (fresher).
+          fetch_policy: Policy for live fetching web results.
 
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
@@ -156,8 +154,11 @@ class BetaResource(SyncAPIResource):
     def search(
         self,
         *,
+        excerpts: ExcerptSettingsParam | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -173,18 +174,29 @@ class BetaResource(SyncAPIResource):
         """
         Searches the web.
 
+        To access this endpoint, pass the `parallel-beta` header with the value
+        `search-extract-2025-10-10`.
+
         Args:
-          max_chars_per_result: Upper bound on the number of characters to include in excerpts for each search
-              result.
+          excerpts: Optional settings for returning relevant excerpts.
+
+          fetch_policy: Policy for live fetching web results.
+
+          max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
+
+          mode: Presets default values for parameters for different use cases. `one-shot`
+              returns more comprehensive results and longer excerpts to answer questions from
+              a single response, while `agentic` returns more concise, token-efficient results
+              for use in an agentic loop.
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
 
-          processor: Search processor.
+          processor: DEPRECATED: use `mode` instead.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -219,8 +231,11 @@ class BetaResource(SyncAPIResource):
             "/v1beta/search",
             body=maybe_transform(
                 {
+                    "excerpts": excerpts,
+                    "fetch_policy": fetch_policy,
                     "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
+                    "mode": mode,
                     "objective": objective,
                     "processor": processor,
                     "search_queries": search_queries,
@@ -291,10 +306,7 @@ class AsyncBetaResource(AsyncAPIResource):
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
 
-          fetch_policy: Fetch policy.
-
-              Determines when to return content from the cache (faster) vs fetching live
-              content (fresher).
+          fetch_policy: Policy for live fetching web results.
 
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
@@ -346,8 +358,11 @@ class AsyncBetaResource(AsyncAPIResource):
     async def search(
         self,
         *,
+        excerpts: ExcerptSettingsParam | Omit = omit,
+        fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -363,18 +378,29 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         Searches the web.
 
+        To access this endpoint, pass the `parallel-beta` header with the value
+        `search-extract-2025-10-10`.
+
         Args:
-          max_chars_per_result: Upper bound on the number of characters to include in excerpts for each search
-              result.
+          excerpts: Optional settings for returning relevant excerpts.
+
+          fetch_policy: Policy for live fetching web results.
+
+          max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
+
+          mode: Presets default values for parameters for different use cases. `one-shot`
+              returns more comprehensive results and longer excerpts to answer questions from
+              a single response, while `agentic` returns more concise, token-efficient results
+              for use in an agentic loop.
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
 
-          processor: Search processor.
+          processor: DEPRECATED: use `mode` instead.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -409,8 +435,11 @@ class AsyncBetaResource(AsyncAPIResource):
             "/v1beta/search",
             body=await async_maybe_transform(
                 {
+                    "excerpts": excerpts,
+                    "fetch_policy": fetch_policy,
                     "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
+                    "mode": mode,
                     "objective": objective,
                     "processor": processor,
                     "search_queries": search_queries,
