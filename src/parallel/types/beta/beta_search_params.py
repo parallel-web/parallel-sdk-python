@@ -28,11 +28,7 @@ class BetaSearchParams(TypedDict, total=False):
     """
 
     max_chars_per_result: Optional[int]
-    """Optional upper bound on the total number of characters to include per url.
-
-    Excerpts may contain fewer characters than this limit to maximize relevance and
-    token efficiency.
-    """
+    """DEPRECATED - Use excerpts.max_chars_per_result."""
 
     max_results: Optional[int]
     """Upper bound on the number of results to return.
@@ -54,6 +50,9 @@ class BetaSearchParams(TypedDict, total=False):
     May include guidance about preferred sources or freshness. At least one of
     objective or search_queries must be provided.
     """
+
+    processor: Optional[Literal["base", "pro"]]
+    """DEPRECATED - Use mode."""
 
     search_queries: Optional[SequenceNotStr[str]]
     """Optional list of traditional keyword search queries to guide the search.
