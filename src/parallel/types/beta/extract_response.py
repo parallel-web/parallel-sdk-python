@@ -1,10 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import List
+from typing import List, Optional
 
 from ..._models import BaseModel
+from .usage_item import UsageItem
 from .extract_error import ExtractError
 from .extract_result import ExtractResult
+from ..shared.warning import Warning
 
 __all__ = ["ExtractResponse"]
 
@@ -18,3 +20,9 @@ class ExtractResponse(BaseModel):
 
     results: List[ExtractResult]
     """Successful extract results."""
+
+    usage: Optional[List[UsageItem]] = None
+    """Usage metrics for the extract request."""
+
+    warnings: Optional[List[Warning]] = None
+    """Warnings for the extract request, if any."""

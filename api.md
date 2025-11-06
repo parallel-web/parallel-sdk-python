@@ -42,6 +42,7 @@ from parallel.types.beta import (
     ExtractResult,
     FetchPolicy,
     SearchResult,
+    UsageItem,
     WebSearchResult,
 )
 ```
