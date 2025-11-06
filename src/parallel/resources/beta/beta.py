@@ -154,6 +154,7 @@ class BetaResource(SyncAPIResource):
         *,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -181,6 +182,10 @@ class BetaResource(SyncAPIResource):
               Determines when to return cached content from the index (faster) vs fetching
               live content (fresher). The default policy for search uses cached results only,
               while extract uses a dynamic policy based on the search objective and url.
+
+          max_chars_per_result: Optional upper bound on the total number of characters to include per url.
+              Excerpts may contain fewer characters than this limit to maximize relevance and
+              token efficiency.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -229,6 +234,7 @@ class BetaResource(SyncAPIResource):
                 {
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
                     "mode": mode,
                     "objective": objective,
@@ -352,6 +358,7 @@ class AsyncBetaResource(AsyncAPIResource):
         *,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -379,6 +386,10 @@ class AsyncBetaResource(AsyncAPIResource):
               Determines when to return cached content from the index (faster) vs fetching
               live content (fresher). The default policy for search uses cached results only,
               while extract uses a dynamic policy based on the search objective and url.
+
+          max_chars_per_result: Optional upper bound on the total number of characters to include per url.
+              Excerpts may contain fewer characters than this limit to maximize relevance and
+              token efficiency.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -427,6 +438,7 @@ class AsyncBetaResource(AsyncAPIResource):
                 {
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
                     "mode": mode,
                     "objective": objective,

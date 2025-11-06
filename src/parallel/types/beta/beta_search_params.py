@@ -27,6 +27,13 @@ class BetaSearchParams(TypedDict, total=False):
     while extract uses a dynamic policy based on the search objective and url.
     """
 
+    max_chars_per_result: Optional[int]
+    """Optional upper bound on the total number of characters to include per url.
+
+    Excerpts may contain fewer characters than this limit to maximize relevance and
+    token efficiency.
+    """
+
     max_results: Optional[int]
     """Upper bound on the number of results to return.
 
