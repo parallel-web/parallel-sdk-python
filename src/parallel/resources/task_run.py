@@ -4,8 +4,11 @@ from __future__ import annotations
 
 import time
 from typing import Dict, Type, Union, Optional, overload
+
 import httpx
+
 from parallel.lib._time import prepare_timeout_float
+
 from ..types import task_run_create_params, task_run_result_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
 from .._utils import maybe_transform, async_maybe_transform
@@ -19,6 +22,7 @@ from .._response import (
 )
 from .._base_client import make_request_options
 from ..types.task_run import TaskRun
+from ..types.task_run_result import TaskRunResult
 from ..types.task_spec_param import OutputT, OutputSchema, TaskSpecParam
 from ..lib._parsing._task_spec import build_task_spec_param
 from ..types.parsed_task_run_result import ParsedTaskRunResult
@@ -27,7 +31,6 @@ from ..lib._parsing._task_run_result import (
     wait_for_result_async as _wait_for_result_async,
     task_run_result_parser,
 )
-from ..types.task_run_result import TaskRunResult
 from ..types.shared_params.source_policy import SourcePolicy
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
