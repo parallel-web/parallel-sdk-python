@@ -25,12 +25,7 @@ class BetaExtractParams(TypedDict, total=False):
     """
 
     fetch_policy: Optional[FetchPolicyParam]
-    """Policy for live fetching web results.
-
-    Determines when to return cached content from the index (faster) vs fetching
-    live content (fresher). The default policy for search uses cached results only,
-    while extract uses a dynamic policy based on the search objective and url.
-    """
+    """Policy for live fetching web results."""
 
     full_content: FullContent
     """Include full content from each URL.

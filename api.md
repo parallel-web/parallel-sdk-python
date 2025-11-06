@@ -22,6 +22,7 @@ from parallel.types import (
     TaskRunTextOutput,
     TaskSpec,
     TextSchema,
+    TaskRunResultResponse,
 )
 ```
 
@@ -29,7 +30,7 @@ Methods:
 
 - <code title="post /v1/tasks/runs">client.task_run.<a href="./src/parallel/resources/task_run.py">create</a>(\*\*<a href="src/parallel/types/task_run_create_params.py">params</a>) -> <a href="./src/parallel/types/task_run.py">TaskRun</a></code>
 - <code title="get /v1/tasks/runs/{run_id}">client.task_run.<a href="./src/parallel/resources/task_run.py">retrieve</a>(run_id) -> <a href="./src/parallel/types/task_run.py">TaskRun</a></code>
-- <code title="get /v1/tasks/runs/{run_id}/result">client.task_run.<a href="./src/parallel/resources/task_run.py">result</a>(run_id, \*\*<a href="src/parallel/types/task_run_result_params.py">params</a>) -> <a href="./src/parallel/types/task_run_result.py">TaskRunResult</a></code>
+- <code title="get /v1/tasks/runs/{run_id}/result">client.task_run.<a href="./src/parallel/resources/task_run.py">result</a>(run_id, \*\*<a href="src/parallel/types/task_run_result_params.py">params</a>) -> <a href="./src/parallel/types/task_run_result_response.py">TaskRunResultResponse</a></code>
 
 Convenience methods:
 
@@ -77,9 +78,7 @@ from parallel.types.beta import (
 
 Methods:
 
-- <code title="post /v1/tasks/runs?beta=true">client.beta.task_run.<a href="./src/parallel/resources/beta/task_run.py">create</a>(\*\*<a href="src/parallel/types/beta/task_run_create_params.py">params</a>) -> <a href="./src/parallel/types/task_run.py">TaskRun</a></code>
 - <code title="get /v1beta/tasks/runs/{run_id}/events">client.beta.task_run.<a href="./src/parallel/resources/beta/task_run.py">events</a>(run_id) -> <a href="./src/parallel/types/beta/task_run_events_response.py">TaskRunEventsResponse</a></code>
-- <code title="get /v1/tasks/runs/{run_id}/result?beta=true">client.beta.task_run.<a href="./src/parallel/resources/beta/task_run.py">result</a>(run_id, \*\*<a href="src/parallel/types/beta/task_run_result_params.py">params</a>) -> <a href="./src/parallel/types/beta/beta_task_run_result.py">BetaTaskRunResult</a></code>
 
 ## TaskGroup
 

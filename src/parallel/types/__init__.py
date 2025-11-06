@@ -25,3 +25,4 @@ from .task_run_text_output import TaskRunTextOutput as TaskRunTextOutput
 from .parsed_task_run_result import ParsedTaskRunResult as ParsedTaskRunResult
 from .task_run_create_params import TaskRunCreateParams as TaskRunCreateParams
 from .task_run_result_params import TaskRunResultParams as TaskRunResultParams
+from .task_run_result_response import TaskRunResultResponse as TaskRunResultResponse

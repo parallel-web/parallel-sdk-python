@@ -104,10 +104,6 @@ class BetaResource(SyncAPIResource):
 
           fetch_policy: Policy for live fetching web results.
 
-              Determines when to return cached content from the index (faster) vs fetching
-              live content (fresher). The default policy for search uses cached results only,
-              while extract uses a dynamic policy based on the search objective and url.
-
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
 
@@ -186,11 +182,7 @@ class BetaResource(SyncAPIResource):
 
           fetch_policy: Policy for live fetching web results.
 
-              Determines when to return cached content from the index (faster) vs fetching
-              live content (fresher). The default policy for search uses cached results only,
-              while extract uses a dynamic policy based on the search objective and url.
-
-          max_chars_per_result: DEPRECATED - Use excerpts.max_chars_per_result.
+          max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -204,7 +196,7 @@ class BetaResource(SyncAPIResource):
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
 
-          processor: DEPRECATED - Use mode.
+          processor: DEPRECATED: use `mode` instead.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -316,10 +308,6 @@ class AsyncBetaResource(AsyncAPIResource):
 
           fetch_policy: Policy for live fetching web results.
 
-              Determines when to return cached content from the index (faster) vs fetching
-              live content (fresher). The default policy for search uses cached results only,
-              while extract uses a dynamic policy based on the search objective and url.
-
           full_content: Include full content from each URL. Note that if neither objective nor
               search_queries is provided, excerpts are redundant with full content.
 
@@ -398,11 +386,7 @@ class AsyncBetaResource(AsyncAPIResource):
 
           fetch_policy: Policy for live fetching web results.
 
-              Determines when to return cached content from the index (faster) vs fetching
-              live content (fresher). The default policy for search uses cached results only,
-              while extract uses a dynamic policy based on the search objective and url.
-
-          max_chars_per_result: DEPRECATED - Use excerpts.max_chars_per_result.
+          max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -416,7 +400,7 @@ class AsyncBetaResource(AsyncAPIResource):
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
 
-          processor: DEPRECATED - Use mode.
+          processor: DEPRECATED: use `mode` instead.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
