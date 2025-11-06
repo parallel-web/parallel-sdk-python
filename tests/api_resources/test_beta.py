@@ -89,6 +89,7 @@ class TestBeta:
             max_results=0,
             mode="one-shot",
             objective="objective",
+            processor="base",
             search_queries=["string"],
             source_policy={
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -193,6 +194,7 @@ class TestAsyncBeta:
             max_results=0,
             mode="one-shot",
             objective="objective",
+            processor="base",
             search_queries=["string"],
             source_policy={
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],

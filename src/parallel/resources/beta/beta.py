@@ -158,6 +158,7 @@ class BetaResource(SyncAPIResource):
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
+        processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -183,9 +184,7 @@ class BetaResource(SyncAPIResource):
               live content (fresher). The default policy for search uses cached results only,
               while extract uses a dynamic policy based on the search objective and url.
 
-          max_chars_per_result: Optional upper bound on the total number of characters to include per url.
-              Excerpts may contain fewer characters than this limit to maximize relevance and
-              token efficiency.
+          max_chars_per_result: DEPRECATED - Use excerpts.max_chars_per_result.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -198,6 +197,8 @@ class BetaResource(SyncAPIResource):
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
+
+          processor: DEPRECATED - Use mode.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -238,6 +239,7 @@ class BetaResource(SyncAPIResource):
                     "max_results": max_results,
                     "mode": mode,
                     "objective": objective,
+                    "processor": processor,
                     "search_queries": search_queries,
                     "source_policy": source_policy,
                 },
@@ -362,6 +364,7 @@ class AsyncBetaResource(AsyncAPIResource):
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
+        processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -387,9 +390,7 @@ class AsyncBetaResource(AsyncAPIResource):
               live content (fresher). The default policy for search uses cached results only,
               while extract uses a dynamic policy based on the search objective and url.
 
-          max_chars_per_result: Optional upper bound on the total number of characters to include per url.
-              Excerpts may contain fewer characters than this limit to maximize relevance and
-              token efficiency.
+          max_chars_per_result: DEPRECATED - Use excerpts.max_chars_per_result.
 
           max_results: Upper bound on the number of results to return. May be limited by the processor.
               Defaults to 10 if not provided.
@@ -402,6 +403,8 @@ class AsyncBetaResource(AsyncAPIResource):
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
               or search_queries must be provided.
+
+          processor: DEPRECATED - Use mode.
 
           search_queries: Optional list of traditional keyword search queries to guide the search. May
               contain search operators. At least one of objective or search_queries must be
@@ -442,6 +445,7 @@ class AsyncBetaResource(AsyncAPIResource):
                     "max_results": max_results,
                     "mode": mode,
                     "objective": objective,
+                    "processor": processor,
                     "search_queries": search_queries,
                     "source_policy": source_policy,
                 },
