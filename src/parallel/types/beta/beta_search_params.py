@@ -20,15 +20,10 @@ class BetaSearchParams(TypedDict, total=False):
     """Optional settings for returning relevant excerpts."""
 
     fetch_policy: Optional[FetchPolicyParam]
-    """Policy for live fetching web results.
-
-    Determines when to return cached content from the index (faster) vs fetching
-    live content (fresher). The default policy for search uses cached results only,
-    while extract uses a dynamic policy based on the search objective and url.
-    """
+    """Policy for live fetching web results."""
 
     max_chars_per_result: Optional[int]
-    """DEPRECATED - Use excerpts.max_chars_per_result."""
+    """DEPRECATED: Use `excerpts.max_chars_per_result` instead."""
 
     max_results: Optional[int]
     """Upper bound on the number of results to return.
@@ -52,7 +47,7 @@ class BetaSearchParams(TypedDict, total=False):
     """
 
     processor: Optional[Literal["base", "pro"]]
-    """DEPRECATED - Use mode."""
+    """DEPRECATED: use `mode` instead."""
 
     search_queries: Optional[SequenceNotStr[str]]
     """Optional list of traditional keyword search queries to guide the search.

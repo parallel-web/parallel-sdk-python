@@ -2,10 +2,14 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
-from typing_extensions import Required, TypedDict
+from typing import Dict, List, Union, Iterable, Optional
+from typing_extensions import Required, Annotated, TypedDict
 
+from .._utils import PropertyInfo
 from .task_spec_param import TaskSpecParam
+from .beta.webhook_param import WebhookParam
+from .beta.mcp_server_param import McpServerParam
+from .beta.parallel_beta_param import ParallelBetaParam
 from .shared_params.source_policy import SourcePolicy
 
 __all__ = ["TaskRunCreateParams"]
@@ -17,6 +21,25 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     processor: Required[str]
     """Processor to use for the task."""
+
+    enable_events: Optional[bool]
+    """Controls tracking of task run execution progress.
+
+    When set to true, progress events are recorded and can be accessed via the
+    [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
+    false, no progress events are tracked. Note that progress tracking cannot be
+    enabled after a run has been created. The flag is set to true by default for
+    premium processors (pro and above). To enable this feature in your requests,
+    specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
+    (for API calls) or `betas` param (for the SDKs).
+    """
+
+    mcp_servers: Optional[Iterable[McpServerParam]]
+    """
+    Optional list of MCP servers to use for the run. To enable this feature in your
+    requests, specify `mcp-server-2025-07-17` as one of the values in
+    `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
+    """
 
     metadata: Optional[Dict[str, Union[str, float, bool]]]
     """User-provided metadata stored with the run.
@@ -39,3 +62,9 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     For convenience bare strings are also accepted as input or output schemas.
     """
+
+    webhook: Optional[WebhookParam]
+    """Webhooks for Task Runs."""
+
+    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
+    """Optional header to specify the beta version(s) to enable."""

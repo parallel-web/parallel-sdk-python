@@ -14,9 +14,6 @@ class WebSearchResult(BaseModel):
     excerpts: Optional[List[str]] = None
     """Relevant excerpted content from the URL, formatted as markdown."""
 
-    full_content: Optional[str] = None
-    """Full content from the URL formatted as markdown, if requested."""
-
     publish_date: Optional[str] = None
     """Publish date of the webpage in YYYY-MM-DD format, if available."""
 
