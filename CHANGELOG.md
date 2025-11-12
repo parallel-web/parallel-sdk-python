@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.3.4 (2025-11-12)
+
+Full Changelog: [v0.3.3...v0.3.4](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.3...v0.3.4)
+
+### Features
+
+* **api:** FindAll sdk updates ([e07fd1e](https://github.com/parallel-web/parallel-sdk-python/commit/e07fd1e75f5562f471454d5ab4d7ecb4334f42ad))
+* **api:** manual updates ([f9957bf](https://github.com/parallel-web/parallel-sdk-python/commit/f9957bf3721b8efe0138c8f8bd96a929419087a1))
+
+
+### Bug Fixes
+
+* compat with Python 3.14 ([a63f4ee](https://github.com/parallel-web/parallel-sdk-python/commit/a63f4eeeb7d7193765d4dbcac1781e67615a5580))
+* **compat:** update signatures of `model_dump` and `model_dump_json` for Pydantic v1 ([cf9de5f](https://github.com/parallel-web/parallel-sdk-python/commit/cf9de5f7a8c1f6e026c441b24aad6e5712d7845b))
+
+
+### Chores
+
+* **package:** drop Python 3.8 support ([ba0bf24](https://github.com/parallel-web/parallel-sdk-python/commit/ba0bf24b6476e341fc497a70e6fdfb890b0923a4))
+
 ## 0.3.3 (2025-11-06)
 
 Full Changelog: [v0.3.2...v0.3.3](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.2...v0.3.3)
