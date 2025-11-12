@@ -23,7 +23,6 @@ from .web_search_result import WebSearchResult as WebSearchResult
 from .beta_search_params import BetaSearchParams as BetaSearchParams
 from .fetch_policy_param import FetchPolicyParam as FetchPolicyParam
 from .findall_run_result import FindallRunResult as FindallRunResult
-from .ingest_input_param import IngestInputParam as IngestInputParam
 from .beta_extract_params import BetaExtractParams as BetaExtractParams
 from .parallel_beta_param import ParallelBetaParam as ParallelBetaParam
 from .beta_run_input_param import BetaRunInputParam as BetaRunInputParam
@@ -38,7 +37,6 @@ from .excerpt_settings_param import ExcerptSettingsParam as ExcerptSettingsParam
 from .task_run_create_params import TaskRunCreateParams as TaskRunCreateParams
 from .task_run_result_params import TaskRunResultParams as TaskRunResultParams
 from .findall_events_response import FindallEventsResponse as FindallEventsResponse
-from .findall_run_input_param import FindallRunInputParam as FindallRunInputParam
 from .task_group_run_response import TaskGroupRunResponse as TaskGroupRunResponse
 from .findall_run_status_event import FindallRunStatusEvent as FindallRunStatusEvent
 from .task_group_create_params import TaskGroupCreateParams as TaskGroupCreateParams
