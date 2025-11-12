@@ -23,7 +23,7 @@ class TestFindall:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create_overload_1(self, client: Parallel) -> None:
+    def test_method_create(self, client: Parallel) -> None:
         findall = client.beta.findall.create(
             entity_type="entity_type",
             generator="base",
@@ -39,7 +39,7 @@ class TestFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params_overload_1(self, client: Parallel) -> None:
+    def test_method_create_with_all_params(self, client: Parallel) -> None:
         findall = client.beta.findall.create(
             entity_type="entity_type",
             generator="base",
@@ -67,7 +67,7 @@ class TestFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    def test_raw_response_create_overload_1(self, client: Parallel) -> None:
+    def test_raw_response_create(self, client: Parallel) -> None:
         response = client.beta.findall.with_raw_response.create(
             entity_type="entity_type",
             generator="base",
@@ -87,7 +87,7 @@ class TestFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    def test_streaming_response_create_overload_1(self, client: Parallel) -> None:
+    def test_streaming_response_create(self, client: Parallel) -> None:
         with client.beta.findall.with_streaming_response.create(
             entity_type="entity_type",
             generator="base",
@@ -99,104 +99,6 @@ class TestFindall:
             ],
             match_limit=0,
             objective="objective",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            findall = response.parse()
-            assert_matches_type(FindallRun, findall, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_method_create_overload_2(self, client: Parallel) -> None:
-        findall = client.beta.findall.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-        )
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    def test_method_create_with_all_params_overload_2(self, client: Parallel) -> None:
-        findall = client.beta.findall.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                        "order_direction": "ASC",
-                        "type": "enrichment",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-            candidates=["string"],
-            metadata={"foo": "string"},
-            result_limit=0,
-            updates_webhook={
-                "url": "url",
-                "event_types": ["findall.result"],
-                "secret": "secret",
-            },
-            webhook={
-                "url": "url",
-                "event_types": ["findall.entity.created"],
-                "secret": "secret",
-            },
-            betas=["mcp-server-2025-07-17"],
-        )
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    def test_raw_response_create_overload_2(self, client: Parallel) -> None:
-        response = client.beta.findall.with_raw_response.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        findall = response.parse()
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    def test_streaming_response_create_overload_2(self, client: Parallel) -> None:
-        with client.beta.findall.with_streaming_response.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -499,14 +401,14 @@ class TestFindall:
             )
 
     @parametrize
-    def test_method_ingest_overload_1(self, client: Parallel) -> None:
+    def test_method_ingest(self, client: Parallel) -> None:
         findall = client.beta.findall.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
         )
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    def test_method_ingest_with_all_params_overload_1(self, client: Parallel) -> None:
+    def test_method_ingest_with_all_params(self, client: Parallel) -> None:
         findall = client.beta.findall.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
             betas=["mcp-server-2025-07-17"],
@@ -514,7 +416,7 @@ class TestFindall:
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    def test_raw_response_ingest_overload_1(self, client: Parallel) -> None:
+    def test_raw_response_ingest(self, client: Parallel) -> None:
         response = client.beta.findall.with_raw_response.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
         )
@@ -525,49 +427,9 @@ class TestFindall:
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    def test_streaming_response_ingest_overload_1(self, client: Parallel) -> None:
+    def test_streaming_response_ingest(self, client: Parallel) -> None:
         with client.beta.findall.with_streaming_response.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            findall = response.parse()
-            assert_matches_type(FindallSchema, findall, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    def test_method_ingest_overload_2(self, client: Parallel) -> None:
-        findall = client.beta.findall.ingest(
-            query="query",
-        )
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    def test_method_ingest_with_all_params_overload_2(self, client: Parallel) -> None:
-        findall = client.beta.findall.ingest(
-            query="query",
-            return_evidence_enrichments=True,
-            betas=["mcp-server-2025-07-17"],
-        )
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    def test_raw_response_ingest_overload_2(self, client: Parallel) -> None:
-        response = client.beta.findall.with_raw_response.ingest(
-            query="query",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        findall = response.parse()
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    def test_streaming_response_ingest_overload_2(self, client: Parallel) -> None:
-        with client.beta.findall.with_streaming_response.ingest(
-            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -676,7 +538,7 @@ class TestAsyncFindall:
     )
 
     @parametrize
-    async def test_method_create_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_method_create(self, async_client: AsyncParallel) -> None:
         findall = await async_client.beta.findall.create(
             entity_type="entity_type",
             generator="base",
@@ -692,7 +554,7 @@ class TestAsyncFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncParallel) -> None:
         findall = await async_client.beta.findall.create(
             entity_type="entity_type",
             generator="base",
@@ -720,7 +582,7 @@ class TestAsyncFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    async def test_raw_response_create_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_raw_response_create(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.findall.with_raw_response.create(
             entity_type="entity_type",
             generator="base",
@@ -740,7 +602,7 @@ class TestAsyncFindall:
         assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.findall.with_streaming_response.create(
             entity_type="entity_type",
             generator="base",
@@ -752,104 +614,6 @@ class TestAsyncFindall:
             ],
             match_limit=0,
             objective="objective",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            findall = await response.parse()
-            assert_matches_type(FindallRun, findall, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_create_overload_2(self, async_client: AsyncParallel) -> None:
-        findall = await async_client.beta.findall.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-        )
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    async def test_method_create_with_all_params_overload_2(self, async_client: AsyncParallel) -> None:
-        findall = await async_client.beta.findall.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                        "order_direction": "ASC",
-                        "type": "enrichment",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-            candidates=["string"],
-            metadata={"foo": "string"},
-            result_limit=0,
-            updates_webhook={
-                "url": "url",
-                "event_types": ["findall.result"],
-                "secret": "secret",
-            },
-            webhook={
-                "url": "url",
-                "event_types": ["findall.entity.created"],
-                "secret": "secret",
-            },
-            betas=["mcp-server-2025-07-17"],
-        )
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    async def test_raw_response_create_overload_2(self, async_client: AsyncParallel) -> None:
-        response = await async_client.beta.findall.with_raw_response.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        findall = await response.parse()
-        assert_matches_type(FindallRun, findall, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_create_overload_2(self, async_client: AsyncParallel) -> None:
-        async with async_client.beta.findall.with_streaming_response.create(
-            findall_spec={
-                "columns": [
-                    {
-                        "description": "description",
-                        "name": "name",
-                    }
-                ],
-                "name": "name",
-                "query": "query",
-                "title": "title",
-            },
-            processor="lite",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -1152,14 +916,14 @@ class TestAsyncFindall:
             )
 
     @parametrize
-    async def test_method_ingest_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_method_ingest(self, async_client: AsyncParallel) -> None:
         findall = await async_client.beta.findall.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
         )
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    async def test_method_ingest_with_all_params_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_method_ingest_with_all_params(self, async_client: AsyncParallel) -> None:
         findall = await async_client.beta.findall.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
             betas=["mcp-server-2025-07-17"],
@@ -1167,7 +931,7 @@ class TestAsyncFindall:
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    async def test_raw_response_ingest_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_raw_response_ingest(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.findall.with_raw_response.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
         )
@@ -1178,49 +942,9 @@ class TestAsyncFindall:
         assert_matches_type(FindallSchema, findall, path=["response"])
 
     @parametrize
-    async def test_streaming_response_ingest_overload_1(self, async_client: AsyncParallel) -> None:
+    async def test_streaming_response_ingest(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.findall.with_streaming_response.ingest(
             objective="Find all AI companies that raised Series A funding in 2024",
-        ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            findall = await response.parse()
-            assert_matches_type(FindallSchema, findall, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @parametrize
-    async def test_method_ingest_overload_2(self, async_client: AsyncParallel) -> None:
-        findall = await async_client.beta.findall.ingest(
-            query="query",
-        )
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    async def test_method_ingest_with_all_params_overload_2(self, async_client: AsyncParallel) -> None:
-        findall = await async_client.beta.findall.ingest(
-            query="query",
-            return_evidence_enrichments=True,
-            betas=["mcp-server-2025-07-17"],
-        )
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    async def test_raw_response_ingest_overload_2(self, async_client: AsyncParallel) -> None:
-        response = await async_client.beta.findall.with_raw_response.ingest(
-            query="query",
-        )
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        findall = await response.parse()
-        assert_matches_type(FindallSchema, findall, path=["response"])
-
-    @parametrize
-    async def test_streaming_response_ingest_overload_2(self, async_client: AsyncParallel) -> None:
-        async with async_client.beta.findall.with_streaming_response.ingest(
-            query="query",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

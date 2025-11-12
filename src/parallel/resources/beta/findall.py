@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Union, Iterable, Optional, cast
 from itertools import chain
-from typing_extensions import Literal, overload
+from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
-from ..._utils import is_given, required_args, maybe_transform, strip_not_given, async_maybe_transform
+from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -60,16 +60,15 @@ class FindallResource(SyncAPIResource):
         """
         return FindallResourceWithStreamingResponse(self)
 
-    @overload
     def create(
         self,
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.FindallRunInputMatchCondition],
+        match_conditions: Iterable[findall_create_params.MatchCondition],
         match_limit: int,
         objective: str,
-        exclude_list: Optional[Iterable[findall_create_params.FindallRunInputExcludeList]] | Omit = omit,
+        exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -121,87 +120,6 @@ class FindallResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    def create(
-        self,
-        *,
-        findall_spec: findall_create_params.FindAllRunPayloadFindallSpec,
-        processor: Literal["lite", "base", "pro", "preview"],
-        candidates: SequenceNotStr[str] | Omit = omit,
-        metadata: Dict[str, Union[str, float, bool]] | Omit = omit,
-        result_limit: int | Omit = omit,
-        updates_webhook: Optional[findall_create_params.FindAllRunPayloadUpdatesWebhook] | Omit = omit,
-        webhook: Optional[findall_create_params.FindAllRunPayloadWebhook] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
-        """
-        Starts a FindAll run.
-
-        This endpoint immediately returns a FindAll run object with status set to
-        'queued'. You can get the run result snapshot using the GET
-        /v1beta/findall/runs/{findall_id}/result endpoint. You can track the progress of
-        the run by:
-
-        - Polling the status using the GET /v1beta/findall/runs/{findall_id} endpoint,
-        - Subscribing to real-time updates via the
-          /v1beta/findall/runs/{findall_id}/events endpoint,
-        - Or specifying a webhook with relevant event types during run creation to
-          receive notifications.
-
-        Args:
-          findall_spec: Represents a view in the database with a title.
-
-          updates_webhook: FindAll Webhooks for Clay.
-
-          webhook: Webhooks for FindAll.
-
-          betas: Optional header to specify the beta version(s) to enable.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(
-        ["entity_type", "generator", "match_conditions", "match_limit", "objective"], ["findall_spec", "processor"]
-    )
-    def create(
-        self,
-        *,
-        entity_type: str | Omit = omit,
-        generator: Literal["base", "core", "pro", "preview"] | Omit = omit,
-        match_conditions: Iterable[findall_create_params.FindallRunInputMatchCondition] | Omit = omit,
-        match_limit: int | Omit = omit,
-        objective: str | Omit = omit,
-        exclude_list: Optional[Iterable[findall_create_params.FindallRunInputExcludeList]] | Omit = omit,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | Dict[str, Union[str, float, bool]] | Omit = omit,
-        webhook: Optional[WebhookParam] | Optional[findall_create_params.FindAllRunPayloadWebhook] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        findall_spec: findall_create_params.FindAllRunPayloadFindallSpec | Omit = omit,
-        processor: Literal["lite", "base", "pro", "preview"] | Omit = omit,
-        candidates: SequenceNotStr[str] | Omit = omit,
-        result_limit: int | Omit = omit,
-        updates_webhook: Optional[findall_create_params.FindAllRunPayloadUpdatesWebhook] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
         extra_headers = {
             **strip_not_given(
                 {
@@ -225,11 +143,6 @@ class FindallResource(SyncAPIResource):
                     "exclude_list": exclude_list,
                     "metadata": metadata,
                     "webhook": webhook,
-                    "findall_spec": findall_spec,
-                    "processor": processor,
-                    "candidates": candidates,
-                    "result_limit": result_limit,
-                    "updates_webhook": updates_webhook,
                 },
                 findall_create_params.FindallCreateParams,
             ),
@@ -524,7 +437,6 @@ class FindallResource(SyncAPIResource):
             cast_to=FindallSchema,
         )
 
-    @overload
     def ingest(
         self,
         *,
@@ -558,58 +470,6 @@ class FindallResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    def ingest(
-        self,
-        *,
-        query: str,
-        return_evidence_enrichments: bool | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
-        """
-        Transforms a natural language search objective into a structured FindAll spec.
-
-        Note: Access to this endpoint requires the parallel-beta header.
-
-        The generated specification serves as a suggested starting point and can be
-        further customized by the user.
-
-        Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["objective"], ["query"])
-    def ingest(
-        self,
-        *,
-        objective: str | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        query: str | Omit = omit,
-        return_evidence_enrichments: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
         extra_headers = {
             **strip_not_given(
                 {
@@ -623,14 +483,7 @@ class FindallResource(SyncAPIResource):
         extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
         return self._post(
             "/v1beta/findall/ingest",
-            body=maybe_transform(
-                {
-                    "objective": objective,
-                    "query": query,
-                    "return_evidence_enrichments": return_evidence_enrichments,
-                },
-                findall_ingest_params.FindallIngestParams,
-            ),
+            body=maybe_transform({"objective": objective}, findall_ingest_params.FindallIngestParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -752,16 +605,15 @@ class AsyncFindallResource(AsyncAPIResource):
         """
         return AsyncFindallResourceWithStreamingResponse(self)
 
-    @overload
     async def create(
         self,
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.FindallRunInputMatchCondition],
+        match_conditions: Iterable[findall_create_params.MatchCondition],
         match_limit: int,
         objective: str,
-        exclude_list: Optional[Iterable[findall_create_params.FindallRunInputExcludeList]] | Omit = omit,
+        exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -813,87 +665,6 @@ class AsyncFindallResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    async def create(
-        self,
-        *,
-        findall_spec: findall_create_params.FindAllRunPayloadFindallSpec,
-        processor: Literal["lite", "base", "pro", "preview"],
-        candidates: SequenceNotStr[str] | Omit = omit,
-        metadata: Dict[str, Union[str, float, bool]] | Omit = omit,
-        result_limit: int | Omit = omit,
-        updates_webhook: Optional[findall_create_params.FindAllRunPayloadUpdatesWebhook] | Omit = omit,
-        webhook: Optional[findall_create_params.FindAllRunPayloadWebhook] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
-        """
-        Starts a FindAll run.
-
-        This endpoint immediately returns a FindAll run object with status set to
-        'queued'. You can get the run result snapshot using the GET
-        /v1beta/findall/runs/{findall_id}/result endpoint. You can track the progress of
-        the run by:
-
-        - Polling the status using the GET /v1beta/findall/runs/{findall_id} endpoint,
-        - Subscribing to real-time updates via the
-          /v1beta/findall/runs/{findall_id}/events endpoint,
-        - Or specifying a webhook with relevant event types during run creation to
-          receive notifications.
-
-        Args:
-          findall_spec: Represents a view in the database with a title.
-
-          updates_webhook: FindAll Webhooks for Clay.
-
-          webhook: Webhooks for FindAll.
-
-          betas: Optional header to specify the beta version(s) to enable.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(
-        ["entity_type", "generator", "match_conditions", "match_limit", "objective"], ["findall_spec", "processor"]
-    )
-    async def create(
-        self,
-        *,
-        entity_type: str | Omit = omit,
-        generator: Literal["base", "core", "pro", "preview"] | Omit = omit,
-        match_conditions: Iterable[findall_create_params.FindallRunInputMatchCondition] | Omit = omit,
-        match_limit: int | Omit = omit,
-        objective: str | Omit = omit,
-        exclude_list: Optional[Iterable[findall_create_params.FindallRunInputExcludeList]] | Omit = omit,
-        metadata: Optional[Dict[str, Union[str, float, bool]]] | Dict[str, Union[str, float, bool]] | Omit = omit,
-        webhook: Optional[WebhookParam] | Optional[findall_create_params.FindAllRunPayloadWebhook] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        findall_spec: findall_create_params.FindAllRunPayloadFindallSpec | Omit = omit,
-        processor: Literal["lite", "base", "pro", "preview"] | Omit = omit,
-        candidates: SequenceNotStr[str] | Omit = omit,
-        result_limit: int | Omit = omit,
-        updates_webhook: Optional[findall_create_params.FindAllRunPayloadUpdatesWebhook] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
         extra_headers = {
             **strip_not_given(
                 {
@@ -917,11 +688,6 @@ class AsyncFindallResource(AsyncAPIResource):
                     "exclude_list": exclude_list,
                     "metadata": metadata,
                     "webhook": webhook,
-                    "findall_spec": findall_spec,
-                    "processor": processor,
-                    "candidates": candidates,
-                    "result_limit": result_limit,
-                    "updates_webhook": updates_webhook,
                 },
                 findall_create_params.FindallCreateParams,
             ),
@@ -1216,7 +982,6 @@ class AsyncFindallResource(AsyncAPIResource):
             cast_to=FindallSchema,
         )
 
-    @overload
     async def ingest(
         self,
         *,
@@ -1250,58 +1015,6 @@ class AsyncFindallResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        ...
-
-    @overload
-    async def ingest(
-        self,
-        *,
-        query: str,
-        return_evidence_enrichments: bool | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
-        """
-        Transforms a natural language search objective into a structured FindAll spec.
-
-        Note: Access to this endpoint requires the parallel-beta header.
-
-        The generated specification serves as a suggested starting point and can be
-        further customized by the user.
-
-        Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        ...
-
-    @required_args(["objective"], ["query"])
-    async def ingest(
-        self,
-        *,
-        objective: str | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
-        query: str | Omit = omit,
-        return_evidence_enrichments: bool | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
         extra_headers = {
             **strip_not_given(
                 {
@@ -1315,14 +1028,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
         return await self._post(
             "/v1beta/findall/ingest",
-            body=await async_maybe_transform(
-                {
-                    "objective": objective,
-                    "query": query,
-                    "return_evidence_enrichments": return_evidence_enrichments,
-                },
-                findall_ingest_params.FindallIngestParams,
-            ),
+            body=await async_maybe_transform({"objective": objective}, findall_ingest_params.FindallIngestParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
