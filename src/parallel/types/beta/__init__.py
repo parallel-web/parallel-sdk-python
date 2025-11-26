@@ -42,7 +42,6 @@ from .findall_run_status_event import FindallRunStatusEvent as FindallRunStatusE
 from .task_group_create_params import TaskGroupCreateParams as TaskGroupCreateParams
 from .task_group_events_params import TaskGroupEventsParams as TaskGroupEventsParams
 from .task_run_events_response import TaskRunEventsResponse as TaskRunEventsResponse
-from .findall_retrieve_response import FindallRetrieveResponse as FindallRetrieveResponse
 from .task_group_add_runs_params import TaskGroupAddRunsParams as TaskGroupAddRunsParams
 from .task_group_events_response import TaskGroupEventsResponse as TaskGroupEventsResponse
 from .task_group_get_runs_params import TaskGroupGetRunsParams as TaskGroupGetRunsParams

@@ -19,4 +19,4 @@ class TaskRunResult(BaseModel):
     """Output from the task conforming to the output schema."""
 
     run: TaskRun
-    """Status of a task run."""
+    """Task run object with status 'completed'."""

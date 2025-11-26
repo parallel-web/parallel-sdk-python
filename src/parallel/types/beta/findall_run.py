@@ -21,12 +21,16 @@ class Status(BaseModel):
     """Whether the FindAll run is active"""
 
     metrics: StatusMetrics
-    """Metrics object for FindAll run."""
+    """Candidate metrics for the FindAll run."""
 
     status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
     """Status of the FindAll run."""
 
-    termination_reason: Optional[str] = None
+    termination_reason: Optional[
+        Literal[
+            "low_match_rate", "match_limit_met", "candidates_exhausted", "user_cancelled", "error_occurred", "timeout"
+        ]
+    ] = None
     """Reason for termination when FindAll run is in terminal status."""
 
 
@@ -38,7 +42,7 @@ class FindallRun(BaseModel):
     """Generator for the FindAll run."""
 
     status: Status
-    """Status object for FindAll run."""
+    """Status object for the FindAll run."""
 
     created_at: Optional[str] = None
     """Timestamp of the creation of the run, in RFC 3339 format."""

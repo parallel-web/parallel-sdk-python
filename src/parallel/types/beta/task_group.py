@@ -15,7 +15,7 @@ class TaskGroup(BaseModel):
     """Timestamp of the creation of the group, as an RFC 3339 string."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Status of the group."""
 
     task_group_id: str = FieldInfo(alias="taskgroup_id")
     """ID of the group."""

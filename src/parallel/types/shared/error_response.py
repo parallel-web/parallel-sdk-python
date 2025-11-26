@@ -10,7 +10,7 @@ __all__ = ["ErrorResponse"]
 
 class ErrorResponse(BaseModel):
     error: ErrorObject
-    """An error message."""
+    """Error."""
 
     type: Literal["error"]
     """Always 'error'."""

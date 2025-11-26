@@ -11,7 +11,7 @@ __all__ = ["FindallSchemaUpdatedEvent"]
 
 class FindallSchemaUpdatedEvent(BaseModel):
     data: FindallSchema
-    """Response model for FindAll ingest."""
+    """Updated FindAll schema."""
 
     event_id: str
     """Unique event identifier for the event."""

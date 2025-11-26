@@ -17,7 +17,7 @@ class TaskGroupStatusEvent(BaseModel):
     """Cursor to resume the event stream."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Task group status object."""
 
     type: Literal["task_group_status"]
     """Event type; always 'task_group_status'."""

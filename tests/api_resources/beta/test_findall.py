@@ -13,7 +13,6 @@ from parallel.types.beta import (
     FindallRun,
     FindallSchema,
     FindallRunResult,
-    FindallRetrieveResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -113,7 +112,7 @@ class TestFindall:
         findall = client.beta.findall.retrieve(
             findall_id="findall_id",
         )
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Parallel) -> None:
@@ -121,7 +120,7 @@ class TestFindall:
             findall_id="findall_id",
             betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Parallel) -> None:
@@ -132,7 +131,7 @@ class TestFindall:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         findall = response.parse()
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: Parallel) -> None:
@@ -143,7 +142,7 @@ class TestFindall:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             findall = response.parse()
-            assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+            assert_matches_type(FindallRun, findall, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -628,7 +627,7 @@ class TestAsyncFindall:
         findall = await async_client.beta.findall.retrieve(
             findall_id="findall_id",
         )
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncParallel) -> None:
@@ -636,7 +635,7 @@ class TestAsyncFindall:
             findall_id="findall_id",
             betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncParallel) -> None:
@@ -647,7 +646,7 @@ class TestAsyncFindall:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         findall = await response.parse()
-        assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+        assert_matches_type(FindallRun, findall, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncParallel) -> None:
@@ -658,7 +657,7 @@ class TestAsyncFindall:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             findall = await response.parse()
-            assert_matches_type(FindallRetrieveResponse, findall, path=["response"])
+            assert_matches_type(FindallRun, findall, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

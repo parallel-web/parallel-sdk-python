@@ -11,7 +11,7 @@ __all__ = ["FindallEnrichInput"]
 
 class FindallEnrichInput(BaseModel):
     output_schema: JsonSchema
-    """JSON schema for a task input or output."""
+    """JSON schema for the enrichment output schema for the FindAll run."""
 
     mcp_servers: Optional[List[McpServer]] = None
     """List of MCP servers to use for the task."""

@@ -11,7 +11,7 @@ __all__ = ["FindallRunStatusEvent"]
 
 class FindallRunStatusEvent(BaseModel):
     data: FindallRun
-    """FindAll run object with status and metadata."""
+    """Updated FindAll run information."""
 
     event_id: str
     """Unique event identifier for the event."""

@@ -42,11 +42,7 @@ class Data(BaseModel):
 
 class FindallCandidateMatchStatusEvent(BaseModel):
     data: Data
-    """Candidate for a find all run that may end up as a match.
-
-    Contains all the candidate's metadata and the output of the match conditions. A
-    candidate is a match if all match conditions are satisfied.
-    """
+    """The candidate whose match status has been updated."""
 
     event_id: str
     """Unique event identifier for the event."""

@@ -17,13 +17,16 @@ class FindallCreateParams(TypedDict, total=False):
     """Type of the entity for the FindAll run."""
 
     generator: Required[Literal["base", "core", "pro", "preview"]]
-    """Generator for the FindAll run."""
+    """Generator for the FindAll run. One of base, core, pro, preview."""
 
     match_conditions: Required[Iterable[MatchCondition]]
     """List of match conditions for the FindAll run."""
 
     match_limit: Required[int]
-    """Maximum number of matches to find for this FindAll run."""
+    """Maximum number of matches to find for this FindAll run.
+
+    Must be between 5 and 1000 (inclusive).
+    """
 
     objective: Required[str]
     """Natural language objective of the FindAll run."""

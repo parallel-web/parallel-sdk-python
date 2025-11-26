@@ -15,7 +15,7 @@ __all__ = ["FindallEnrichParams"]
 
 class FindallEnrichParams(TypedDict, total=False):
     output_schema: Required[JsonSchemaParam]
-    """JSON schema for a task input or output."""
+    """JSON schema for the enrichment output schema for the FindAll run."""
 
     mcp_servers: Optional[Iterable[McpServerParam]]
     """List of MCP servers to use for the task."""
