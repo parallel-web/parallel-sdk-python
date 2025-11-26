@@ -45,7 +45,7 @@ class FindallRunResult(BaseModel):
     """All evaluated candidates at the time of the snapshot."""
 
     run: FindallRun
-    """FindAll run object with status and metadata."""
+    """FindAll run object."""
 
     last_event_id: Optional[str] = None
     """ID of the last event of the run at the time of the request.

@@ -20,7 +20,7 @@ class TaskRunEvent(BaseModel):
     """Cursor to resume the event stream. Always empty for non Task Group runs."""
 
     run: TaskRun
-    """Status of a task run."""
+    """Task run object."""
 
     type: Literal["task_run.state"]
     """Event type; always 'task_run.state'."""

@@ -35,7 +35,6 @@ from ...types.beta.mcp_server_param import McpServerParam
 from ...types.beta.findall_run_result import FindallRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.findall_events_response import FindallEventsResponse
-from ...types.beta.findall_retrieve_response import FindallRetrieveResponse
 
 __all__ = ["FindallResource", "AsyncFindallResource"]
 
@@ -96,11 +95,12 @@ class FindallResource(SyncAPIResource):
         Args:
           entity_type: Type of the entity for the FindAll run.
 
-          generator: Generator for the FindAll run.
+          generator: Generator for the FindAll run. One of base, core, pro, preview.
 
           match_conditions: List of match conditions for the FindAll run.
 
-          match_limit: Maximum number of matches to find for this FindAll run.
+          match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
+              1000 (inclusive).
 
           objective: Natural language objective of the FindAll run.
 
@@ -163,7 +163,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRetrieveResponse:
+    ) -> FindallRun:
         """
         Retrieve a FindAll run.
 
@@ -191,17 +191,12 @@ class FindallResource(SyncAPIResource):
             **(extra_headers or {}),
         }
         extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
-        return cast(
-            FindallRetrieveResponse,
-            self._get(
-                f"/v1beta/findall/runs/{findall_id}",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, FindallRetrieveResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return self._get(
+            f"/v1beta/findall/runs/{findall_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=FindallRun,
         )
 
     def cancel(
@@ -270,7 +265,7 @@ class FindallResource(SyncAPIResource):
         Add an enrichment to a FindAll run.
 
         Args:
-          output_schema: JSON schema for a task input or output.
+          output_schema: JSON schema for the enrichment output schema for the FindAll run.
 
           mcp_servers: List of MCP servers to use for the task.
 
@@ -641,11 +636,12 @@ class AsyncFindallResource(AsyncAPIResource):
         Args:
           entity_type: Type of the entity for the FindAll run.
 
-          generator: Generator for the FindAll run.
+          generator: Generator for the FindAll run. One of base, core, pro, preview.
 
           match_conditions: List of match conditions for the FindAll run.
 
-          match_limit: Maximum number of matches to find for this FindAll run.
+          match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
+              1000 (inclusive).
 
           objective: Natural language objective of the FindAll run.
 
@@ -708,7 +704,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRetrieveResponse:
+    ) -> FindallRun:
         """
         Retrieve a FindAll run.
 
@@ -736,17 +732,12 @@ class AsyncFindallResource(AsyncAPIResource):
             **(extra_headers or {}),
         }
         extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
-        return cast(
-            FindallRetrieveResponse,
-            await self._get(
-                f"/v1beta/findall/runs/{findall_id}",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, FindallRetrieveResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return await self._get(
+            f"/v1beta/findall/runs/{findall_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=FindallRun,
         )
 
     async def cancel(
@@ -815,7 +806,7 @@ class AsyncFindallResource(AsyncAPIResource):
         Add an enrichment to a FindAll run.
 
         Args:
-          output_schema: JSON schema for a task input or output.
+          output_schema: JSON schema for the enrichment output schema for the FindAll run.
 
           mcp_servers: List of MCP servers to use for the task.
 

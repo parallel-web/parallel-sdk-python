@@ -24,6 +24,7 @@ class TestBeta:
     def test_method_extract(self, client: Parallel) -> None:
         beta = client.beta.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
 
@@ -31,6 +32,7 @@ class TestBeta:
     def test_method_extract_with_all_params(self, client: Parallel) -> None:
         beta = client.beta.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
             excerpts=True,
             fetch_policy={
                 "disable_cache_fallback": True,
@@ -40,7 +42,6 @@ class TestBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
-            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
 
@@ -48,6 +49,7 @@ class TestBeta:
     def test_raw_response_extract(self, client: Parallel) -> None:
         response = client.beta.with_raw_response.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         )
 
         assert response.is_closed is True
@@ -59,6 +61,7 @@ class TestBeta:
     def test_streaming_response_extract(self, client: Parallel) -> None:
         with client.beta.with_streaming_response.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -76,7 +79,10 @@ class TestBeta:
     @parametrize
     def test_method_search_with_all_params(self, client: Parallel) -> None:
         beta = client.beta.search(
-            excerpts={"max_chars_per_result": 0},
+            excerpts={
+                "max_chars_per_result": 0,
+                "max_chars_total": 0,
+            },
             fetch_policy={
                 "disable_cache_fallback": True,
                 "max_age_seconds": 86400,
@@ -126,6 +132,7 @@ class TestAsyncBeta:
     async def test_method_extract(self, async_client: AsyncParallel) -> None:
         beta = await async_client.beta.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
 
@@ -133,6 +140,7 @@ class TestAsyncBeta:
     async def test_method_extract_with_all_params(self, async_client: AsyncParallel) -> None:
         beta = await async_client.beta.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
             excerpts=True,
             fetch_policy={
                 "disable_cache_fallback": True,
@@ -142,7 +150,6 @@ class TestAsyncBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
-            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
 
@@ -150,6 +157,7 @@ class TestAsyncBeta:
     async def test_raw_response_extract(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.with_raw_response.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         )
 
         assert response.is_closed is True
@@ -161,6 +169,7 @@ class TestAsyncBeta:
     async def test_streaming_response_extract(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.with_streaming_response.extract(
             urls=["string"],
+            betas=["mcp-server-2025-07-17"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -178,7 +187,10 @@ class TestAsyncBeta:
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncParallel) -> None:
         beta = await async_client.beta.search(
-            excerpts={"max_chars_per_result": 0},
+            excerpts={
+                "max_chars_per_result": 0,
+                "max_chars_total": 0,
+            },
             fetch_policy={
                 "disable_cache_fallback": True,
                 "max_age_seconds": 86400,

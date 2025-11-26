@@ -11,7 +11,11 @@ __all__ = ["TaskRunJsonOutput"]
 
 class TaskRunJsonOutput(BaseModel):
     basis: List[FieldBasis]
-    """Basis for each top-level field in the JSON output."""
+    """Basis for each top-level field in the JSON output.
+
+    Per-list-element basis entries are available only when the
+    `parallel-beta: field-basis-2025-11-25` header is supplied.
+    """
 
     content: Dict[str, object]
     """

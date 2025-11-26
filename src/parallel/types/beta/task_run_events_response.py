@@ -35,7 +35,7 @@ class TaskRunProgressStatsEvent(BaseModel):
     """
 
     source_stats: TaskRunProgressStatsEventSourceStats
-    """Source stats for a task run."""
+    """Source stats describing progress so far."""
 
     type: Literal["task_run.progress_stats"]
     """Event type; always 'task_run.progress_stats'."""

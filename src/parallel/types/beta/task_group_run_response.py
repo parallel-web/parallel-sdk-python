@@ -27,4 +27,4 @@ class TaskGroupRunResponse(BaseModel):
     """IDs of the newly created runs."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Status of the group."""
