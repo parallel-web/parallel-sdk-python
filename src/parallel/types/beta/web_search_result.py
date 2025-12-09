@@ -8,6 +8,8 @@ __all__ = ["WebSearchResult"]
 
 
 class WebSearchResult(BaseModel):
+    """A single search result from the web search API."""
+
     url: str
     """URL associated with the search result."""
 

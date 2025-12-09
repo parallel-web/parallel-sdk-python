@@ -6,6 +6,8 @@ __all__ = ["UsageItem"]
 
 
 class UsageItem(BaseModel):
+    """Usage item for a single operation."""
+
     count: int
     """Count of the SKU."""
 

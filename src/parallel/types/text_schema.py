@@ -9,6 +9,8 @@ __all__ = ["TextSchema"]
 
 
 class TextSchema(BaseModel):
+    """Text description for a task input or output."""
+
     description: Optional[str] = None
     """A text description of the desired output from the task."""
 

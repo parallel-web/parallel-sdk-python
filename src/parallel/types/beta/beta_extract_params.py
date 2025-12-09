@@ -48,6 +48,8 @@ Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
 
 
 class FullContentFullContentSettings(TypedDict, total=False):
+    """Optional settings for returning full content."""
+
     max_chars_per_result: Optional[int]
     """
     Optional limit on the number of characters to include in the full content for

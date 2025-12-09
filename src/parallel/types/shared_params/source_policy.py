@@ -10,6 +10,11 @@ __all__ = ["SourcePolicy"]
 
 
 class SourcePolicy(TypedDict, total=False):
+    """Source policy for web search results.
+
+    This policy governs which sources are allowed/disallowed in results.
+    """
+
     exclude_domains: SequenceNotStr[str]
     """List of domains to exclude from results.
 

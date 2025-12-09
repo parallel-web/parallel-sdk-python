@@ -9,6 +9,8 @@ __all__ = ["TextSchemaParam"]
 
 
 class TextSchemaParam(TypedDict, total=False):
+    """Text description for a task input or output."""
+
     description: Optional[str]
     """A text description of the desired output from the task."""
 

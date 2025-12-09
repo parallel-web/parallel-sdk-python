@@ -8,6 +8,8 @@ __all__ = ["TaskGroupStatus"]
 
 
 class TaskGroupStatus(BaseModel):
+    """Status of a task group."""
+
     is_active: bool
     """True if at least one run in the group is currently active, i.e.
 

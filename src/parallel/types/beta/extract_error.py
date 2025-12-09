@@ -8,6 +8,8 @@ __all__ = ["ExtractError"]
 
 
 class ExtractError(BaseModel):
+    """Extract error details."""
+
     content: Optional[str] = None
     """Content returned for http client or server errors, if any."""
 

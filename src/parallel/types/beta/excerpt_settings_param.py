@@ -9,6 +9,8 @@ __all__ = ["ExcerptSettingsParam"]
 
 
 class ExcerptSettingsParam(TypedDict, total=False):
+    """Optional settings for returning relevant excerpts."""
+
     max_chars_per_result: Optional[int]
     """Optional upper bound on the total number of characters to include per url.
 

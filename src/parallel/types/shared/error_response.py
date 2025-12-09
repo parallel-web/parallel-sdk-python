@@ -9,6 +9,8 @@ __all__ = ["ErrorResponse"]
 
 
 class ErrorResponse(BaseModel):
+    """Response object used for non-200 status codes."""
+
     error: ErrorObject
     """Error."""
 

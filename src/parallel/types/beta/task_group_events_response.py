@@ -13,6 +13,8 @@ __all__ = ["TaskGroupEventsResponse", "TaskGroupStatusEvent"]
 
 
 class TaskGroupStatusEvent(BaseModel):
+    """Event indicating an update to group status."""
+
     event_id: str
     """Cursor to resume the event stream."""
 

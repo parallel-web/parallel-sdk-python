@@ -9,6 +9,8 @@ __all__ = ["JsonSchemaParam"]
 
 
 class JsonSchemaParam(TypedDict, total=False):
+    """JSON schema for a task input or output."""
+
     json_schema: Required[Dict[str, object]]
     """A JSON Schema object. Only a subset of JSON Schema is supported."""
 

@@ -17,6 +17,14 @@ InputSchema: TypeAlias = Union[str, JsonSchemaParam, TextSchemaParam]
 
 
 class TaskSpecParam(TypedDict, total=False):
+    """Specification for a task.
+
+    Auto output schemas can be specified by setting `output_schema={"type":"auto"}`. Not
+    specifying a TaskSpec is the same as setting an auto output schema.
+
+    For convenience bare strings are also accepted as input or output schemas.
+    """
+
     output_schema: Required[OutputSchema]
     """JSON schema or text fully describing the desired output from the task.
 

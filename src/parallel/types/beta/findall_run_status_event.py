@@ -10,6 +10,8 @@ __all__ = ["FindallRunStatusEvent"]
 
 
 class FindallRunStatusEvent(BaseModel):
+    """Event containing status update for FindAll run."""
+
     data: FindallRun
     """Updated FindAll run information."""
 

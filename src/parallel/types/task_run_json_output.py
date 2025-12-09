@@ -10,6 +10,8 @@ __all__ = ["TaskRunJsonOutput"]
 
 
 class TaskRunJsonOutput(BaseModel):
+    """Output from a task that returns JSON."""
+
     basis: List[FieldBasis]
     """Basis for each top-level field in the JSON output.
 
