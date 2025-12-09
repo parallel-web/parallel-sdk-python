@@ -12,6 +12,8 @@ __all__ = ["ExtractResponse"]
 
 
 class ExtractResponse(BaseModel):
+    """Fetch result."""
+
     errors: List[ExtractError]
     """Extract errors: requested URLs not in the results."""
 

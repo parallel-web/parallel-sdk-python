@@ -9,6 +9,8 @@ __all__ = ["FieldBasis"]
 
 
 class FieldBasis(BaseModel):
+    """Citations and reasoning supporting one field of a task output."""
+
     field: str
     """Name of the output field."""
 

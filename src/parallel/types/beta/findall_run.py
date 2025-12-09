@@ -9,6 +9,8 @@ __all__ = ["FindallRun", "Status", "StatusMetrics"]
 
 
 class StatusMetrics(BaseModel):
+    """Candidate metrics for the FindAll run."""
+
     generated_candidates_count: Optional[int] = None
     """Number of candidates that were selected."""
 
@@ -17,6 +19,8 @@ class StatusMetrics(BaseModel):
 
 
 class Status(BaseModel):
+    """Status object for the FindAll run."""
+
     is_active: bool
     """Whether the FindAll run is active"""
 
@@ -35,6 +39,8 @@ class Status(BaseModel):
 
 
 class FindallRun(BaseModel):
+    """FindAll run object with status and metadata."""
+
     findall_id: str
     """ID of the FindAll run."""
 

@@ -8,6 +8,11 @@ __all__ = ["SourcePolicy"]
 
 
 class SourcePolicy(BaseModel):
+    """Source policy for web search results.
+
+    This policy governs which sources are allowed/disallowed in results.
+    """
+
     exclude_domains: Optional[List[str]] = None
     """List of domains to exclude from results.
 

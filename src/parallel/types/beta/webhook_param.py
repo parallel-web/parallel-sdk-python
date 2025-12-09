@@ -9,6 +9,8 @@ __all__ = ["WebhookParam"]
 
 
 class WebhookParam(TypedDict, total=False):
+    """Webhooks for Task Runs."""
+
     url: Required[str]
     """URL for the webhook."""
 

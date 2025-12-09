@@ -10,6 +10,8 @@ __all__ = ["FindallEnrichInput"]
 
 
 class FindallEnrichInput(BaseModel):
+    """Input model for FindAll enrich."""
+
     output_schema: JsonSchema
     """JSON schema for the enrichment output schema for the FindAll run."""
 

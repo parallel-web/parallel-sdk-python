@@ -9,6 +9,8 @@ __all__ = ["ErrorEvent"]
 
 
 class ErrorEvent(BaseModel):
+    """Event indicating an error."""
+
     error: ErrorObject
     """Error."""
 

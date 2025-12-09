@@ -13,6 +13,8 @@ __all__ = ["BetaTaskRunResult", "Output", "OutputBetaTaskRunTextOutput", "Output
 
 
 class OutputBetaTaskRunTextOutput(BaseModel):
+    """Output from a task that returns text."""
+
     basis: List[FieldBasis]
     """Basis for the output.
 
@@ -37,6 +39,8 @@ class OutputBetaTaskRunTextOutput(BaseModel):
 
 
 class OutputBetaTaskRunJsonOutput(BaseModel):
+    """Output from a task that returns JSON."""
+
     basis: List[FieldBasis]
     """Basis for the output.
 
@@ -75,6 +79,8 @@ Output: TypeAlias = Annotated[
 
 
 class BetaTaskRunResult(BaseModel):
+    """Result of a beta task run. Available only if beta headers are specified."""
+
     output: Output
     """Output from the task conforming to the output schema."""
 

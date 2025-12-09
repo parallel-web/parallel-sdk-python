@@ -9,6 +9,8 @@ __all__ = ["Webhook"]
 
 
 class Webhook(BaseModel):
+    """Webhooks for Task Runs."""
+
     url: str
     """URL for the webhook."""
 

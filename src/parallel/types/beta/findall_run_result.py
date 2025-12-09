@@ -11,6 +11,12 @@ __all__ = ["FindallRunResult", "Candidate"]
 
 
 class Candidate(BaseModel):
+    """Candidate for a find all run that may end up as a match.
+
+    Contains all the candidate's metadata and the output of the match conditions.
+    A candidate is a match if all match conditions are satisfied.
+    """
+
     candidate_id: str
     """ID of the candidate."""
 
@@ -41,6 +47,13 @@ class Candidate(BaseModel):
 
 
 class FindallRunResult(BaseModel):
+    """Complete FindAll search results.
+
+    Represents a snapshot of a FindAll run, including run metadata and a list of
+    candidate entities with their match status and details at the time the snapshot was
+    taken.
+    """
+
     candidates: List[Candidate]
     """All evaluated candidates at the time of the snapshot."""
 

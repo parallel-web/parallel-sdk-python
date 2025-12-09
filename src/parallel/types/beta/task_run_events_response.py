@@ -17,6 +17,8 @@ __all__ = [
 
 
 class TaskRunProgressStatsEventSourceStats(BaseModel):
+    """Source stats describing progress so far."""
+
     num_sources_considered: Optional[int] = None
     """Number of sources considered in processing the task."""
 
@@ -28,6 +30,8 @@ class TaskRunProgressStatsEventSourceStats(BaseModel):
 
 
 class TaskRunProgressStatsEvent(BaseModel):
+    """A progress update for a task run."""
+
     progress_meter: float
     """Completion percentage of the task run.
 
@@ -42,6 +46,8 @@ class TaskRunProgressStatsEvent(BaseModel):
 
 
 class TaskRunProgressMessageEvent(BaseModel):
+    """A message for a task run progress update."""
+
     message: str
     """Progress update message."""
 

@@ -11,6 +11,8 @@ __all__ = ["TaskGroup"]
 
 
 class TaskGroup(BaseModel):
+    """Response object for a task group, including its status and metadata."""
+
     created_at: Optional[str] = None
     """Timestamp of the creation of the group, as an RFC 3339 string."""
 

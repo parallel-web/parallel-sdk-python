@@ -14,6 +14,8 @@ __all__ = ["BetaRunInputParam"]
 
 
 class BetaRunInputParam(TypedDict, total=False):
+    """Task run input with additional beta fields."""
+
     input: Required[Union[str, Dict[str, object]]]
     """Input to the task, either text or a JSON object."""
 

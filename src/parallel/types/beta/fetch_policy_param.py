@@ -9,6 +9,8 @@ __all__ = ["FetchPolicyParam"]
 
 
 class FetchPolicyParam(TypedDict, total=False):
+    """Policy for live fetching web results."""
+
     disable_cache_fallback: bool
     """
     If false, fallback to cached content older than max-age if live fetch fails or

@@ -16,6 +16,11 @@ Output: TypeAlias = Annotated[Union[TaskRunTextOutput, TaskRunJsonOutput, None],
 
 
 class TaskRunEvent(BaseModel):
+    """Event when a task run transitions to a non-active status.
+
+    May indicate completion, cancellation, or failure.
+    """
+
     event_id: Optional[str] = None
     """Cursor to resume the event stream. Always empty for non Task Group runs."""
 

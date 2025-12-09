@@ -11,6 +11,8 @@ __all__ = ["McpServerParam"]
 
 
 class McpServerParam(TypedDict, total=False):
+    """MCP server configuration."""
+
     name: Required[str]
     """Name of the MCP server."""
 

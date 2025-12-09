@@ -10,6 +10,8 @@ __all__ = ["FindallSchema", "MatchCondition"]
 
 
 class MatchCondition(BaseModel):
+    """Match condition model for FindAll ingest."""
+
     description: str
     """Detailed description of the match condition.
 
@@ -22,6 +24,8 @@ class MatchCondition(BaseModel):
 
 
 class FindallSchema(BaseModel):
+    """Response model for FindAll ingest."""
+
     entity_type: str
     """Type of the entity for the FindAll run."""
 

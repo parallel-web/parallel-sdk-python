@@ -10,6 +10,8 @@ __all__ = ["FindallSchemaUpdatedEvent"]
 
 
 class FindallSchemaUpdatedEvent(BaseModel):
+    """Event containing full snapshot of FindAll run state."""
+
     data: FindallSchema
     """Updated FindAll schema."""
 

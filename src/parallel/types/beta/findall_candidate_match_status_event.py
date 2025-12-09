@@ -11,6 +11,8 @@ __all__ = ["FindallCandidateMatchStatusEvent", "Data"]
 
 
 class Data(BaseModel):
+    """The candidate whose match status has been updated."""
+
     candidate_id: str
     """ID of the candidate."""
 
@@ -41,6 +43,8 @@ class Data(BaseModel):
 
 
 class FindallCandidateMatchStatusEvent(BaseModel):
+    """Event containing a candidate whose match status has changed."""
+
     data: Data
     """The candidate whose match status has been updated."""
 

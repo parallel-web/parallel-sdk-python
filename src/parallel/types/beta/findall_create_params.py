@@ -45,6 +45,8 @@ class FindallCreateParams(TypedDict, total=False):
 
 
 class MatchCondition(TypedDict, total=False):
+    """Match condition model for FindAll ingest."""
+
     description: Required[str]
     """Detailed description of the match condition.
 
@@ -57,6 +59,8 @@ class MatchCondition(TypedDict, total=False):
 
 
 class ExcludeList(TypedDict, total=False):
+    """Exclude candidate input model for FindAll run."""
+
     name: Required[str]
     """Name of the entity to exclude from results."""
 

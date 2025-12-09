@@ -16,6 +16,8 @@ __all__ = [
 
 
 class TaskRun(BaseModel):
+    """Status of a task run."""
+
     created_at: Optional[str] = None
     """Timestamp of the creation of the task, as an RFC 3339 string."""
 
