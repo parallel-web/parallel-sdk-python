@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Mapping
+from typing import TYPE_CHECKING, Any, Mapping
 from typing_extensions import Self, override
 
 import httpx
@@ -20,8 +20,8 @@ from ._types import (
     not_given,
 )
 from ._utils import is_given, get_async_library
+from ._compat import cached_property
 from ._version import __version__
-from .resources import task_run
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ParallelError, APIStatusError
 from ._base_client import (
@@ -29,7 +29,11 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.beta import beta
+
+if TYPE_CHECKING:
+    from .resources import beta, task_run
+    from .resources.task_run import TaskRunResource, AsyncTaskRunResource
+    from .resources.beta.beta import BetaResource, AsyncBetaResource
 
 __all__ = [
     "Timeout",
@@ -44,11 +48,6 @@ __all__ = [
 
 
 class Parallel(SyncAPIClient):
-    task_run: task_run.TaskRunResource
-    beta: beta.BetaResource
-    with_raw_response: ParallelWithRawResponse
-    with_streaming_response: ParallelWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -103,10 +102,25 @@ class Parallel(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.task_run = task_run.TaskRunResource(self)
-        self.beta = beta.BetaResource(self)
-        self.with_raw_response = ParallelWithRawResponse(self)
-        self.with_streaming_response = ParallelWithStreamedResponse(self)
+    @cached_property
+    def task_run(self) -> TaskRunResource:
+        from .resources.task_run import TaskRunResource
+
+        return TaskRunResource(self)
+
+    @cached_property
+    def beta(self) -> BetaResource:
+        from .resources.beta import BetaResource
+
+        return BetaResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> ParallelWithRawResponse:
+        return ParallelWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> ParallelWithStreamedResponse:
+        return ParallelWithStreamedResponse(self)
 
     @property
     @override
@@ -214,11 +228,6 @@ class Parallel(SyncAPIClient):
 
 
 class AsyncParallel(AsyncAPIClient):
-    task_run: task_run.AsyncTaskRunResource
-    beta: beta.AsyncBetaResource
-    with_raw_response: AsyncParallelWithRawResponse
-    with_streaming_response: AsyncParallelWithStreamedResponse
-
     # client options
     api_key: str
 
@@ -273,10 +282,25 @@ class AsyncParallel(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.task_run = task_run.AsyncTaskRunResource(self)
-        self.beta = beta.AsyncBetaResource(self)
-        self.with_raw_response = AsyncParallelWithRawResponse(self)
-        self.with_streaming_response = AsyncParallelWithStreamedResponse(self)
+    @cached_property
+    def task_run(self) -> AsyncTaskRunResource:
+        from .resources.task_run import AsyncTaskRunResource
+
+        return AsyncTaskRunResource(self)
+
+    @cached_property
+    def beta(self) -> AsyncBetaResource:
+        from .resources.beta import AsyncBetaResource
+
+        return AsyncBetaResource(self)
+
+    @cached_property
+    def with_raw_response(self) -> AsyncParallelWithRawResponse:
+        return AsyncParallelWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncParallelWithStreamedResponse:
+        return AsyncParallelWithStreamedResponse(self)
 
     @property
     @override
@@ -384,27 +408,79 @@ class AsyncParallel(AsyncAPIClient):
 
 
 class ParallelWithRawResponse:
+    _client: Parallel
+
     def __init__(self, client: Parallel) -> None:
-        self.task_run = task_run.TaskRunResourceWithRawResponse(client.task_run)
-        self.beta = beta.BetaResourceWithRawResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def task_run(self) -> task_run.TaskRunResourceWithRawResponse:
+        from .resources.task_run import TaskRunResourceWithRawResponse
+
+        return TaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def beta(self) -> beta.BetaResourceWithRawResponse:
+        from .resources.beta import BetaResourceWithRawResponse
+
+        return BetaResourceWithRawResponse(self._client.beta)
 
 
 class AsyncParallelWithRawResponse:
+    _client: AsyncParallel
+
     def __init__(self, client: AsyncParallel) -> None:
-        self.task_run = task_run.AsyncTaskRunResourceWithRawResponse(client.task_run)
-        self.beta = beta.AsyncBetaResourceWithRawResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def task_run(self) -> task_run.AsyncTaskRunResourceWithRawResponse:
+        from .resources.task_run import AsyncTaskRunResourceWithRawResponse
+
+        return AsyncTaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def beta(self) -> beta.AsyncBetaResourceWithRawResponse:
+        from .resources.beta import AsyncBetaResourceWithRawResponse
+
+        return AsyncBetaResourceWithRawResponse(self._client.beta)
 
 
 class ParallelWithStreamedResponse:
+    _client: Parallel
+
     def __init__(self, client: Parallel) -> None:
-        self.task_run = task_run.TaskRunResourceWithStreamingResponse(client.task_run)
-        self.beta = beta.BetaResourceWithStreamingResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def task_run(self) -> task_run.TaskRunResourceWithStreamingResponse:
+        from .resources.task_run import TaskRunResourceWithStreamingResponse
+
+        return TaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def beta(self) -> beta.BetaResourceWithStreamingResponse:
+        from .resources.beta import BetaResourceWithStreamingResponse
+
+        return BetaResourceWithStreamingResponse(self._client.beta)
 
 
 class AsyncParallelWithStreamedResponse:
+    _client: AsyncParallel
+
     def __init__(self, client: AsyncParallel) -> None:
-        self.task_run = task_run.AsyncTaskRunResourceWithStreamingResponse(client.task_run)
-        self.beta = beta.AsyncBetaResourceWithStreamingResponse(client.beta)
+        self._client = client
+
+    @cached_property
+    def task_run(self) -> task_run.AsyncTaskRunResourceWithStreamingResponse:
+        from .resources.task_run import AsyncTaskRunResourceWithStreamingResponse
+
+        return AsyncTaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def beta(self) -> beta.AsyncBetaResourceWithStreamingResponse:
+        from .resources.beta import AsyncBetaResourceWithStreamingResponse
+
+        return AsyncBetaResourceWithStreamingResponse(self._client.beta)
 
 
 Client = Parallel
