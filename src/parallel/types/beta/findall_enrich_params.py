@@ -10,10 +10,10 @@ from .mcp_server_param import McpServerParam
 from ..json_schema_param import JsonSchemaParam
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallEnrichParams"]
+__all__ = ["FindAllEnrichParams"]
 
 
-class FindallEnrichParams(TypedDict, total=False):
+class FindAllEnrichParams(TypedDict, total=False):
     output_schema: Required[JsonSchemaParam]
     """JSON schema for the enrichment output schema for the FindAll run."""
 

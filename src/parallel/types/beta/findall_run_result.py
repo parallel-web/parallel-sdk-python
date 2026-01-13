@@ -4,10 +4,10 @@ from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .findall_run import FindallRun
+from .findall_run import FindAllRun
 from ..field_basis import FieldBasis
 
-__all__ = ["FindallRunResult", "Candidate"]
+__all__ = ["FindAllRunResult", "Candidate"]
 
 
 class Candidate(BaseModel):
@@ -46,7 +46,7 @@ class Candidate(BaseModel):
     """
 
 
-class FindallRunResult(BaseModel):
+class FindAllRunResult(BaseModel):
     """Complete FindAll search results.
 
     Represents a snapshot of a FindAll run, including run metadata and a list of
@@ -57,7 +57,7 @@ class FindallRunResult(BaseModel):
     candidates: List[Candidate]
     """All evaluated candidates at the time of the snapshot."""
 
-    run: FindallRun
+    run: FindAllRun
     """FindAll run object."""
 
     last_event_id: Optional[str] = None

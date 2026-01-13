@@ -9,12 +9,12 @@ from typing_extensions import Literal
 import httpx
 
 from .findall import (
-    FindallResource,
-    AsyncFindallResource,
-    FindallResourceWithRawResponse,
-    AsyncFindallResourceWithRawResponse,
-    FindallResourceWithStreamingResponse,
-    AsyncFindallResourceWithStreamingResponse,
+    FindAllResource,
+    AsyncFindAllResource,
+    FindAllResourceWithRawResponse,
+    AsyncFindAllResourceWithRawResponse,
+    FindAllResourceWithStreamingResponse,
+    AsyncFindAllResourceWithStreamingResponse,
 )
 from ..._types import Body, Omit, Query, Headers, NotGiven, SequenceNotStr, omit, not_given
 from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
@@ -64,8 +64,8 @@ class BetaResource(SyncAPIResource):
         return TaskGroupResource(self._client)
 
     @cached_property
-    def findall(self) -> FindallResource:
-        return FindallResource(self._client)
+    def findall(self) -> FindAllResource:
+        return FindAllResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> BetaResourceWithRawResponse:
@@ -266,8 +266,8 @@ class AsyncBetaResource(AsyncAPIResource):
         return AsyncTaskGroupResource(self._client)
 
     @cached_property
-    def findall(self) -> AsyncFindallResource:
-        return AsyncFindallResource(self._client)
+    def findall(self) -> AsyncFindAllResource:
+        return AsyncFindAllResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncBetaResourceWithRawResponse:
@@ -478,8 +478,8 @@ class BetaResourceWithRawResponse:
         return TaskGroupResourceWithRawResponse(self._beta.task_group)
 
     @cached_property
-    def findall(self) -> FindallResourceWithRawResponse:
-        return FindallResourceWithRawResponse(self._beta.findall)
+    def findall(self) -> FindAllResourceWithRawResponse:
+        return FindAllResourceWithRawResponse(self._beta.findall)
 
 
 class AsyncBetaResourceWithRawResponse:
@@ -502,8 +502,8 @@ class AsyncBetaResourceWithRawResponse:
         return AsyncTaskGroupResourceWithRawResponse(self._beta.task_group)
 
     @cached_property
-    def findall(self) -> AsyncFindallResourceWithRawResponse:
-        return AsyncFindallResourceWithRawResponse(self._beta.findall)
+    def findall(self) -> AsyncFindAllResourceWithRawResponse:
+        return AsyncFindAllResourceWithRawResponse(self._beta.findall)
 
 
 class BetaResourceWithStreamingResponse:
@@ -526,8 +526,8 @@ class BetaResourceWithStreamingResponse:
         return TaskGroupResourceWithStreamingResponse(self._beta.task_group)
 
     @cached_property
-    def findall(self) -> FindallResourceWithStreamingResponse:
-        return FindallResourceWithStreamingResponse(self._beta.findall)
+    def findall(self) -> FindAllResourceWithStreamingResponse:
+        return FindAllResourceWithStreamingResponse(self._beta.findall)
 
 
 class AsyncBetaResourceWithStreamingResponse:
@@ -550,5 +550,5 @@ class AsyncBetaResourceWithStreamingResponse:
         return AsyncTaskGroupResourceWithStreamingResponse(self._beta.task_group)
 
     @cached_property
-    def findall(self) -> AsyncFindallResourceWithStreamingResponse:
-        return AsyncFindallResourceWithStreamingResponse(self._beta.findall)
+    def findall(self) -> AsyncFindAllResourceWithStreamingResponse:
+        return AsyncFindAllResourceWithStreamingResponse(self._beta.findall)

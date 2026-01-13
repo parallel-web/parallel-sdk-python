@@ -7,7 +7,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from ..field_basis import FieldBasis
 
-__all__ = ["FindallCandidateMatchStatusEvent", "Data"]
+__all__ = ["FindAllCandidateMatchStatusEvent", "Data"]
 
 
 class Data(BaseModel):
@@ -42,7 +42,7 @@ class Data(BaseModel):
     """
 
 
-class FindallCandidateMatchStatusEvent(BaseModel):
+class FindAllCandidateMatchStatusEvent(BaseModel):
     """Event containing a candidate whose match status has changed."""
 
     data: Data

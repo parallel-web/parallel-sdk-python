@@ -8,10 +8,10 @@ from typing_extensions import Annotated, TypedDict
 from ..._utils import PropertyInfo
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallEventsParams"]
+__all__ = ["FindAllEventsParams"]
 
 
-class FindallEventsParams(TypedDict, total=False):
+class FindAllEventsParams(TypedDict, total=False):
     last_event_id: Optional[str]
 
     api_timeout: Annotated[Optional[float], PropertyInfo(alias="timeout")]

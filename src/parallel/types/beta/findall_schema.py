@@ -4,9 +4,9 @@ from typing import List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .findall_enrich_input import FindallEnrichInput
+from .findall_enrich_input import FindAllEnrichInput
 
-__all__ = ["FindallSchema", "MatchCondition"]
+__all__ = ["FindAllSchema", "MatchCondition"]
 
 
 class MatchCondition(BaseModel):
@@ -23,7 +23,7 @@ class MatchCondition(BaseModel):
     """Name of the match condition."""
 
 
-class FindallSchema(BaseModel):
+class FindAllSchema(BaseModel):
     """Response model for FindAll ingest."""
 
     entity_type: str
@@ -35,7 +35,7 @@ class FindallSchema(BaseModel):
     objective: str
     """Natural language objective of the FindAll run."""
 
-    enrichments: Optional[List[FindallEnrichInput]] = None
+    enrichments: Optional[List[FindAllEnrichInput]] = None
     """List of enrichment inputs for the FindAll run."""
 
     generator: Optional[Literal["base", "core", "pro", "preview"]] = None

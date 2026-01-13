@@ -6,10 +6,10 @@ from ..._models import BaseModel
 from .mcp_server import McpServer
 from ..json_schema import JsonSchema
 
-__all__ = ["FindallEnrichInput"]
+__all__ = ["FindAllEnrichInput"]
 
 
-class FindallEnrichInput(BaseModel):
+class FindAllEnrichInput(BaseModel):
     """Input model for FindAll enrich."""
 
     output_schema: JsonSchema

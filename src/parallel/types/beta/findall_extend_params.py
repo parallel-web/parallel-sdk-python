@@ -8,10 +8,10 @@ from typing_extensions import Required, Annotated, TypedDict
 from ..._utils import PropertyInfo
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallExtendParams"]
+__all__ = ["FindAllExtendParams"]
 
 
-class FindallExtendParams(TypedDict, total=False):
+class FindAllExtendParams(TypedDict, total=False):
     additional_match_limit: Required[int]
     """Additional number of matches to find for this FindAll run.
 
