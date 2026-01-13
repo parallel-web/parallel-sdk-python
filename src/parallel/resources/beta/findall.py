@@ -36,7 +36,20 @@ from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
 
-__all__ = ["FindAllResource", "AsyncFindAllResource"]
+__all__ = [
+    "FindAllResource",
+    "AsyncFindAllResource",
+    "FindAllResourceWithRawResponse",
+    "AsyncFindAllResourceWithRawResponse",
+    "FindAllResourceWithStreamingResponse",
+    "AsyncFindAllResourceWithStreamingResponse",
+    "FindallResource",
+    "AsyncFindallResource",
+    "FindallResourceWithRawResponse",
+    "AsyncFindallResourceWithRawResponse",
+    "FindallResourceWithStreamingResponse",
+    "AsyncFindallResourceWithStreamingResponse",
+]
 
 
 class FindAllResource(SyncAPIResource):
@@ -123,14 +136,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             "/v1beta/findall/runs",
             body=maybe_transform(
@@ -183,14 +196,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}",
             options=make_request_options(
@@ -230,14 +243,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/cancel",
             options=make_request_options(
@@ -286,14 +299,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/enrich",
             body=maybe_transform(
@@ -349,14 +362,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/events",
             options=make_request_options(
@@ -413,14 +426,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/extend",
             body=maybe_transform(
@@ -468,14 +481,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             "/v1beta/findall/ingest",
             body=maybe_transform({"objective": objective}, findall_ingest_params.FindAllIngestParams),
@@ -516,14 +529,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/result",
             options=make_request_options(
@@ -563,14 +576,14 @@ class FindAllResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/schema",
             options=make_request_options(
@@ -664,14 +677,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             "/v1beta/findall/runs",
             body=await async_maybe_transform(
@@ -724,14 +737,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}",
             options=make_request_options(
@@ -771,14 +784,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/cancel",
             options=make_request_options(
@@ -827,14 +840,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/enrich",
             body=await async_maybe_transform(
@@ -890,14 +903,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/events",
             options=make_request_options(
@@ -954,14 +967,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/extend",
             body=await async_maybe_transform(
@@ -1009,14 +1022,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             "/v1beta/findall/ingest",
             body=await async_maybe_transform({"objective": objective}, findall_ingest_params.FindAllIngestParams),
@@ -1057,14 +1070,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/result",
             options=make_request_options(
@@ -1104,14 +1117,14 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/schema",
             options=make_request_options(
@@ -1251,3 +1264,24 @@ class AsyncFindAllResourceWithStreamingResponse:
         self.schema = async_to_streamed_response_wrapper(
             findall.schema,
         )
+
+
+FindallResource = FindAllResource  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResource` should be used instead"""
+
+AsyncFindallResource = AsyncFindAllResource  # for backwards compatibility with v0.3.4
+"""This is deprecated, `AsyncFindAllResource` should be used instead"""
+
+FindallResourceWithRawResponse = FindAllResourceWithRawResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResourceWithRawResponse` should be used instead"""
+
+AsyncFindallResourceWithRawResponse = AsyncFindAllResourceWithRawResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `AsyncFindAllResourceWithRawResponse` should be used instead"""
+
+FindallResourceWithStreamingResponse = FindAllResourceWithStreamingResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResourceWithStreamingResponse` should be used instead"""
+
+AsyncFindallResourceWithStreamingResponse = (
+    AsyncFindAllResourceWithStreamingResponse  # for backwards compatibility with v0.3.4
+)
+"""This is deprecated, `AsyncFindAllResourceWithStreamingResponse` should be used instead"""

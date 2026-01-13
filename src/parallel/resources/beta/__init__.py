@@ -10,11 +10,17 @@ from .beta import (
 )
 from .findall import (
     FindAllResource,
+    FindallResource,
     AsyncFindAllResource,
+    AsyncFindallResource,
     FindAllResourceWithRawResponse,
+    FindallResourceWithRawResponse,
     AsyncFindAllResourceWithRawResponse,
+    AsyncFindallResourceWithRawResponse,
     FindAllResourceWithStreamingResponse,
+    FindallResourceWithStreamingResponse,
     AsyncFindAllResourceWithStreamingResponse,
+    AsyncFindallResourceWithStreamingResponse,
 )
 from .task_run import (
     TaskRunResource,
@@ -52,6 +58,12 @@ __all__ = [
     "AsyncFindAllResourceWithRawResponse",
     "FindAllResourceWithStreamingResponse",
     "AsyncFindAllResourceWithStreamingResponse",
+    "FindallResource",
+    "AsyncFindallResource",
+    "FindallResourceWithRawResponse",
+    "AsyncFindallResourceWithRawResponse",
+    "FindallResourceWithStreamingResponse",
+    "AsyncFindallResourceWithStreamingResponse",
     "BetaResource",
     "AsyncBetaResource",
     "BetaResourceWithRawResponse",
