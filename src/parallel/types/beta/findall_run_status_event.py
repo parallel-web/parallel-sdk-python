@@ -4,15 +4,15 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .findall_run import FindallRun
+from .findall_run import FindAllRun
 
-__all__ = ["FindallRunStatusEvent"]
+__all__ = ["FindAllRunStatusEvent"]
 
 
-class FindallRunStatusEvent(BaseModel):
+class FindAllRunStatusEvent(BaseModel):
     """Event containing status update for FindAll run."""
 
-    data: FindallRun
+    data: FindAllRun
     """Updated FindAll run information."""
 
     event_id: str

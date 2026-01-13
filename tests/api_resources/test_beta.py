@@ -9,6 +9,7 @@ import pytest
 
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
+from parallel._utils import parse_date
 from parallel.types.beta import (
     SearchResult,
     ExtractResponse,
@@ -95,6 +96,7 @@ class TestBeta:
             processor="base",
             search_queries=["string"],
             source_policy={
+                "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
@@ -203,6 +205,7 @@ class TestAsyncBeta:
             processor="base",
             search_queries=["string"],
             source_policy={
+                "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },

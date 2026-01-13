@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
-from typing_extensions import TypedDict
+from typing import Union
+from datetime import date
+from typing_extensions import Annotated, TypedDict
 
 from ..._types import SequenceNotStr
+from ..._utils import PropertyInfo
 
 __all__ = ["SourcePolicy"]
 
@@ -13,6 +16,13 @@ class SourcePolicy(TypedDict, total=False):
     """Source policy for web search results.
 
     This policy governs which sources are allowed/disallowed in results.
+    """
+
+    after_date: Annotated[Union[str, date, None], PropertyInfo(format="iso8601")]
+    """Optional start date for filtering search results.
+
+    Results will be limited to content published on or after this date. Provided as
+    an RFC 3339 date string (YYYY-MM-DD).
     """
 
     exclude_domains: SequenceNotStr[str]

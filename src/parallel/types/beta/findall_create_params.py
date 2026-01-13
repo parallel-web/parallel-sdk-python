@@ -9,10 +9,10 @@ from ..._utils import PropertyInfo
 from .webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallCreateParams", "MatchCondition", "ExcludeList"]
+__all__ = ["FindAllCreateParams", "MatchCondition", "ExcludeList"]
 
 
-class FindallCreateParams(TypedDict, total=False):
+class FindAllCreateParams(TypedDict, total=False):
     entity_type: Required[str]
     """Type of the entity for the FindAll run."""
 

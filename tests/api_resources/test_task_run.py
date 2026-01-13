@@ -10,6 +10,7 @@ import pytest
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
 from parallel.types import TaskRun, TaskRunResult
+from parallel._utils import parse_date
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -32,6 +33,7 @@ class TestTaskRun:
             processor="base",
             metadata={"foo": "string"},
             source_policy={
+                "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
@@ -181,6 +183,7 @@ class TestAsyncTaskRun:
             processor="base",
             metadata={"foo": "string"},
             source_policy={
+                "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },

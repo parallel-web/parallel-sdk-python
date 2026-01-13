@@ -5,7 +5,7 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["FindallRun", "Status", "StatusMetrics"]
+__all__ = ["FindAllRun", "Status", "StatusMetrics"]
 
 
 class StatusMetrics(BaseModel):
@@ -38,7 +38,7 @@ class Status(BaseModel):
     """Reason for termination when FindAll run is in terminal status."""
 
 
-class FindallRun(BaseModel):
+class FindAllRun(BaseModel):
     """FindAll run object with status and metadata."""
 
     findall_id: str
