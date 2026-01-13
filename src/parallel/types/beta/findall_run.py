@@ -5,10 +5,12 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["FindallRun", "Status", "StatusMetrics"]
+__all__ = ["FindAllRun", "FindallRun", "Status", "StatusMetrics"]
 
 
 class StatusMetrics(BaseModel):
+    """Candidate metrics for the FindAll run."""
+
     generated_candidates_count: Optional[int] = None
     """Number of candidates that were selected."""
 
@@ -17,20 +19,28 @@ class StatusMetrics(BaseModel):
 
 
 class Status(BaseModel):
+    """Status object for the FindAll run."""
+
     is_active: bool
     """Whether the FindAll run is active"""
 
     metrics: StatusMetrics
-    """Metrics object for FindAll run."""
+    """Candidate metrics for the FindAll run."""
 
     status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
     """Status of the FindAll run."""
 
-    termination_reason: Optional[str] = None
+    termination_reason: Optional[
+        Literal[
+            "low_match_rate", "match_limit_met", "candidates_exhausted", "user_cancelled", "error_occurred", "timeout"
+        ]
+    ] = None
     """Reason for termination when FindAll run is in terminal status."""
 
 
-class FindallRun(BaseModel):
+class FindAllRun(BaseModel):
+    """FindAll run object with status and metadata."""
+
     findall_id: str
     """ID of the FindAll run."""
 
@@ -38,7 +48,7 @@ class FindallRun(BaseModel):
     """Generator for the FindAll run."""
 
     status: Status
-    """Status object for FindAll run."""
+    """Status object for the FindAll run."""
 
     created_at: Optional[str] = None
     """Timestamp of the creation of the run, in RFC 3339 format."""
@@ -51,3 +61,7 @@ class FindallRun(BaseModel):
     Timestamp of the latest modification to the FindAll run result, in RFC 3339
     format.
     """
+
+
+FindallRun = FindAllRun  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllRun` should be used instead"""

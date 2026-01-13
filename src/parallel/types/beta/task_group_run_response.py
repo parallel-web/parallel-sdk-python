@@ -9,6 +9,8 @@ __all__ = ["TaskGroupRunResponse"]
 
 
 class TaskGroupRunResponse(BaseModel):
+    """Response from adding new task runs to a task group."""
+
     event_cursor: Optional[str] = None
     """
     Cursor for these runs in the event stream at
@@ -27,4 +29,4 @@ class TaskGroupRunResponse(BaseModel):
     """IDs of the newly created runs."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Status of the group."""

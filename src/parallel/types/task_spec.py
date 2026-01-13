@@ -16,6 +16,14 @@ InputSchema: TypeAlias = Union[str, JsonSchema, TextSchema, None]
 
 
 class TaskSpec(BaseModel):
+    """Specification for a task.
+
+    Auto output schemas can be specified by setting `output_schema={"type":"auto"}`. Not
+    specifying a TaskSpec is the same as setting an auto output schema.
+
+    For convenience bare strings are also accepted as input or output schemas.
+    """
+
     output_schema: OutputSchema
     """JSON schema or text fully describing the desired output from the task.
 

@@ -10,12 +10,12 @@ from .mcp_server_param import McpServerParam
 from ..json_schema_param import JsonSchemaParam
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallEnrichParams"]
+__all__ = ["FindAllEnrichParams", "FindallEnrichParams"]
 
 
-class FindallEnrichParams(TypedDict, total=False):
+class FindAllEnrichParams(TypedDict, total=False):
     output_schema: Required[JsonSchemaParam]
-    """JSON schema for a task input or output."""
+    """JSON schema for the enrichment output schema for the FindAll run."""
 
     mcp_servers: Optional[Iterable[McpServerParam]]
     """List of MCP servers to use for the task."""
@@ -25,3 +25,7 @@ class FindallEnrichParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
+
+
+FindallEnrichParams = FindAllEnrichParams  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllEnrichParams` should be used instead"""

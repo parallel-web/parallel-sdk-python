@@ -9,6 +9,8 @@ __all__ = ["McpServer"]
 
 
 class McpServer(BaseModel):
+    """MCP server configuration."""
+
     name: str
     """Name of the MCP server."""
 

@@ -4,13 +4,19 @@ from typing import Dict, List, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .findall_run import FindallRun
+from .findall_run import FindAllRun
 from ..field_basis import FieldBasis
 
-__all__ = ["FindallRunResult", "Candidate"]
+__all__ = ["FindAllRunResult", "FindallRunResult", "Candidate"]
 
 
 class Candidate(BaseModel):
+    """Candidate for a find all run that may end up as a match.
+
+    Contains all the candidate's metadata and the output of the match conditions.
+    A candidate is a match if all match conditions are satisfied.
+    """
+
     candidate_id: str
     """ID of the candidate."""
 
@@ -40,15 +46,26 @@ class Candidate(BaseModel):
     """
 
 
-class FindallRunResult(BaseModel):
+class FindAllRunResult(BaseModel):
+    """Complete FindAll search results.
+
+    Represents a snapshot of a FindAll run, including run metadata and a list of
+    candidate entities with their match status and details at the time the snapshot was
+    taken.
+    """
+
     candidates: List[Candidate]
     """All evaluated candidates at the time of the snapshot."""
 
-    run: FindallRun
-    """FindAll run object with status and metadata."""
+    run: FindAllRun
+    """FindAll run object."""
 
     last_event_id: Optional[str] = None
     """ID of the last event of the run at the time of the request.
 
     This can be used to resume streaming from the last event.
     """
+
+
+FindallRunResult = FindAllRunResult  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllRunResult` should be used instead"""

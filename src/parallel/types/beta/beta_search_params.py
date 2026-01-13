@@ -17,7 +17,7 @@ __all__ = ["BetaSearchParams"]
 
 class BetaSearchParams(TypedDict, total=False):
     excerpts: ExcerptSettingsParam
-    """Optional settings for returning relevant excerpts."""
+    """Optional settings to configure excerpt generation."""
 
     fetch_policy: Optional[FetchPolicyParam]
     """Policy for live fetching web results."""

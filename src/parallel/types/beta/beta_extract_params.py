@@ -17,6 +17,9 @@ __all__ = ["BetaExtractParams", "Excerpts", "FullContent", "FullContentFullConte
 class BetaExtractParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
 
+    betas: Required[Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]]
+    """Optional header to specify the beta version(s) to enable."""
+
     excerpts: Excerpts
     """Include excerpts from each URL relevant to the search objective and queries.
 
@@ -40,14 +43,13 @@ class BetaExtractParams(TypedDict, total=False):
     search_queries: Optional[SequenceNotStr[str]]
     """If provided, focuses extracted content on the specified keyword search queries."""
 
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
-    """Optional header to specify the beta version(s) to enable."""
-
 
 Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
 
 
 class FullContentFullContentSettings(TypedDict, total=False):
+    """Optional settings for returning full content."""
+
     max_chars_per_result: Optional[int]
     """
     Optional limit on the number of characters to include in the full content for

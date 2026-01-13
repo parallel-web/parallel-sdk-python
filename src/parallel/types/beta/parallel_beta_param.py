@@ -14,6 +14,7 @@ ParallelBetaParam: TypeAlias = Union[
         "webhook-2025-08-12",
         "findall-2025-09-15",
         "search-extract-2025-10-10",
+        "field-basis-2025-11-25",
     ],
     str,
 ]

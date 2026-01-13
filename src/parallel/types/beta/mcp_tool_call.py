@@ -8,6 +8,8 @@ __all__ = ["McpToolCall"]
 
 
 class McpToolCall(BaseModel):
+    """Result of an MCP tool call."""
+
     arguments: str
     """Arguments used to call the MCP tool."""
 

@@ -13,8 +13,14 @@ __all__ = ["BetaTaskRunResult", "Output", "OutputBetaTaskRunTextOutput", "Output
 
 
 class OutputBetaTaskRunTextOutput(BaseModel):
+    """Output from a task that returns text."""
+
     basis: List[FieldBasis]
-    """Basis for the output."""
+    """Basis for the output.
+
+    To include per-list-element basis entries, send the `parallel-beta` header with
+    the value `field-basis-2025-11-25` when creating the run.
+    """
 
     content: str
     """Text output from the task."""
@@ -33,8 +39,14 @@ class OutputBetaTaskRunTextOutput(BaseModel):
 
 
 class OutputBetaTaskRunJsonOutput(BaseModel):
+    """Output from a task that returns JSON."""
+
     basis: List[FieldBasis]
-    """Basis for the output."""
+    """Basis for the output.
+
+    To include per-list-element basis entries, send the `parallel-beta` header with
+    the value `field-basis-2025-11-25` when creating the run.
+    """
 
     content: Dict[str, object]
     """
@@ -67,8 +79,10 @@ Output: TypeAlias = Annotated[
 
 
 class BetaTaskRunResult(BaseModel):
+    """Result of a beta task run. Available only if beta headers are specified."""
+
     output: Output
     """Output from the task conforming to the output schema."""
 
     run: TaskRun
-    """Status of a task run."""
+    """Beta task run object with status 'completed'."""

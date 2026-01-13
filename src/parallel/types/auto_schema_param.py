@@ -8,5 +8,7 @@ __all__ = ["AutoSchemaParam"]
 
 
 class AutoSchemaParam(TypedDict, total=False):
+    """Auto schema for a task input or output."""
+
     type: Literal["auto"]
     """The type of schema being defined. Always `auto`."""

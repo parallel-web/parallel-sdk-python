@@ -8,6 +8,8 @@ __all__ = ["Citation"]
 
 
 class Citation(BaseModel):
+    """A citation for a task output."""
+
     url: str
     """URL of the citation."""
 

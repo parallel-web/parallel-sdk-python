@@ -12,6 +12,8 @@ __all__ = ["BetaRunInput"]
 
 
 class BetaRunInput(BaseModel):
+    """Task run input with additional beta fields."""
+
     input: Union[str, Dict[str, object]]
     """Input to the task, either text or a JSON object."""
 

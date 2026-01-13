@@ -11,6 +11,8 @@ __all__ = ["SearchResult"]
 
 
 class SearchResult(BaseModel):
+    """Output for the Search API."""
+
     results: List[WebSearchResult]
     """A list of WebSearchResult objects, ordered by decreasing relevance."""
 

@@ -13,11 +13,13 @@ __all__ = ["TaskGroupEventsResponse", "TaskGroupStatusEvent"]
 
 
 class TaskGroupStatusEvent(BaseModel):
+    """Event indicating an update to group status."""
+
     event_id: str
     """Cursor to resume the event stream."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Task group status object."""
 
     type: Literal["task_group_status"]
     """Event type; always 'task_group_status'."""

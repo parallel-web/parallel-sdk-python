@@ -11,11 +11,13 @@ __all__ = ["TaskGroup"]
 
 
 class TaskGroup(BaseModel):
+    """Response object for a task group, including its status and metadata."""
+
     created_at: Optional[str] = None
     """Timestamp of the creation of the group, as an RFC 3339 string."""
 
     status: TaskGroupStatus
-    """Status of a task group."""
+    """Status of the group."""
 
     task_group_id: str = FieldInfo(alias="taskgroup_id")
     """ID of the group."""

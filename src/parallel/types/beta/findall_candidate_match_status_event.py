@@ -7,10 +7,12 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from ..field_basis import FieldBasis
 
-__all__ = ["FindallCandidateMatchStatusEvent", "Data"]
+__all__ = ["FindAllCandidateMatchStatusEvent", "FindallCandidateMatchStatusEvent", "Data"]
 
 
 class Data(BaseModel):
+    """The candidate whose match status has been updated."""
+
     candidate_id: str
     """ID of the candidate."""
 
@@ -40,13 +42,11 @@ class Data(BaseModel):
     """
 
 
-class FindallCandidateMatchStatusEvent(BaseModel):
-    data: Data
-    """Candidate for a find all run that may end up as a match.
+class FindAllCandidateMatchStatusEvent(BaseModel):
+    """Event containing a candidate whose match status has changed."""
 
-    Contains all the candidate's metadata and the output of the match conditions. A
-    candidate is a match if all match conditions are satisfied.
-    """
+    data: Data
+    """The candidate whose match status has been updated."""
 
     event_id: str
     """Unique event identifier for the event."""
@@ -66,3 +66,7 @@ class FindallCandidateMatchStatusEvent(BaseModel):
     findall.candidate.unmatched, findall.candidate.discarded,
     findall.candidate.enriched.
     """
+
+
+FindallCandidateMatchStatusEvent = FindAllCandidateMatchStatusEvent  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllCandidateMatchStatusEvent` should be used instead"""

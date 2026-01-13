@@ -9,6 +9,8 @@ __all__ = ["Warning"]
 
 
 class Warning(BaseModel):
+    """Human-readable message for a task."""
+
     message: str
     """Human-readable message."""
 

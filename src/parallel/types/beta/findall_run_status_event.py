@@ -4,14 +4,16 @@ from datetime import datetime
 from typing_extensions import Literal
 
 from ..._models import BaseModel
-from .findall_run import FindallRun
+from .findall_run import FindAllRun
 
-__all__ = ["FindallRunStatusEvent"]
+__all__ = ["FindAllRunStatusEvent", "FindallRunStatusEvent"]
 
 
-class FindallRunStatusEvent(BaseModel):
-    data: FindallRun
-    """FindAll run object with status and metadata."""
+class FindAllRunStatusEvent(BaseModel):
+    """Event containing status update for FindAll run."""
+
+    data: FindAllRun
+    """Updated FindAll run information."""
 
     event_id: str
     """Unique event identifier for the event."""
@@ -21,3 +23,7 @@ class FindallRunStatusEvent(BaseModel):
 
     type: Literal["findall.status"]
     """Event type; always 'findall.status'."""
+
+
+FindallRunStatusEvent = FindAllRunStatusEvent  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllRunStatusEvent` should be used instead"""

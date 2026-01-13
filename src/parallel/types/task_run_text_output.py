@@ -10,6 +10,8 @@ __all__ = ["TaskRunTextOutput"]
 
 
 class TaskRunTextOutput(BaseModel):
+    """Output from a task that returns text."""
+
     basis: List[FieldBasis]
     """Basis for the output. The basis has a single field 'output'."""
 

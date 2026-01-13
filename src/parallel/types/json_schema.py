@@ -9,6 +9,8 @@ __all__ = ["JsonSchema"]
 
 
 class JsonSchema(BaseModel):
+    """JSON schema for a task input or output."""
+
     json_schema: Dict[str, object]
     """A JSON Schema object. Only a subset of JSON Schema is supported."""
 

@@ -27,38 +27,50 @@ from ...types.beta import (
     findall_ingest_params,
 )
 from ..._base_client import make_request_options
-from ...types.beta.findall_run import FindallRun
+from ...types.beta.findall_run import FindAllRun
 from ...types.json_schema_param import JsonSchemaParam
 from ...types.beta.webhook_param import WebhookParam
-from ...types.beta.findall_schema import FindallSchema
+from ...types.beta.findall_schema import FindAllSchema
 from ...types.beta.mcp_server_param import McpServerParam
-from ...types.beta.findall_run_result import FindallRunResult
+from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
-from ...types.beta.findall_events_response import FindallEventsResponse
-from ...types.beta.findall_retrieve_response import FindallRetrieveResponse
+from ...types.beta.findall_events_response import FindAllEventsResponse
 
-__all__ = ["FindallResource", "AsyncFindallResource"]
+__all__ = [
+    "FindAllResource",
+    "AsyncFindAllResource",
+    "FindAllResourceWithRawResponse",
+    "AsyncFindAllResourceWithRawResponse",
+    "FindAllResourceWithStreamingResponse",
+    "AsyncFindAllResourceWithStreamingResponse",
+    "FindallResource",
+    "AsyncFindallResource",
+    "FindallResourceWithRawResponse",
+    "AsyncFindallResourceWithRawResponse",
+    "FindallResourceWithStreamingResponse",
+    "AsyncFindallResourceWithStreamingResponse",
+]
 
 
-class FindallResource(SyncAPIResource):
+class FindAllResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FindallResourceWithRawResponse:
+    def with_raw_response(self) -> FindAllResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/parallel-web/parallel-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return FindallResourceWithRawResponse(self)
+        return FindAllResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FindallResourceWithStreamingResponse:
+    def with_streaming_response(self) -> FindAllResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/parallel-web/parallel-sdk-python#with_streaming_response
         """
-        return FindallResourceWithStreamingResponse(self)
+        return FindAllResourceWithStreamingResponse(self)
 
     def create(
         self,
@@ -78,7 +90,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
+    ) -> FindAllRun:
         """
         Starts a FindAll run.
 
@@ -96,11 +108,12 @@ class FindallResource(SyncAPIResource):
         Args:
           entity_type: Type of the entity for the FindAll run.
 
-          generator: Generator for the FindAll run.
+          generator: Generator for the FindAll run. One of base, core, pro, preview.
 
           match_conditions: List of match conditions for the FindAll run.
 
-          match_limit: Maximum number of matches to find for this FindAll run.
+          match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
+              1000 (inclusive).
 
           objective: Natural language objective of the FindAll run.
 
@@ -123,14 +136,14 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             "/v1beta/findall/runs",
             body=maybe_transform(
@@ -144,12 +157,12 @@ class FindallResource(SyncAPIResource):
                     "metadata": metadata,
                     "webhook": webhook,
                 },
-                findall_create_params.FindallCreateParams,
+                findall_create_params.FindAllCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallRun,
+            cast_to=FindAllRun,
         )
 
     def retrieve(
@@ -163,7 +176,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRetrieveResponse:
+    ) -> FindAllRun:
         """
         Retrieve a FindAll run.
 
@@ -183,25 +196,20 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
-        return cast(
-            FindallRetrieveResponse,
-            self._get(
-                f"/v1beta/findall/runs/{findall_id}",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, FindallRetrieveResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return self._get(
+            f"/v1beta/findall/runs/{findall_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=FindAllRun,
         )
 
     def cancel(
@@ -235,14 +243,14 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/cancel",
             options=make_request_options(
@@ -265,12 +273,12 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Add an enrichment to a FindAll run.
 
         Args:
-          output_schema: JSON schema for a task input or output.
+          output_schema: JSON schema for the enrichment output schema for the FindAll run.
 
           mcp_servers: List of MCP servers to use for the task.
 
@@ -291,14 +299,14 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/enrich",
             body=maybe_transform(
@@ -307,12 +315,12 @@ class FindallResource(SyncAPIResource):
                     "mcp_servers": mcp_servers,
                     "processor": processor,
                 },
-                findall_enrich_params.FindallEnrichParams,
+                findall_enrich_params.FindAllEnrichParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     def events(
@@ -328,7 +336,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> Stream[FindallEventsResponse]:
+    ) -> Stream[FindAllEventsResponse]:
         """
         Stream events from a FindAll run.
 
@@ -354,14 +362,14 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/events",
             options=make_request_options(
@@ -374,12 +382,12 @@ class FindallResource(SyncAPIResource):
                         "last_event_id": last_event_id,
                         "api_timeout": api_timeout,
                     },
-                    findall_events_params.FindallEventsParams,
+                    findall_events_params.FindAllEventsParams,
                 ),
             ),
-            cast_to=cast(Any, FindallEventsResponse),  # Union types cannot be passed in as arguments in the type system
+            cast_to=cast(Any, FindAllEventsResponse),  # Union types cannot be passed in as arguments in the type system
             stream=True,
-            stream_cls=Stream[FindallEventsResponse],
+            stream_cls=Stream[FindAllEventsResponse],
         )
 
     def extend(
@@ -394,7 +402,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Extend a FindAll run by adding additional matches to the current match limit.
 
@@ -418,23 +426,23 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             f"/v1beta/findall/runs/{findall_id}/extend",
             body=maybe_transform(
-                {"additional_match_limit": additional_match_limit}, findall_extend_params.FindallExtendParams
+                {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     def ingest(
@@ -448,7 +456,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Transforms a natural language search objective into a structured FindAll spec.
 
@@ -473,21 +481,21 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
             "/v1beta/findall/ingest",
-            body=maybe_transform({"objective": objective}, findall_ingest_params.FindallIngestParams),
+            body=maybe_transform({"objective": objective}, findall_ingest_params.FindAllIngestParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     def result(
@@ -501,7 +509,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRunResult:
+    ) -> FindAllRunResult:
         """
         Retrieve the FindAll run result at the time of the request.
 
@@ -521,20 +529,20 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/result",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallRunResult,
+            cast_to=FindAllRunResult,
         )
 
     def schema(
@@ -548,7 +556,7 @@ class FindallResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Get FindAll Run Schema
 
@@ -568,42 +576,42 @@ class FindallResource(SyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
             f"/v1beta/findall/runs/{findall_id}/schema",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
 
-class AsyncFindallResource(AsyncAPIResource):
+class AsyncFindAllResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncFindallResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncFindAllResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/parallel-web/parallel-sdk-python#accessing-raw-response-data-eg-headers
         """
-        return AsyncFindallResourceWithRawResponse(self)
+        return AsyncFindAllResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncFindallResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncFindAllResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/parallel-web/parallel-sdk-python#with_streaming_response
         """
-        return AsyncFindallResourceWithStreamingResponse(self)
+        return AsyncFindAllResourceWithStreamingResponse(self)
 
     async def create(
         self,
@@ -623,7 +631,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRun:
+    ) -> FindAllRun:
         """
         Starts a FindAll run.
 
@@ -641,11 +649,12 @@ class AsyncFindallResource(AsyncAPIResource):
         Args:
           entity_type: Type of the entity for the FindAll run.
 
-          generator: Generator for the FindAll run.
+          generator: Generator for the FindAll run. One of base, core, pro, preview.
 
           match_conditions: List of match conditions for the FindAll run.
 
-          match_limit: Maximum number of matches to find for this FindAll run.
+          match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
+              1000 (inclusive).
 
           objective: Natural language objective of the FindAll run.
 
@@ -668,14 +677,14 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             "/v1beta/findall/runs",
             body=await async_maybe_transform(
@@ -689,12 +698,12 @@ class AsyncFindallResource(AsyncAPIResource):
                     "metadata": metadata,
                     "webhook": webhook,
                 },
-                findall_create_params.FindallCreateParams,
+                findall_create_params.FindAllCreateParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallRun,
+            cast_to=FindAllRun,
         )
 
     async def retrieve(
@@ -708,7 +717,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRetrieveResponse:
+    ) -> FindAllRun:
         """
         Retrieve a FindAll run.
 
@@ -728,25 +737,20 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
-        return cast(
-            FindallRetrieveResponse,
-            await self._get(
-                f"/v1beta/findall/runs/{findall_id}",
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, FindallRetrieveResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return await self._get(
+            f"/v1beta/findall/runs/{findall_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
+            cast_to=FindAllRun,
         )
 
     async def cancel(
@@ -780,14 +784,14 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/cancel",
             options=make_request_options(
@@ -810,12 +814,12 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Add an enrichment to a FindAll run.
 
         Args:
-          output_schema: JSON schema for a task input or output.
+          output_schema: JSON schema for the enrichment output schema for the FindAll run.
 
           mcp_servers: List of MCP servers to use for the task.
 
@@ -836,14 +840,14 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/enrich",
             body=await async_maybe_transform(
@@ -852,12 +856,12 @@ class AsyncFindallResource(AsyncAPIResource):
                     "mcp_servers": mcp_servers,
                     "processor": processor,
                 },
-                findall_enrich_params.FindallEnrichParams,
+                findall_enrich_params.FindAllEnrichParams,
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     async def events(
@@ -873,7 +877,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> AsyncStream[FindallEventsResponse]:
+    ) -> AsyncStream[FindAllEventsResponse]:
         """
         Stream events from a FindAll run.
 
@@ -899,14 +903,14 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/events",
             options=make_request_options(
@@ -919,12 +923,12 @@ class AsyncFindallResource(AsyncAPIResource):
                         "last_event_id": last_event_id,
                         "api_timeout": api_timeout,
                     },
-                    findall_events_params.FindallEventsParams,
+                    findall_events_params.FindAllEventsParams,
                 ),
             ),
-            cast_to=cast(Any, FindallEventsResponse),  # Union types cannot be passed in as arguments in the type system
+            cast_to=cast(Any, FindAllEventsResponse),  # Union types cannot be passed in as arguments in the type system
             stream=True,
-            stream_cls=AsyncStream[FindallEventsResponse],
+            stream_cls=AsyncStream[FindAllEventsResponse],
         )
 
     async def extend(
@@ -939,7 +943,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Extend a FindAll run by adding additional matches to the current match limit.
 
@@ -963,23 +967,23 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             f"/v1beta/findall/runs/{findall_id}/extend",
             body=await async_maybe_transform(
-                {"additional_match_limit": additional_match_limit}, findall_extend_params.FindallExtendParams
+                {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     async def ingest(
@@ -993,7 +997,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Transforms a natural language search objective into a structured FindAll spec.
 
@@ -1018,21 +1022,21 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
             "/v1beta/findall/ingest",
-            body=await async_maybe_transform({"objective": objective}, findall_ingest_params.FindallIngestParams),
+            body=await async_maybe_transform({"objective": objective}, findall_ingest_params.FindAllIngestParams),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
     async def result(
@@ -1046,7 +1050,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallRunResult:
+    ) -> FindAllRunResult:
         """
         Retrieve the FindAll run result at the time of the request.
 
@@ -1066,20 +1070,20 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/result",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallRunResult,
+            cast_to=FindAllRunResult,
         )
 
     async def schema(
@@ -1093,7 +1097,7 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindallSchema:
+    ) -> FindAllSchema:
         """
         Get FindAll Run Schema
 
@@ -1113,25 +1117,25 @@ class AsyncFindallResource(AsyncAPIResource):
         extra_headers = {
             **strip_not_given(
                 {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-02-01"]))
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["findall-2025-09-15"]))
                     if is_given(betas)
                     else not_given
                 }
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-02-01", **(extra_headers or {})}
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
             f"/v1beta/findall/runs/{findall_id}/schema",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=FindallSchema,
+            cast_to=FindAllSchema,
         )
 
 
-class FindallResourceWithRawResponse:
-    def __init__(self, findall: FindallResource) -> None:
+class FindAllResourceWithRawResponse:
+    def __init__(self, findall: FindAllResource) -> None:
         self._findall = findall
 
         self.create = to_raw_response_wrapper(
@@ -1163,8 +1167,8 @@ class FindallResourceWithRawResponse:
         )
 
 
-class AsyncFindallResourceWithRawResponse:
-    def __init__(self, findall: AsyncFindallResource) -> None:
+class AsyncFindAllResourceWithRawResponse:
+    def __init__(self, findall: AsyncFindAllResource) -> None:
         self._findall = findall
 
         self.create = async_to_raw_response_wrapper(
@@ -1196,8 +1200,8 @@ class AsyncFindallResourceWithRawResponse:
         )
 
 
-class FindallResourceWithStreamingResponse:
-    def __init__(self, findall: FindallResource) -> None:
+class FindAllResourceWithStreamingResponse:
+    def __init__(self, findall: FindAllResource) -> None:
         self._findall = findall
 
         self.create = to_streamed_response_wrapper(
@@ -1229,8 +1233,8 @@ class FindallResourceWithStreamingResponse:
         )
 
 
-class AsyncFindallResourceWithStreamingResponse:
-    def __init__(self, findall: AsyncFindallResource) -> None:
+class AsyncFindAllResourceWithStreamingResponse:
+    def __init__(self, findall: AsyncFindAllResource) -> None:
         self._findall = findall
 
         self.create = async_to_streamed_response_wrapper(
@@ -1260,3 +1264,24 @@ class AsyncFindallResourceWithStreamingResponse:
         self.schema = async_to_streamed_response_wrapper(
             findall.schema,
         )
+
+
+FindallResource = FindAllResource  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResource` should be used instead"""
+
+AsyncFindallResource = AsyncFindAllResource  # for backwards compatibility with v0.3.4
+"""This is deprecated, `AsyncFindAllResource` should be used instead"""
+
+FindallResourceWithRawResponse = FindAllResourceWithRawResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResourceWithRawResponse` should be used instead"""
+
+AsyncFindallResourceWithRawResponse = AsyncFindAllResourceWithRawResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `AsyncFindAllResourceWithRawResponse` should be used instead"""
+
+FindallResourceWithStreamingResponse = FindAllResourceWithStreamingResponse  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllResourceWithStreamingResponse` should be used instead"""
+
+AsyncFindallResourceWithStreamingResponse = (
+    AsyncFindAllResourceWithStreamingResponse  # for backwards compatibility with v0.3.4
+)
+"""This is deprecated, `AsyncFindAllResourceWithStreamingResponse` should be used instead"""

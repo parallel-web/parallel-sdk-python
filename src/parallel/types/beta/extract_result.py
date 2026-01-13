@@ -8,6 +8,8 @@ __all__ = ["ExtractResult"]
 
 
 class ExtractResult(BaseModel):
+    """Extract result for a single URL."""
+
     url: str
     """URL associated with the search result."""
 

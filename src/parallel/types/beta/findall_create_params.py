@@ -9,21 +9,24 @@ from ..._utils import PropertyInfo
 from .webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindallCreateParams", "MatchCondition", "ExcludeList"]
+__all__ = ["FindAllCreateParams", "FindallCreateParams", "MatchCondition", "ExcludeList"]
 
 
-class FindallCreateParams(TypedDict, total=False):
+class FindAllCreateParams(TypedDict, total=False):
     entity_type: Required[str]
     """Type of the entity for the FindAll run."""
 
     generator: Required[Literal["base", "core", "pro", "preview"]]
-    """Generator for the FindAll run."""
+    """Generator for the FindAll run. One of base, core, pro, preview."""
 
     match_conditions: Required[Iterable[MatchCondition]]
     """List of match conditions for the FindAll run."""
 
     match_limit: Required[int]
-    """Maximum number of matches to find for this FindAll run."""
+    """Maximum number of matches to find for this FindAll run.
+
+    Must be between 5 and 1000 (inclusive).
+    """
 
     objective: Required[str]
     """Natural language objective of the FindAll run."""
@@ -42,6 +45,8 @@ class FindallCreateParams(TypedDict, total=False):
 
 
 class MatchCondition(TypedDict, total=False):
+    """Match condition model for FindAll ingest."""
+
     description: Required[str]
     """Detailed description of the match condition.
 
@@ -54,8 +59,14 @@ class MatchCondition(TypedDict, total=False):
 
 
 class ExcludeList(TypedDict, total=False):
+    """Exclude candidate input model for FindAll run."""
+
     name: Required[str]
     """Name of the entity to exclude from results."""
 
     url: Required[str]
     """URL of the entity to exclude from results."""
+
+
+FindallCreateParams = FindAllCreateParams  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllCreateParams` should be used instead"""
