@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.4.0 (2026-01-13)
+
+Full Changelog: [v0.3.4...v0.4.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.4...v0.4.0)
+
+### Features
+
+* **api:** add after_date, update findAll nomenclature ([3641ac6](https://github.com/parallel-web/parallel-sdk-python/commit/3641ac619abdf3f0acd9085c515f3bed19c9bdd2))
+* **api:** Update excerpt settings ([bafa464](https://github.com/parallel-web/parallel-sdk-python/commit/bafa464c3f124690387410b0d17bf8a1253e8e63))
+
+
+### Bug Fixes
+
+* ensure streams are always closed ([3251033](https://github.com/parallel-web/parallel-sdk-python/commit/325103322362df0fe730362841dbc0d4b3a60c18))
+* **types:** allow pyright to infer TypedDict types within SequenceNotStr ([f134f9b](https://github.com/parallel-web/parallel-sdk-python/commit/f134f9bf488bdcd80088fc7752b5d33d84fcca66))
+* use async_to_httpx_files in patch method ([b147da5](https://github.com/parallel-web/parallel-sdk-python/commit/b147da50e3d4b13868908c5c40e0ddecc5489e19))
+
+
+### Chores
+
+* add missing docstrings ([05118fc](https://github.com/parallel-web/parallel-sdk-python/commit/05118fc081e6907ac0cdde365e5ed364f49b769c))
+* add Python 3.14 classifier and testing ([5588224](https://github.com/parallel-web/parallel-sdk-python/commit/558822483f60eb430a795e0ee5c6ac780c5f56c1))
+* **api:** update default headers ([16949bf](https://github.com/parallel-web/parallel-sdk-python/commit/16949bfab087cf2f6e6e4f2dc3a503a4a7fa285f))
+* **deps:** mypy 1.18.1 has a regression, pin to 1.17 ([e327c6e](https://github.com/parallel-web/parallel-sdk-python/commit/e327c6e2ba27b3dd565c3f36537643889b4c43e8))
+* **docs:** use environment variables for authentication in code snippets ([e44bc95](https://github.com/parallel-web/parallel-sdk-python/commit/e44bc9528e5e16f243aa8dee4633730d2899c72d))
+* **internal:** add `--fix` argument to lint script ([8b25ed1](https://github.com/parallel-web/parallel-sdk-python/commit/8b25ed10edef5697bce6bc74a3f628029da28d12))
+* **internal:** add missing files argument to base client ([9bc7dc6](https://github.com/parallel-web/parallel-sdk-python/commit/9bc7dc653a4f75da0c5af3297170a16b1df91875))
+* **internal:** codegen related update ([2eb1adc](https://github.com/parallel-web/parallel-sdk-python/commit/2eb1adc9884c03202107eb5987b6ea0717dd3a6a))
+* speedup initial import ([2927603](https://github.com/parallel-web/parallel-sdk-python/commit/2927603782bc242da5b6d7622963452dd24154e7))
+* update lockfile ([37bb7a6](https://github.com/parallel-web/parallel-sdk-python/commit/37bb7a6d321646946f52d37455fc5ad1a2458154))
+
 ## 0.3.4 (2025-11-12)
 
 Full Changelog: [v0.3.3...v0.3.4](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.3...v0.3.4)
