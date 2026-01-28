@@ -90,12 +90,12 @@ class BetaResource(SyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
-        betas: List[ParallelBetaParam],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -110,8 +110,6 @@ class BetaResource(SyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -125,6 +123,8 @@ class BetaResource(SyncAPIResource):
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
 
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -134,10 +134,16 @@ class BetaResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"])),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
-        extra_headers.update({"parallel-beta": "search-extract-2025-10-10"})
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
             "/v1beta/extract",
             body=maybe_transform(
@@ -292,12 +298,12 @@ class AsyncBetaResource(AsyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
-        betas: List[ParallelBetaParam],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -312,8 +318,6 @@ class AsyncBetaResource(AsyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
-          betas: Optional header to specify the beta version(s) to enable.
-
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -327,6 +331,8 @@ class AsyncBetaResource(AsyncAPIResource):
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
 
+          betas: Optional header to specify the beta version(s) to enable.
+
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -336,10 +342,16 @@ class AsyncBetaResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {
-            "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"])),
+            **strip_not_given(
+                {
+                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
+                    if is_given(betas)
+                    else not_given
+                }
+            ),
             **(extra_headers or {}),
         }
-        extra_headers.update({"parallel-beta": "search-extract-2025-10-10"})
+        extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
             "/v1beta/extract",
             body=await async_maybe_transform(
