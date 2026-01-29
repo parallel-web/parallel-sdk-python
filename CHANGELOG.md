@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.4.1 (2026-01-28)
+
+Full Changelog: [v0.4.0...v0.4.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.0...v0.4.1)
+
+### Features
+
+* **client:** add support for binary request streaming ([1138841](https://github.com/parallel-web/parallel-sdk-python/commit/1138841ae071ae81665158a2407d36502524b8a6))
+
+
+### Chores
+
+* **api:** make headers optional ([f99b59d](https://github.com/parallel-web/parallel-sdk-python/commit/f99b59d1ebd829a2c3c62a9a814941f6299f3653))
+* **ci:** upgrade `actions/github-script` ([293c778](https://github.com/parallel-web/parallel-sdk-python/commit/293c778ea739104cc0f153bc099515b5d0d4d339))
+* **internal:** update `actions/checkout` version ([326daf2](https://github.com/parallel-web/parallel-sdk-python/commit/326daf24e43d2a45e077d435db63d72187039207))
+
 ## 0.4.0 (2026-01-13)
 
 Full Changelog: [v0.3.4...v0.4.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.3.4...v0.4.0)
