@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.0 (2026-01-30)
+
+Full Changelog: [v0.4.1...v0.5.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.1...v0.5.0)
+
+### Features
+
+* **client:** add custom JSON encoder for extended type support ([b2c8bf9](https://github.com/parallel-web/parallel-sdk-python/commit/b2c8bf9b8246e2e8f1d53a7c8e238dd19b727a77))
+
 ## 0.4.1 (2026-01-28)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.0...v0.4.1)
