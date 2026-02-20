@@ -296,7 +296,7 @@ class TestFindAll:
                 },
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Parallel) -> None:
         findall_stream = client.beta.findall.events(
@@ -304,7 +304,7 @@ class TestFindAll:
         )
         findall_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events_with_all_params(self, client: Parallel) -> None:
         findall_stream = client.beta.findall.events(
@@ -315,7 +315,7 @@ class TestFindAll:
         )
         findall_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Parallel) -> None:
         response = client.beta.findall.with_raw_response.events(
@@ -326,7 +326,7 @@ class TestFindAll:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Parallel) -> None:
         with client.beta.findall.with_streaming_response.events(
@@ -340,7 +340,7 @@ class TestFindAll:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `findall_id` but received ''"):
@@ -811,7 +811,7 @@ class TestAsyncFindAll:
                 },
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncParallel) -> None:
         findall_stream = await async_client.beta.findall.events(
@@ -819,7 +819,7 @@ class TestAsyncFindAll:
         )
         await findall_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events_with_all_params(self, async_client: AsyncParallel) -> None:
         findall_stream = await async_client.beta.findall.events(
@@ -830,7 +830,7 @@ class TestAsyncFindAll:
         )
         await findall_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.findall.with_raw_response.events(
@@ -841,7 +841,7 @@ class TestAsyncFindAll:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.findall.with_streaming_response.events(
@@ -855,7 +855,7 @@ class TestAsyncFindAll:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `findall_id` but received ''"):

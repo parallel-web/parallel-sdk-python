@@ -94,7 +94,7 @@ class TestTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Parallel) -> None:
         task_run_stream = client.beta.task_run.events(
@@ -102,7 +102,7 @@ class TestTaskRun:
         )
         task_run_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Parallel) -> None:
         response = client.beta.task_run.with_raw_response.events(
@@ -113,7 +113,7 @@ class TestTaskRun:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Parallel) -> None:
         with client.beta.task_run.with_streaming_response.events(
@@ -127,7 +127,7 @@ class TestTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
@@ -263,7 +263,7 @@ class TestAsyncTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncParallel) -> None:
         task_run_stream = await async_client.beta.task_run.events(
@@ -271,7 +271,7 @@ class TestAsyncTaskRun:
         )
         await task_run_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.task_run.with_raw_response.events(
@@ -282,7 +282,7 @@ class TestAsyncTaskRun:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.task_run.with_streaming_response.events(
@@ -296,7 +296,7 @@ class TestAsyncTaskRun:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
