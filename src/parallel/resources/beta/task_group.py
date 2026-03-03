@@ -38,6 +38,16 @@ __all__ = ["TaskGroupResource", "AsyncTaskGroupResource"]
 
 
 class TaskGroupResource(SyncAPIResource):
+    """
+    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+     - Submit hundreds or thousands of Tasks as a single group
+    - Observe group progress and receive results as they complete
+    - Real-time updates via Server-Sent Events (SSE)
+    - Add tasks to an existing group while it is running
+    - Group-level retry and error aggregation
+    Status: beta and subject to change.
+    """
+
     @cached_property
     def with_raw_response(self) -> TaskGroupResourceWithRawResponse:
         """
@@ -314,6 +324,16 @@ class TaskGroupResource(SyncAPIResource):
 
 
 class AsyncTaskGroupResource(AsyncAPIResource):
+    """
+    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+     - Submit hundreds or thousands of Tasks as a single group
+    - Observe group progress and receive results as they complete
+    - Real-time updates via Server-Sent Events (SSE)
+    - Add tasks to an existing group while it is running
+    - Group-level retry and error aggregation
+    Status: beta and subject to change.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncTaskGroupResourceWithRawResponse:
         """

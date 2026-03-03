@@ -33,6 +33,12 @@ __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
 
 class TaskRunResource(SyncAPIResource):
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+    """
+
     @cached_property
     def with_raw_response(self) -> TaskRunResourceWithRawResponse:
         """
@@ -251,6 +257,12 @@ class TaskRunResource(SyncAPIResource):
 
 
 class AsyncTaskRunResource(AsyncAPIResource):
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncTaskRunResourceWithRawResponse:
         """

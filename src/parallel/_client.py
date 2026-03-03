@@ -104,6 +104,11 @@ class Parallel(SyncAPIClient):
 
     @cached_property
     def task_run(self) -> TaskRunResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import TaskRunResource
 
         return TaskRunResource(self)
@@ -284,6 +289,11 @@ class AsyncParallel(AsyncAPIClient):
 
     @cached_property
     def task_run(self) -> AsyncTaskRunResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import AsyncTaskRunResource
 
         return AsyncTaskRunResource(self)
@@ -415,6 +425,11 @@ class ParallelWithRawResponse:
 
     @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import TaskRunResourceWithRawResponse
 
         return TaskRunResourceWithRawResponse(self._client.task_run)
@@ -434,6 +449,11 @@ class AsyncParallelWithRawResponse:
 
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import AsyncTaskRunResourceWithRawResponse
 
         return AsyncTaskRunResourceWithRawResponse(self._client.task_run)
@@ -453,6 +473,11 @@ class ParallelWithStreamedResponse:
 
     @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import TaskRunResourceWithStreamingResponse
 
         return TaskRunResourceWithStreamingResponse(self._client.task_run)
@@ -472,6 +497,11 @@ class AsyncParallelWithStreamedResponse:
 
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         from .resources.task_run import AsyncTaskRunResourceWithStreamingResponse
 
         return AsyncTaskRunResourceWithStreamingResponse(self._client.task_run)
