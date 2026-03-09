@@ -66,6 +66,7 @@ class TaskRunResource(SyncAPIResource):
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
@@ -104,6 +105,8 @@ class TaskRunResource(SyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -148,6 +151,7 @@ class TaskRunResource(SyncAPIResource):
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                     "webhook": webhook,
@@ -290,6 +294,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
@@ -328,6 +333,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -372,6 +379,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                     "webhook": webhook,

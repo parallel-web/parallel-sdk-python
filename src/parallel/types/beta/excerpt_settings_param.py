@@ -15,13 +15,13 @@ class ExcerptSettingsParam(TypedDict, total=False):
     """Optional upper bound on the total number of characters to include per url.
 
     Excerpts may contain fewer characters than this limit to maximize relevance and
-    token efficiency, but will never contain fewer than 1000 characters per result.
+    token efficiency. Values below 1000 will be automatically set to 1000.
     """
 
     max_chars_total: Optional[int]
     """
     Optional upper bound on the total number of characters to include across all
     urls. Results may contain fewer characters than this limit to maximize relevance
-    and token efficiency, but will never contain fewer than 1000 characters per
-    result.This overall limit applies in addition to max_chars_per_result.
+    and token efficiency. Values below 1000 will be automatically set to 1000. This
+    overall limit applies in addition to max_chars_per_result.
     """

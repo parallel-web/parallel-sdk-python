@@ -98,6 +98,7 @@ All beta parameters are accessible via the `client.beta` namespace in the SDK.
 
 Yes, all methods support a timeout. For more information, see [Timeouts](#timeouts).
 
+
 **Can I specify retries via the SDK?**
 
 Yes, errors can be retried via the SDK — the default retry count is 2. The maximum number
@@ -292,7 +293,7 @@ response = client.task_run.with_raw_response.create(
 print(response.headers.get('X-My-Header'))
 
 task_run = response.parse()
-print(task_run.run_id)
+print(task_run.interaction_id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/parallel-web/parallel-sdk-python/tree/main/src/parallel/_response.py) object.

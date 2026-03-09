@@ -68,6 +68,7 @@ class TaskRunResource(SyncAPIResource):
         input: Union[str, Dict[str, object]],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -91,6 +92,8 @@ class TaskRunResource(SyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -118,6 +121,7 @@ class TaskRunResource(SyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                 },
@@ -363,6 +367,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         input: Union[str, Dict[str, object]],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -386,6 +391,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -413,6 +420,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                 },

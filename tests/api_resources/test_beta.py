@@ -97,7 +97,6 @@ class TestBeta:
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
-            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(SearchResult, beta, path=["response"])
 
@@ -203,7 +202,6 @@ class TestAsyncBeta:
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
                 "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
             },
-            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(SearchResult, beta, path=["response"])
 
