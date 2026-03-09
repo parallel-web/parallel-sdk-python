@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.4.2 (2026-03-09)
+
+Full Changelog: [v0.4.1...v0.4.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.1...v0.4.2)
+
+### Features
+
+* **api:** add betas back in for search ([23493c6](https://github.com/parallel-web/parallel-sdk-python/commit/23493c6ae666649f7ac2af185bb6caf49b9fefee))
+* **api:** sync openapi spec ([e00288b](https://github.com/parallel-web/parallel-sdk-python/commit/e00288bd8ed2a250c9a0d7935a52fd40b9d1bec5))
+* **client:** add custom JSON encoder for extended type support ([b2c8bf9](https://github.com/parallel-web/parallel-sdk-python/commit/b2c8bf9b8246e2e8f1d53a7c8e238dd19b727a77))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([bb389c0](https://github.com/parallel-web/parallel-sdk-python/commit/bb389c0078e00e615c1aa650674c006c6e906c81))
+* format all `api.md` files ([b74b93b](https://github.com/parallel-web/parallel-sdk-python/commit/b74b93bf04d678cc283b8f312a3a4c5bb314c468))
+* **internal:** add request options to SSE classes ([00dbc30](https://github.com/parallel-web/parallel-sdk-python/commit/00dbc3027e59adda51eb623d6a724501f70a7720))
+* **internal:** bump dependencies ([f49c841](https://github.com/parallel-web/parallel-sdk-python/commit/f49c841670d88f8fc38e0a17f19242f7570a9aad))
+* **internal:** codegen related update ([1b7c8ff](https://github.com/parallel-web/parallel-sdk-python/commit/1b7c8ff1969c65a422d6bcfcdc01c5b0c477b45b))
+* **internal:** fix lint error on Python 3.14 ([cb3f364](https://github.com/parallel-web/parallel-sdk-python/commit/cb3f3645bc67b98235a732f357d8a24fdf164032))
+* **internal:** make `test_proxy_environment_variables` more resilient ([d3ba149](https://github.com/parallel-web/parallel-sdk-python/commit/d3ba149917deab7ee28a3f38bd7b1f3f4bd2b9c6))
+* **internal:** make `test_proxy_environment_variables` more resilient to env ([1e1d858](https://github.com/parallel-web/parallel-sdk-python/commit/1e1d858e7c21785744d94ceef33e655dcf75eacc))
+* **test:** do not count install time for mock server timeout ([9766097](https://github.com/parallel-web/parallel-sdk-python/commit/9766097052cc86f0081cfe38b25d7dbf90232438))
+* update mock server docs ([028965c](https://github.com/parallel-web/parallel-sdk-python/commit/028965c0b2868051617b266493466f9fc7816705))
+
 ## 0.4.1 (2026-01-28)
 
 Full Changelog: [v0.4.0...v0.4.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.0...v0.4.1)
