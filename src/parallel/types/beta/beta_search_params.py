@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Literal, TypedDict
+from typing import List, Optional
+from typing_extensions import Literal, Annotated, TypedDict
 
 from ..._types import SequenceNotStr
+from ..._utils import PropertyInfo
 from .fetch_policy_param import FetchPolicyParam
+from .parallel_beta_param import ParallelBetaParam
 from .excerpt_settings_param import ExcerptSettingsParam
 from ..shared_params.source_policy import SourcePolicy
 
@@ -59,3 +61,6 @@ class BetaSearchParams(TypedDict, total=False):
 
     This policy governs which sources are allowed/disallowed in results.
     """
+
+    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
+    """Optional header to specify the beta version(s) to enable."""
