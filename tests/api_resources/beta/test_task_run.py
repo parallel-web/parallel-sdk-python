@@ -43,6 +43,7 @@ class TestTaskRun:
                 }
             ],
             metadata={"foo": "string"},
+            previous_interaction_id="previous_interaction_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -212,6 +213,7 @@ class TestAsyncTaskRun:
                 }
             ],
             metadata={"foo": "string"},
+            previous_interaction_id="previous_interaction_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],

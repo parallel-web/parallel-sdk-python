@@ -46,6 +46,9 @@ class BetaRunInput(BaseModel):
     respectively.
     """
 
+    previous_interaction_id: Optional[str] = None
+    """Interaction ID to use as context for this request."""
+
     source_policy: Optional[SourcePolicy] = None
     """Source policy for web search results.
 

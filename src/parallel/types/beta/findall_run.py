@@ -32,7 +32,13 @@ class Status(BaseModel):
 
     termination_reason: Optional[
         Literal[
-            "low_match_rate", "match_limit_met", "candidates_exhausted", "user_cancelled", "error_occurred", "timeout"
+            "low_match_rate",
+            "match_limit_met",
+            "candidates_exhausted",
+            "user_cancelled",
+            "error_occurred",
+            "timeout",
+            "insufficient_funds",
         ]
     ] = None
     """Reason for termination when FindAll run is in terminal status."""

@@ -154,7 +154,8 @@ class TaskGroupResource(SyncAPIResource):
         Initiates multiple task runs within a TaskGroup.
 
         Args:
-          inputs: List of task runs to execute.
+          inputs: List of task runs to execute. Up to 1,000 runs can be specified per request. If
+              you'd like to add more runs, split them across multiple TaskGroup POST requests.
 
           default_task_spec: Specification for a task.
 
@@ -440,7 +441,8 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         Initiates multiple task runs within a TaskGroup.
 
         Args:
-          inputs: List of task runs to execute.
+          inputs: List of task runs to execute. Up to 1,000 runs can be specified per request. If
+              you'd like to add more runs, split them across multiple TaskGroup POST requests.
 
           default_task_spec: Specification for a task.
 

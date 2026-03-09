@@ -187,12 +187,11 @@ class BetaResource(SyncAPIResource):
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
-        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -203,9 +202,6 @@ class BetaResource(SyncAPIResource):
         """
         Searches the web.
 
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
-
         Args:
           excerpts: Optional settings to configure excerpt generation.
 
@@ -213,13 +209,16 @@ class BetaResource(SyncAPIResource):
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
-          max_results: Upper bound on the number of results to return. May be limited by the processor.
-              Defaults to 10 if not provided.
+          max_results: Upper bound on the number of results to return. Defaults to 10 if not provided.
 
-          mode: Presets default values for parameters for different use cases. `one-shot`
-              returns more comprehensive results and longer excerpts to answer questions from
-              a single response, while `agentic` returns more concise, token-efficient results
-              for use in an agentic loop.
+          mode: Presets default values for parameters for different use cases.
+
+              - `one-shot` returns more comprehensive results and longer excerpts to answer
+                questions from a single response
+              - `agentic` returns more concise, token-efficient results for use in an agentic
+                loop
+              - `fast` trades some quality for lower latency, with best results when used with
+                concise and high-quality objective and keyword queries
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
@@ -235,8 +234,6 @@ class BetaResource(SyncAPIResource):
 
               This policy governs which sources are allowed/disallowed in results.
 
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -245,16 +242,6 @@ class BetaResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
-                    if is_given(betas)
-                    else not_given
-                }
-            ),
-            **(extra_headers or {}),
-        }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
             "/v1beta/search",
@@ -412,12 +399,11 @@ class AsyncBetaResource(AsyncAPIResource):
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
-        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -428,9 +414,6 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         Searches the web.
 
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
-
         Args:
           excerpts: Optional settings to configure excerpt generation.
 
@@ -438,13 +421,16 @@ class AsyncBetaResource(AsyncAPIResource):
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
-          max_results: Upper bound on the number of results to return. May be limited by the processor.
-              Defaults to 10 if not provided.
+          max_results: Upper bound on the number of results to return. Defaults to 10 if not provided.
 
-          mode: Presets default values for parameters for different use cases. `one-shot`
-              returns more comprehensive results and longer excerpts to answer questions from
-              a single response, while `agentic` returns more concise, token-efficient results
-              for use in an agentic loop.
+          mode: Presets default values for parameters for different use cases.
+
+              - `one-shot` returns more comprehensive results and longer excerpts to answer
+                questions from a single response
+              - `agentic` returns more concise, token-efficient results for use in an agentic
+                loop
+              - `fast` trades some quality for lower latency, with best results when used with
+                concise and high-quality objective and keyword queries
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
@@ -460,8 +446,6 @@ class AsyncBetaResource(AsyncAPIResource):
 
               This policy governs which sources are allowed/disallowed in results.
 
-          betas: Optional header to specify the beta version(s) to enable.
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -470,16 +454,6 @@ class AsyncBetaResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "parallel-beta": ",".join(chain((str(e) for e in betas), ["search-extract-2025-10-10"]))
-                    if is_given(betas)
-                    else not_given
-                }
-            ),
-            **(extra_headers or {}),
-        }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
             "/v1beta/search",

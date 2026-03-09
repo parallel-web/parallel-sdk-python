@@ -36,7 +36,7 @@ task_run = client.task_run.create(
     input="What was the GDP of France in 2023?",
     processor="base",
 )
-print(task_run.run_id)
+print(task_run.interaction_id)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -63,7 +63,7 @@ async def main() -> None:
         input="What was the GDP of France in 2023?",
         processor="base",
     )
-    print(task_run.run_id)
+    print(task_run.interaction_id)
 
 
 asyncio.run(main())
@@ -100,7 +100,7 @@ async def main() -> None:
             input="What was the GDP of France in 2023?",
             processor="base",
         )
-        print(task_run.run_id)
+        print(task_run.interaction_id)
 
 
 asyncio.run(main())
@@ -271,7 +271,7 @@ response = client.task_run.with_raw_response.create(
 print(response.headers.get('X-My-Header'))
 
 task_run = response.parse()  # get the object that `task_run.create()` would have returned
-print(task_run.run_id)
+print(task_run.interaction_id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/parallel-web/parallel-sdk-python/tree/main/src/parallel/_response.py) object.

@@ -18,6 +18,13 @@ class TaskRun(BaseModel):
     created_at: Optional[str] = None
     """Timestamp of the creation of the task, as an RFC 3339 string."""
 
+    interaction_id: str
+    """Identifier for this interaction.
+
+    Pass this value as `previous_interaction_id` to reuse context for a future
+    request.
+    """
+
     is_active: bool
     """Whether the run is currently active, i.e.
 
