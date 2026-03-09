@@ -123,6 +123,7 @@ class TestTaskGroup:
                         }
                     ],
                     "metadata": {"foo": "string"},
+                    "previous_interaction_id": "previous_interaction_id",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
                         "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -211,7 +212,7 @@ class TestTaskGroup:
                 ],
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Parallel) -> None:
         task_group_stream = client.beta.task_group.events(
@@ -219,7 +220,7 @@ class TestTaskGroup:
         )
         task_group_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events_with_all_params(self, client: Parallel) -> None:
         task_group_stream = client.beta.task_group.events(
@@ -229,7 +230,7 @@ class TestTaskGroup:
         )
         task_group_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Parallel) -> None:
         response = client.beta.task_group.with_raw_response.events(
@@ -240,7 +241,7 @@ class TestTaskGroup:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Parallel) -> None:
         with client.beta.task_group.with_streaming_response.events(
@@ -254,7 +255,7 @@ class TestTaskGroup:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
@@ -262,7 +263,7 @@ class TestTaskGroup:
                 task_group_id="",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_get_runs(self, client: Parallel) -> None:
         task_group_stream = client.beta.task_group.get_runs(
@@ -270,7 +271,7 @@ class TestTaskGroup:
         )
         task_group_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_get_runs_with_all_params(self, client: Parallel) -> None:
         task_group_stream = client.beta.task_group.get_runs(
@@ -282,7 +283,7 @@ class TestTaskGroup:
         )
         task_group_stream.response.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_get_runs(self, client: Parallel) -> None:
         response = client.beta.task_group.with_raw_response.get_runs(
@@ -293,7 +294,7 @@ class TestTaskGroup:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_get_runs(self, client: Parallel) -> None:
         with client.beta.task_group.with_streaming_response.get_runs(
@@ -307,7 +308,7 @@ class TestTaskGroup:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_get_runs(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
@@ -423,6 +424,7 @@ class TestAsyncTaskGroup:
                         }
                     ],
                     "metadata": {"foo": "string"},
+                    "previous_interaction_id": "previous_interaction_id",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
                         "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -511,7 +513,7 @@ class TestAsyncTaskGroup:
                 ],
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncParallel) -> None:
         task_group_stream = await async_client.beta.task_group.events(
@@ -519,7 +521,7 @@ class TestAsyncTaskGroup:
         )
         await task_group_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events_with_all_params(self, async_client: AsyncParallel) -> None:
         task_group_stream = await async_client.beta.task_group.events(
@@ -529,7 +531,7 @@ class TestAsyncTaskGroup:
         )
         await task_group_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.task_group.with_raw_response.events(
@@ -540,7 +542,7 @@ class TestAsyncTaskGroup:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.task_group.with_streaming_response.events(
@@ -554,7 +556,7 @@ class TestAsyncTaskGroup:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
@@ -562,7 +564,7 @@ class TestAsyncTaskGroup:
                 task_group_id="",
             )
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_get_runs(self, async_client: AsyncParallel) -> None:
         task_group_stream = await async_client.beta.task_group.get_runs(
@@ -570,7 +572,7 @@ class TestAsyncTaskGroup:
         )
         await task_group_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_get_runs_with_all_params(self, async_client: AsyncParallel) -> None:
         task_group_stream = await async_client.beta.task_group.get_runs(
@@ -582,7 +584,7 @@ class TestAsyncTaskGroup:
         )
         await task_group_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_get_runs(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.task_group.with_raw_response.get_runs(
@@ -593,7 +595,7 @@ class TestAsyncTaskGroup:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_get_runs(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.task_group.with_streaming_response.get_runs(
@@ -607,7 +609,7 @@ class TestAsyncTaskGroup:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Prism doesn't support text/event-stream responses")
+    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_get_runs(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):

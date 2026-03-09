@@ -37,6 +37,12 @@ __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
 
 class TaskRunResource(SyncAPIResource):
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+    """
+
     @cached_property
     def with_raw_response(self) -> TaskRunResourceWithRawResponse:
         """
@@ -62,6 +68,7 @@ class TaskRunResource(SyncAPIResource):
         input: Union[str, Dict[str, object]],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -85,6 +92,8 @@ class TaskRunResource(SyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -112,6 +121,7 @@ class TaskRunResource(SyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                 },
@@ -326,6 +336,12 @@ class TaskRunResource(SyncAPIResource):
 
 
 class AsyncTaskRunResource(AsyncAPIResource):
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncTaskRunResourceWithRawResponse:
         """
@@ -351,6 +367,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         input: Union[str, Dict[str, object]],
         processor: str,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
+        previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -374,6 +391,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
+
+          previous_interaction_id: Interaction ID to use as context for this request.
 
           source_policy: Source policy for web search results.
 
@@ -401,6 +420,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     "input": input,
                     "processor": processor,
                     "metadata": metadata,
+                    "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
                     "task_spec": task_spec,
                 },

@@ -15,7 +15,11 @@ __all__ = ["TaskGroupAddRunsParams"]
 
 class TaskGroupAddRunsParams(TypedDict, total=False):
     inputs: Required[Iterable[BetaRunInputParam]]
-    """List of task runs to execute."""
+    """List of task runs to execute.
+
+    Up to 1,000 runs can be specified per request. If you'd like to add more runs,
+    split them across multiple TaskGroup POST requests.
+    """
 
     default_task_spec: Optional[TaskSpecParam]
     """Specification for a task.

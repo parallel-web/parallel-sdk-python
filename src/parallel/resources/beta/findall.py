@@ -53,6 +53,10 @@ __all__ = [
 
 
 class FindAllResource(SyncAPIResource):
+    """
+    The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+    """
+
     @cached_property
     def with_raw_response(self) -> FindAllResourceWithRawResponse:
         """
@@ -594,6 +598,10 @@ class FindAllResource(SyncAPIResource):
 
 
 class AsyncFindAllResource(AsyncAPIResource):
+    """
+    The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+    """
+
     @cached_property
     def with_raw_response(self) -> AsyncFindAllResourceWithRawResponse:
         """

@@ -32,6 +32,7 @@ class TestTaskRun:
             input="What was the GDP of France in 2023?",
             processor="base",
             metadata={"foo": "string"},
+            previous_interaction_id="previous_interaction_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -182,6 +183,7 @@ class TestAsyncTaskRun:
             input="What was the GDP of France in 2023?",
             processor="base",
             metadata={"foo": "string"},
+            previous_interaction_id="previous_interaction_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],

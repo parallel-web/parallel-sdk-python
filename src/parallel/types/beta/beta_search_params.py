@@ -26,17 +26,17 @@ class BetaSearchParams(TypedDict, total=False):
     """DEPRECATED: Use `excerpts.max_chars_per_result` instead."""
 
     max_results: Optional[int]
-    """Upper bound on the number of results to return.
+    """Upper bound on the number of results to return. Defaults to 10 if not provided."""
 
-    May be limited by the processor. Defaults to 10 if not provided.
-    """
-
-    mode: Optional[Literal["one-shot", "agentic"]]
+    mode: Optional[Literal["one-shot", "agentic", "fast"]]
     """Presets default values for parameters for different use cases.
 
-    `one-shot` returns more comprehensive results and longer excerpts to answer
-    questions from a single response, while `agentic` returns more concise,
-    token-efficient results for use in an agentic loop.
+    - `one-shot` returns more comprehensive results and longer excerpts to answer
+      questions from a single response
+    - `agentic` returns more concise, token-efficient results for use in an agentic
+      loop
+    - `fast` trades some quality for lower latency, with best results when used with
+      concise and high-quality objective and keyword queries
     """
 
     objective: Optional[str]

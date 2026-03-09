@@ -57,14 +57,31 @@ __all__ = ["BetaResource", "AsyncBetaResource"]
 class BetaResource(SyncAPIResource):
     @cached_property
     def task_run(self) -> TaskRunResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return TaskRunResource(self._client)
 
     @cached_property
     def task_group(self) -> TaskGroupResource:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return TaskGroupResource(self._client)
 
     @cached_property
     def findall(self) -> FindAllResource:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return FindAllResource(self._client)
 
     @cached_property
@@ -170,7 +187,7 @@ class BetaResource(SyncAPIResource):
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
-        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -186,9 +203,6 @@ class BetaResource(SyncAPIResource):
         """
         Searches the web.
 
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
-
         Args:
           excerpts: Optional settings to configure excerpt generation.
 
@@ -196,13 +210,16 @@ class BetaResource(SyncAPIResource):
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
-          max_results: Upper bound on the number of results to return. May be limited by the processor.
-              Defaults to 10 if not provided.
+          max_results: Upper bound on the number of results to return. Defaults to 10 if not provided.
 
-          mode: Presets default values for parameters for different use cases. `one-shot`
-              returns more comprehensive results and longer excerpts to answer questions from
-              a single response, while `agentic` returns more concise, token-efficient results
-              for use in an agentic loop.
+          mode: Presets default values for parameters for different use cases.
+
+              - `one-shot` returns more comprehensive results and longer excerpts to answer
+                questions from a single response
+              - `agentic` returns more concise, token-efficient results for use in an agentic
+                loop
+              - `fast` trades some quality for lower latency, with best results when used with
+                concise and high-quality objective and keyword queries
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
@@ -265,14 +282,31 @@ class BetaResource(SyncAPIResource):
 class AsyncBetaResource(AsyncAPIResource):
     @cached_property
     def task_run(self) -> AsyncTaskRunResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return AsyncTaskRunResource(self._client)
 
     @cached_property
     def task_group(self) -> AsyncTaskGroupResource:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return AsyncTaskGroupResource(self._client)
 
     @cached_property
     def findall(self) -> AsyncFindAllResource:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return AsyncFindAllResource(self._client)
 
     @cached_property
@@ -378,7 +412,7 @@ class AsyncBetaResource(AsyncAPIResource):
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
-        mode: Optional[Literal["one-shot", "agentic"]] | Omit = omit,
+        mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
@@ -394,9 +428,6 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         Searches the web.
 
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
-
         Args:
           excerpts: Optional settings to configure excerpt generation.
 
@@ -404,13 +435,16 @@ class AsyncBetaResource(AsyncAPIResource):
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
-          max_results: Upper bound on the number of results to return. May be limited by the processor.
-              Defaults to 10 if not provided.
+          max_results: Upper bound on the number of results to return. Defaults to 10 if not provided.
 
-          mode: Presets default values for parameters for different use cases. `one-shot`
-              returns more comprehensive results and longer excerpts to answer questions from
-              a single response, while `agentic` returns more concise, token-efficient results
-              for use in an agentic loop.
+          mode: Presets default values for parameters for different use cases.
+
+              - `one-shot` returns more comprehensive results and longer excerpts to answer
+                questions from a single response
+              - `agentic` returns more concise, token-efficient results for use in an agentic
+                loop
+              - `fast` trades some quality for lower latency, with best results when used with
+                concise and high-quality objective and keyword queries
 
           objective: Natural-language description of what the web search is trying to find. May
               include guidance about preferred sources or freshness. At least one of objective
@@ -483,14 +517,31 @@ class BetaResourceWithRawResponse:
 
     @cached_property
     def task_run(self) -> TaskRunResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return TaskRunResourceWithRawResponse(self._beta.task_run)
 
     @cached_property
     def task_group(self) -> TaskGroupResourceWithRawResponse:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return TaskGroupResourceWithRawResponse(self._beta.task_group)
 
     @cached_property
     def findall(self) -> FindAllResourceWithRawResponse:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return FindAllResourceWithRawResponse(self._beta.findall)
 
 
@@ -507,14 +558,31 @@ class AsyncBetaResourceWithRawResponse:
 
     @cached_property
     def task_run(self) -> AsyncTaskRunResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return AsyncTaskRunResourceWithRawResponse(self._beta.task_run)
 
     @cached_property
     def task_group(self) -> AsyncTaskGroupResourceWithRawResponse:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return AsyncTaskGroupResourceWithRawResponse(self._beta.task_group)
 
     @cached_property
     def findall(self) -> AsyncFindAllResourceWithRawResponse:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return AsyncFindAllResourceWithRawResponse(self._beta.findall)
 
 
@@ -531,14 +599,31 @@ class BetaResourceWithStreamingResponse:
 
     @cached_property
     def task_run(self) -> TaskRunResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return TaskRunResourceWithStreamingResponse(self._beta.task_run)
 
     @cached_property
     def task_group(self) -> TaskGroupResourceWithStreamingResponse:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return TaskGroupResourceWithStreamingResponse(self._beta.task_group)
 
     @cached_property
     def findall(self) -> FindAllResourceWithStreamingResponse:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return FindAllResourceWithStreamingResponse(self._beta.findall)
 
 
@@ -555,12 +640,29 @@ class AsyncBetaResourceWithStreamingResponse:
 
     @cached_property
     def task_run(self) -> AsyncTaskRunResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+        """
         return AsyncTaskRunResourceWithStreamingResponse(self._beta.task_run)
 
     @cached_property
     def task_group(self) -> AsyncTaskGroupResourceWithStreamingResponse:
+        """
+        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        Status: beta and subject to change.
+        """
         return AsyncTaskGroupResourceWithStreamingResponse(self._beta.task_group)
 
     @cached_property
     def findall(self) -> AsyncFindAllResourceWithStreamingResponse:
+        """
+        The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
+        """
         return AsyncFindAllResourceWithStreamingResponse(self._beta.findall)

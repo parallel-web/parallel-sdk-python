@@ -25,6 +25,9 @@ class TaskRunCreateParams(TypedDict, total=False):
     respectively.
     """
 
+    previous_interaction_id: Optional[str]
+    """Interaction ID to use as context for this request."""
+
     source_policy: Optional[SourcePolicy]
     """Source policy for web search results.
 
