@@ -2,20 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Required, TypedDict
 
-from .._utils import PropertyInfo
 from .webhook_param import WebhookParam
 from .task_spec_param import TaskSpecParam
 from .mcp_server_param import McpServerParam
-from .beta.parallel_beta_param import ParallelBetaParam
 from .shared_params.source_policy import SourcePolicy
 
-__all__ = ["TaskRunCreateParams"]
+__all__ = ["RunInputParam"]
 
 
-class TaskRunCreateParams(TypedDict, total=False):
+class RunInputParam(TypedDict, total=False):
+    """Request to run a task."""
+
     input: Required[Union[str, Dict[str, object]]]
     """Input to the task, either text or a JSON object."""
 
@@ -62,6 +62,3 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     webhook: Optional[WebhookParam]
     """Webhooks for Task Runs."""
-
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
-    """Optional header to specify the beta version(s) to enable."""

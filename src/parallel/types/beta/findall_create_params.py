@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .webhook_param import WebhookParam
+from ..webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 
 __all__ = ["FindAllCreateParams", "MatchCondition", "ExcludeList"]

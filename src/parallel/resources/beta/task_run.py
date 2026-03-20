@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import Any, Dict, List, Union, Iterable, Optional, cast
 from itertools import chain
 
@@ -21,11 +22,11 @@ from ..._streaming import Stream, AsyncStream
 from ...types.beta import task_run_create_params, task_run_result_params
 from ..._base_client import make_request_options
 from ...types.task_run import TaskRun
+from ...types.webhook_param import WebhookParam
+from ...types.task_run_result import TaskRunResult
 from ...types.task_spec_param import TaskSpecParam
-from ...types.beta.webhook_param import WebhookParam
-from ...types.beta.mcp_server_param import McpServerParam
+from ...types.mcp_server_param import McpServerParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
-from ...types.beta.beta_task_run_result import BetaTaskRunResult
 from ...types.shared_params.source_policy import SourcePolicy
 from ...types.beta.task_run_events_response import TaskRunEventsResponse
 
@@ -58,6 +59,7 @@ class TaskRunResource(SyncAPIResource):
         """
         return TaskRunResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     def create(
         self,
         *,
@@ -95,13 +97,9 @@ class TaskRunResource(SyncAPIResource):
               [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
               false, no progress events are tracked. Note that progress tracking cannot be
               enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). To enable this feature in your requests,
-              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-              (for API calls) or `betas` param (for the SDKs).
+              premium processors (pro and above).
 
-          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
-              requests, specify `mcp-server-2025-07-17` as one of the values in
-              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
+          mcp_servers: Optional list of MCP servers to use for the run.
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -143,7 +141,7 @@ class TaskRunResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
-            "/v1/tasks/runs?beta=true",
+            "/v1/tasks/runs",
             body=maybe_transform(
                 {
                     "input": input,
@@ -164,6 +162,7 @@ class TaskRunResource(SyncAPIResource):
             cast_to=TaskRun,
         )
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     def events(
         self,
         run_id: str,
@@ -207,6 +206,7 @@ class TaskRunResource(SyncAPIResource):
             stream_cls=Stream[TaskRunEventsResponse],
         )
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     def result(
         self,
         run_id: str,
@@ -219,7 +219,7 @@ class TaskRunResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BetaTaskRunResult:
+    ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
@@ -248,7 +248,7 @@ class TaskRunResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            path_template("/v1/tasks/runs/{run_id}/result?beta=true", run_id=run_id),
+            path_template("/v1/tasks/runs/{run_id}/result", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -256,7 +256,7 @@ class TaskRunResource(SyncAPIResource):
                 timeout=timeout,
                 query=maybe_transform({"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams),
             ),
-            cast_to=BetaTaskRunResult,
+            cast_to=TaskRunResult,
         )
 
 
@@ -286,6 +286,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         """
         return AsyncTaskRunResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     async def create(
         self,
         *,
@@ -323,13 +324,9 @@ class AsyncTaskRunResource(AsyncAPIResource):
               [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
               false, no progress events are tracked. Note that progress tracking cannot be
               enabled after a run has been created. The flag is set to true by default for
-              premium processors (pro and above). To enable this feature in your requests,
-              specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-              (for API calls) or `betas` param (for the SDKs).
+              premium processors (pro and above).
 
-          mcp_servers: Optional list of MCP servers to use for the run. To enable this feature in your
-              requests, specify `mcp-server-2025-07-17` as one of the values in
-              `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
+          mcp_servers: Optional list of MCP servers to use for the run.
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -371,7 +368,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
-            "/v1/tasks/runs?beta=true",
+            "/v1/tasks/runs",
             body=await async_maybe_transform(
                 {
                     "input": input,
@@ -392,6 +389,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
             cast_to=TaskRun,
         )
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     async def events(
         self,
         run_id: str,
@@ -435,6 +433,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
             stream_cls=AsyncStream[TaskRunEventsResponse],
         )
 
+    @typing_extensions.deprecated("Use GA Task Run instead")
     async def result(
         self,
         run_id: str,
@@ -447,7 +446,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> BetaTaskRunResult:
+    ) -> TaskRunResult:
         """
         Retrieves a run result by run_id, blocking until the run is completed.
 
@@ -476,7 +475,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            path_template("/v1/tasks/runs/{run_id}/result?beta=true", run_id=run_id),
+            path_template("/v1/tasks/runs/{run_id}/result", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -486,7 +485,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     {"api_timeout": api_timeout}, task_run_result_params.TaskRunResultParams
                 ),
             ),
-            cast_to=BetaTaskRunResult,
+            cast_to=TaskRunResult,
         )
 
 
@@ -494,14 +493,20 @@ class TaskRunResourceWithRawResponse:
     def __init__(self, task_run: TaskRunResource) -> None:
         self._task_run = task_run
 
-        self.create = to_raw_response_wrapper(
-            task_run.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_run.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = to_raw_response_wrapper(
-            task_run.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_run.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.result = to_raw_response_wrapper(
-            task_run.result,
+        self.result = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_run.result,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -509,14 +514,20 @@ class AsyncTaskRunResourceWithRawResponse:
     def __init__(self, task_run: AsyncTaskRunResource) -> None:
         self._task_run = task_run
 
-        self.create = async_to_raw_response_wrapper(
-            task_run.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_run.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = async_to_raw_response_wrapper(
-            task_run.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_run.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.result = async_to_raw_response_wrapper(
-            task_run.result,
+        self.result = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_run.result,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -524,14 +535,20 @@ class TaskRunResourceWithStreamingResponse:
     def __init__(self, task_run: TaskRunResource) -> None:
         self._task_run = task_run
 
-        self.create = to_streamed_response_wrapper(
-            task_run.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_run.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = to_streamed_response_wrapper(
-            task_run.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_run.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.result = to_streamed_response_wrapper(
-            task_run.result,
+        self.result = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_run.result,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -539,12 +556,18 @@ class AsyncTaskRunResourceWithStreamingResponse:
     def __init__(self, task_run: AsyncTaskRunResource) -> None:
         self._task_run = task_run
 
-        self.create = async_to_streamed_response_wrapper(
-            task_run.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_run.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = async_to_streamed_response_wrapper(
-            task_run.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_run.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.result = async_to_streamed_response_wrapper(
-            task_run.result,
+        self.result = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_run.result,  # pyright: ignore[reportDeprecated],
+            )
         )

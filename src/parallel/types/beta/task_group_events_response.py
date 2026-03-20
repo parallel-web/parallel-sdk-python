@@ -5,8 +5,8 @@ from typing_extensions import Literal, Annotated, TypeAlias
 
 from ..._utils import PropertyInfo
 from ..._models import BaseModel
-from .error_event import ErrorEvent
-from .task_run_event import TaskRunEvent
+from ..error_event import ErrorEvent
+from ..task_run_event import TaskRunEvent
 from .task_group_status import TaskGroupStatus
 
 __all__ = ["TaskGroupEventsResponse", "TaskGroupStatusEvent"]

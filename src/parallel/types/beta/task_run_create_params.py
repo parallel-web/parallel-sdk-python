@@ -6,9 +6,9 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .webhook_param import WebhookParam
+from ..webhook_param import WebhookParam
 from ..task_spec_param import TaskSpecParam
-from .mcp_server_param import McpServerParam
+from ..mcp_server_param import McpServerParam
 from .parallel_beta_param import ParallelBetaParam
 from ..shared_params.source_policy import SourcePolicy
 
@@ -29,17 +29,11 @@ class TaskRunCreateParams(TypedDict, total=False):
     [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
     false, no progress events are tracked. Note that progress tracking cannot be
     enabled after a run has been created. The flag is set to true by default for
-    premium processors (pro and above). To enable this feature in your requests,
-    specify `events-sse-2025-07-24` as one of the values in `parallel-beta` header
-    (for API calls) or `betas` param (for the SDKs).
+    premium processors (pro and above).
     """
 
     mcp_servers: Optional[Iterable[McpServerParam]]
-    """
-    Optional list of MCP servers to use for the run. To enable this feature in your
-    requests, specify `mcp-server-2025-07-17` as one of the values in
-    `parallel-beta` header (for API calls) or `betas` param (for the SDKs).
-    """
+    """Optional list of MCP servers to use for the run."""
 
     metadata: Optional[Dict[str, Union[str, float, bool]]]
     """User-provided metadata stored with the run.

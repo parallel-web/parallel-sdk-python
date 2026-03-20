@@ -1,28 +1,26 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from __future__ import annotations
+from typing import Dict, List, Union, Optional
 
-from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from .webhook import Webhook
+from .._models import BaseModel
+from .task_spec import TaskSpec
+from .mcp_server import McpServer
+from .shared.source_policy import SourcePolicy
 
-from .._utils import PropertyInfo
-from .webhook_param import WebhookParam
-from .task_spec_param import TaskSpecParam
-from .mcp_server_param import McpServerParam
-from .beta.parallel_beta_param import ParallelBetaParam
-from .shared_params.source_policy import SourcePolicy
-
-__all__ = ["TaskRunCreateParams"]
+__all__ = ["RunInput"]
 
 
-class TaskRunCreateParams(TypedDict, total=False):
-    input: Required[Union[str, Dict[str, object]]]
+class RunInput(BaseModel):
+    """Request to run a task."""
+
+    input: Union[str, Dict[str, object]]
     """Input to the task, either text or a JSON object."""
 
-    processor: Required[str]
+    processor: str
     """Processor to use for the task."""
 
-    enable_events: Optional[bool]
+    enable_events: Optional[bool] = None
     """Controls tracking of task run execution progress.
 
     When set to true, progress events are recorded and can be accessed via the
@@ -32,26 +30,26 @@ class TaskRunCreateParams(TypedDict, total=False):
     premium processors (pro and above).
     """
 
-    mcp_servers: Optional[Iterable[McpServerParam]]
+    mcp_servers: Optional[List[McpServer]] = None
     """Optional list of MCP servers to use for the run."""
 
-    metadata: Optional[Dict[str, Union[str, float, bool]]]
+    metadata: Optional[Dict[str, Union[str, float, bool]]] = None
     """User-provided metadata stored with the run.
 
     Keys and values must be strings with a maximum length of 16 and 512 characters
     respectively.
     """
 
-    previous_interaction_id: Optional[str]
+    previous_interaction_id: Optional[str] = None
     """Interaction ID to use as context for this request."""
 
-    source_policy: Optional[SourcePolicy]
+    source_policy: Optional[SourcePolicy] = None
     """Source policy for web search results.
 
     This policy governs which sources are allowed/disallowed in results.
     """
 
-    task_spec: Optional[TaskSpecParam]
+    task_spec: Optional[TaskSpec] = None
     """Specification for a task.
 
     Auto output schemas can be specified by setting `output_schema={"type":"auto"}`.
@@ -60,8 +58,5 @@ class TaskRunCreateParams(TypedDict, total=False):
     For convenience bare strings are also accepted as input or output schemas.
     """
 
-    webhook: Optional[WebhookParam]
+    webhook: Optional[Webhook] = None
     """Webhooks for Task Runs."""
-
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
-    """Optional header to specify the beta version(s) to enable."""

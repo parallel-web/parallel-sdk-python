@@ -3,7 +3,7 @@
 from typing import List, Optional
 
 from ..._models import BaseModel
-from .mcp_server import McpServer
+from ..mcp_server import McpServer
 from ..json_schema import JsonSchema
 
 __all__ = ["FindAllEnrichInput"]

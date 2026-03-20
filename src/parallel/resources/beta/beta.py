@@ -123,9 +123,6 @@ class BetaResource(SyncAPIResource):
         """
         Extracts relevant content from specific web URLs.
 
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
-
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
@@ -347,9 +344,6 @@ class AsyncBetaResource(AsyncAPIResource):
     ) -> ExtractResponse:
         """
         Extracts relevant content from specific web URLs.
-
-        To access this endpoint, pass the `parallel-beta` header with the value
-        `search-extract-2025-10-10`.
 
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.

@@ -5,6 +5,7 @@ from typing_extensions import Literal
 
 from .._models import BaseModel
 from .field_basis import FieldBasis
+from .mcp_tool_call import McpToolCall
 
 __all__ = ["TaskRunTextOutput"]
 
@@ -25,15 +26,11 @@ class TaskRunTextOutput(BaseModel):
     """
 
     beta_fields: Optional[Dict[str, object]] = None
-    """Additional fields from beta features used in this task run.
+    """Deprecated.
 
-    When beta features are specified during both task run creation and result
-    retrieval, this field will be empty and instead the relevant beta attributes
-    will be directly included in the `BetaTaskRunJsonOutput` or corresponding output
-    type. However, if beta features were specified during task run creation but not
-    during result retrieval, this field will contain the dump of fields from those
-    beta features. Each key represents the beta feature version (one amongst
-    parallel-beta headers) and the values correspond to the beta feature attributes,
-    if any. For now, only MCP server beta features have attributes. For example,
-    `{mcp-server-2025-07-17: [{'server_name':'mcp_server', 'tool_call_id': 'tc_123', ...}]}}`
+    mcp-server-2025-07-17 is now included directly in the output (e.g.
+    mcp_tool_calls).
     """
+
+    mcp_tool_calls: Optional[List[McpToolCall]] = None
+    """MCP tool calls made by the task."""
