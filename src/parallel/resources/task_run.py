@@ -11,7 +11,7 @@ from parallel.lib._time import prepare_timeout_float
 
 from ..types import task_run_create_params, task_run_result_params
 from .._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from .._utils import maybe_transform, async_maybe_transform
+from .._utils import path_template, maybe_transform, async_maybe_transform
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -161,7 +161,7 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._get(
-            f"/v1/tasks/runs/{run_id}",
+            path_template("/v1/tasks/runs/{run_id}", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -195,7 +195,7 @@ class TaskRunResource(SyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return self._get(
-            f"/v1/tasks/runs/{run_id}/result",
+            path_template("/v1/tasks/runs/{run_id}/result", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -460,7 +460,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return await self._get(
-            f"/v1/tasks/runs/{run_id}",
+            path_template("/v1/tasks/runs/{run_id}", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -494,7 +494,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         if not run_id:
             raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
         return await self._get(
-            f"/v1/tasks/runs/{run_id}/result",
+            path_template("/v1/tasks/runs/{run_id}/result", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
