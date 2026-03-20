@@ -9,7 +9,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -129,7 +129,7 @@ class TaskGroupResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}",
+            path_template("/v1beta/tasks/groups/{task_group_id}", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -188,7 +188,7 @@ class TaskGroupResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             body=maybe_transform(
                 {
                     "inputs": inputs,
@@ -235,7 +235,7 @@ class TaskGroupResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/events",
+            path_template("/v1beta/tasks/groups/{task_group_id}/events", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -300,7 +300,7 @@ class TaskGroupResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -416,7 +416,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}",
+            path_template("/v1beta/tasks/groups/{task_group_id}", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -475,7 +475,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             body=await async_maybe_transform(
                 {
                     "inputs": inputs,
@@ -522,7 +522,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/events",
+            path_template("/v1beta/tasks/groups/{task_group_id}/events", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -587,7 +587,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

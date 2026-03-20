@@ -8,7 +8,7 @@ from itertools import chain
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -198,7 +198,7 @@ class TaskRunResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/runs/{run_id}/events",
+            path_template("/v1beta/tasks/runs/{run_id}/events", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -248,7 +248,7 @@ class TaskRunResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1/tasks/runs/{run_id}/result?beta=true",
+            path_template("/v1/tasks/runs/{run_id}/result?beta=true", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -426,7 +426,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/runs/{run_id}/events",
+            path_template("/v1beta/tasks/runs/{run_id}/events", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -476,7 +476,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1/tasks/runs/{run_id}/result?beta=true",
+            path_template("/v1/tasks/runs/{run_id}/result?beta=true", run_id=run_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

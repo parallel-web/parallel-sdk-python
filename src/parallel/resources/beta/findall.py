@@ -9,7 +9,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -196,7 +196,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}",
+            path_template("/v1beta/findall/runs/{findall_id}", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -243,7 +243,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/cancel",
+            path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -299,7 +299,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/enrich",
+            path_template("/v1beta/findall/runs/{findall_id}/enrich", findall_id=findall_id),
             body=maybe_transform(
                 {
                     "output_schema": output_schema,
@@ -362,7 +362,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/events",
+            path_template("/v1beta/findall/runs/{findall_id}/events", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -426,7 +426,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/extend",
+            path_template("/v1beta/findall/runs/{findall_id}/extend", findall_id=findall_id),
             body=maybe_transform(
                 {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
@@ -529,7 +529,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/result",
+            path_template("/v1beta/findall/runs/{findall_id}/result", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -576,7 +576,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/schema",
+            path_template("/v1beta/findall/runs/{findall_id}/schema", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -741,7 +741,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}",
+            path_template("/v1beta/findall/runs/{findall_id}", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -788,7 +788,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/cancel",
+            path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -844,7 +844,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/enrich",
+            path_template("/v1beta/findall/runs/{findall_id}/enrich", findall_id=findall_id),
             body=await async_maybe_transform(
                 {
                     "output_schema": output_schema,
@@ -907,7 +907,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/events",
+            path_template("/v1beta/findall/runs/{findall_id}/events", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -971,7 +971,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/extend",
+            path_template("/v1beta/findall/runs/{findall_id}/extend", findall_id=findall_id),
             body=await async_maybe_transform(
                 {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
@@ -1074,7 +1074,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/result",
+            path_template("/v1beta/findall/runs/{findall_id}/result", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1121,7 +1121,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/schema",
+            path_template("/v1beta/findall/runs/{findall_id}/schema", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
