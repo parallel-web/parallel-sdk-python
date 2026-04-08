@@ -21,6 +21,8 @@ class TaskGroupAddRunsParams(TypedDict, total=False):
     split them across multiple TaskGroup POST requests.
     """
 
+    refresh_status: bool
+
     default_task_spec: Optional[TaskSpecParam]
     """Specification for a task.
 
