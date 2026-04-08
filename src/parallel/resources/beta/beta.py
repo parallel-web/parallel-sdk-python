@@ -109,7 +109,6 @@ class BetaResource(SyncAPIResource):
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
-        full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -128,13 +127,8 @@ class BetaResource(SyncAPIResource):
 
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
-              Note that if neither objective nor search_queries is provided, excerpts are
-              redundant with full content.
 
           fetch_policy: Policy for live fetching web results.
-
-          full_content: Include full content from each URL. Note that if neither objective nor
-              search_queries is provided, excerpts are redundant with full content.
 
           objective: If provided, focuses extracted content on the specified search objective.
 
@@ -168,7 +162,6 @@ class BetaResource(SyncAPIResource):
                     "urls": urls,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
-                    "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
                 },
@@ -334,7 +327,6 @@ class AsyncBetaResource(AsyncAPIResource):
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
-        full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -353,13 +345,8 @@ class AsyncBetaResource(AsyncAPIResource):
 
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
-              Note that if neither objective nor search_queries is provided, excerpts are
-              redundant with full content.
 
           fetch_policy: Policy for live fetching web results.
-
-          full_content: Include full content from each URL. Note that if neither objective nor
-              search_queries is provided, excerpts are redundant with full content.
 
           objective: If provided, focuses extracted content on the specified search objective.
 
@@ -393,7 +380,6 @@ class AsyncBetaResource(AsyncAPIResource):
                     "urls": urls,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
-                    "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
                 },
