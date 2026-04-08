@@ -141,6 +141,7 @@ class TaskGroupResource(SyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
+        refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -197,7 +198,13 @@ class TaskGroupResource(SyncAPIResource):
                 task_group_add_runs_params.TaskGroupAddRunsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"refresh_status": refresh_status}, task_group_add_runs_params.TaskGroupAddRunsParams
+                ),
             ),
             cast_to=TaskGroupRunResponse,
         )
@@ -428,6 +435,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
+        refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -484,7 +492,13 @@ class AsyncTaskGroupResource(AsyncAPIResource):
                 task_group_add_runs_params.TaskGroupAddRunsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"refresh_status": refresh_status}, task_group_add_runs_params.TaskGroupAddRunsParams
+                ),
             ),
             cast_to=TaskGroupRunResponse,
         )

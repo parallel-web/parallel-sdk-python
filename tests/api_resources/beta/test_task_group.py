@@ -147,6 +147,7 @@ class TestTaskGroup:
                     },
                 }
             ],
+            refresh_status=True,
             default_task_spec={
                 "output_schema": {
                     "json_schema": {
@@ -438,6 +439,7 @@ class TestAsyncTaskGroup:
                     },
                 }
             ],
+            refresh_status=True,
             default_task_spec={
                 "output_schema": {
                     "json_schema": {
