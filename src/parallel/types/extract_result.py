@@ -2,7 +2,7 @@
 
 from typing import List, Optional
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
 __all__ = ["ExtractResult"]
 
@@ -10,11 +10,11 @@ __all__ = ["ExtractResult"]
 class ExtractResult(BaseModel):
     """Extract result for a single URL."""
 
+    excerpts: List[str]
+    """Relevant excerpted content from the URL, formatted as markdown."""
+
     url: str
     """URL associated with the search result."""
-
-    excerpts: Optional[List[str]] = None
-    """Relevant excerpted content from the URL, formatted as markdown."""
 
     full_content: Optional[str] = None
     """Full content from the URL formatted as markdown, if requested."""

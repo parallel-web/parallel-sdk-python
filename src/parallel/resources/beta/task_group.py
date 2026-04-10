@@ -38,14 +38,17 @@ __all__ = ["TaskGroupResource", "AsyncTaskGroupResource"]
 
 
 class TaskGroupResource(SyncAPIResource):
-    """
-    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+    Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
      - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
     - Group-level retry and error aggregation
-    Status: beta and subject to change.
     """
 
     @cached_property
@@ -332,14 +335,17 @@ class TaskGroupResource(SyncAPIResource):
 
 
 class AsyncTaskGroupResource(AsyncAPIResource):
-    """
-    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+    Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
      - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
     - Group-level retry and error aggregation
-    Status: beta and subject to change.
     """
 
     @cached_property
