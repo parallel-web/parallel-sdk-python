@@ -5,13 +5,13 @@ Types:
 ```python
 from parallel.types.beta import (
     ExcerptSettings,
-    ExtractError,
     ExtractResponse,
     ExtractResult,
-    FetchPolicy,
     SearchResult,
-    UsageItem,
     WebSearchResult,
+    ExtractError,
+    FetchPolicy,
+    UsageItem,
 )
 ```
 

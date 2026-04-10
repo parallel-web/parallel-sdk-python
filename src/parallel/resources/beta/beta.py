@@ -45,8 +45,8 @@ from ..._response import (
 from ...types.beta import beta_search_params, beta_extract_params
 from ..._base_client import make_request_options
 from ...types.beta.search_result import SearchResult
+from ...types.fetch_policy_param import FetchPolicyParam
 from ...types.beta.extract_response import ExtractResponse
-from ...types.beta.fetch_policy_param import FetchPolicyParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.excerpt_settings_param import ExcerptSettingsParam
 from ...types.shared_params.source_policy import SourcePolicy
@@ -61,19 +61,29 @@ class BetaResource(SyncAPIResource):
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return TaskRunResource(self._client)
 
-    @cached_property
-    def task_group(self) -> TaskGroupResource:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return TaskRunResource(self._client)
+
+    @cached_property
+    def task_group(self) -> TaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return TaskGroupResource(self._client)
 
@@ -109,6 +119,7 @@ class BetaResource(SyncAPIResource):
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -127,8 +138,13 @@ class BetaResource(SyncAPIResource):
 
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
+              Note that if neither objective nor search_queries is provided, excerpts are
+              redundant with full content.
 
           fetch_policy: Policy for live fetching web results.
+
+          full_content: Include full content from each URL. Note that if neither objective nor
+              search_queries is provided, excerpts are redundant with full content.
 
           objective: If provided, focuses extracted content on the specified search objective.
 
@@ -162,6 +178,7 @@ class BetaResource(SyncAPIResource):
                     "urls": urls,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
                 },
@@ -178,6 +195,7 @@ class BetaResource(SyncAPIResource):
         *,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        location: Optional[str] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
@@ -200,6 +218,8 @@ class BetaResource(SyncAPIResource):
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
+
+          location: ISO 3166-1 alpha-2 country code for geo-targeted search results.
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
@@ -255,6 +275,7 @@ class BetaResource(SyncAPIResource):
                 {
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "location": location,
                     "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
                     "mode": mode,
@@ -279,19 +300,29 @@ class AsyncBetaResource(AsyncAPIResource):
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return AsyncTaskRunResource(self._client)
 
-    @cached_property
-    def task_group(self) -> AsyncTaskGroupResource:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return AsyncTaskRunResource(self._client)
+
+    @cached_property
+    def task_group(self) -> AsyncTaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return AsyncTaskGroupResource(self._client)
 
@@ -327,6 +358,7 @@ class AsyncBetaResource(AsyncAPIResource):
         urls: SequenceNotStr[str],
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -345,8 +377,13 @@ class AsyncBetaResource(AsyncAPIResource):
 
         Args:
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
+              Note that if neither objective nor search_queries is provided, excerpts are
+              redundant with full content.
 
           fetch_policy: Policy for live fetching web results.
+
+          full_content: Include full content from each URL. Note that if neither objective nor
+              search_queries is provided, excerpts are redundant with full content.
 
           objective: If provided, focuses extracted content on the specified search objective.
 
@@ -380,6 +417,7 @@ class AsyncBetaResource(AsyncAPIResource):
                     "urls": urls,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
                 },
@@ -396,6 +434,7 @@ class AsyncBetaResource(AsyncAPIResource):
         *,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
+        location: Optional[str] | Omit = omit,
         max_chars_per_result: Optional[int] | Omit = omit,
         max_results: Optional[int] | Omit = omit,
         mode: Optional[Literal["one-shot", "agentic", "fast"]] | Omit = omit,
@@ -418,6 +457,8 @@ class AsyncBetaResource(AsyncAPIResource):
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
+
+          location: ISO 3166-1 alpha-2 country code for geo-targeted search results.
 
           max_chars_per_result: DEPRECATED: Use `excerpts.max_chars_per_result` instead.
 
@@ -473,6 +514,7 @@ class AsyncBetaResource(AsyncAPIResource):
                 {
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
+                    "location": location,
                     "max_chars_per_result": max_chars_per_result,
                     "max_results": max_results,
                     "mode": mode,
@@ -507,19 +549,29 @@ class BetaResourceWithRawResponse:
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return TaskRunResourceWithRawResponse(self._beta.task_run)
 
-    @cached_property
-    def task_group(self) -> TaskGroupResourceWithRawResponse:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return TaskRunResourceWithRawResponse(self._beta.task_run)
+
+    @cached_property
+    def task_group(self) -> TaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return TaskGroupResourceWithRawResponse(self._beta.task_group)
 
@@ -548,19 +600,29 @@ class AsyncBetaResourceWithRawResponse:
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return AsyncTaskRunResourceWithRawResponse(self._beta.task_run)
 
-    @cached_property
-    def task_group(self) -> AsyncTaskGroupResourceWithRawResponse:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return AsyncTaskRunResourceWithRawResponse(self._beta.task_run)
+
+    @cached_property
+    def task_group(self) -> AsyncTaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return AsyncTaskGroupResourceWithRawResponse(self._beta.task_group)
 
@@ -589,19 +651,29 @@ class BetaResourceWithStreamingResponse:
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return TaskRunResourceWithStreamingResponse(self._beta.task_run)
 
-    @cached_property
-    def task_group(self) -> TaskGroupResourceWithStreamingResponse:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return TaskRunResourceWithStreamingResponse(self._beta.task_run)
+
+    @cached_property
+    def task_group(self) -> TaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return TaskGroupResourceWithStreamingResponse(self._beta.task_group)
 
@@ -630,19 +702,29 @@ class AsyncBetaResourceWithStreamingResponse:
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
-        """
-        return AsyncTaskRunResourceWithStreamingResponse(self._beta.task_run)
 
-    @cached_property
-    def task_group(self) -> AsyncTaskGroupResourceWithStreamingResponse:
-        """
-        The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
          - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
         - Group-level retry and error aggregation
-        Status: beta and subject to change.
+        """
+        return AsyncTaskRunResourceWithStreamingResponse(self._beta.task_run)
+
+    @cached_property
+    def task_group(self) -> AsyncTaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         return AsyncTaskGroupResourceWithStreamingResponse(self._beta.task_group)
 

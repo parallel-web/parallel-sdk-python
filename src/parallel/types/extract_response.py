@@ -2,17 +2,17 @@
 
 from typing import List, Optional
 
-from ..._models import BaseModel
-from ..usage_item import UsageItem
-from ..extract_error import ExtractError
+from .._models import BaseModel
+from .usage_item import UsageItem
+from .extract_error import ExtractError
 from .extract_result import ExtractResult
-from ..shared.warning import Warning
+from .shared.warning import Warning
 
 __all__ = ["ExtractResponse"]
 
 
 class ExtractResponse(BaseModel):
-    """Fetch result."""
+    """Extract response (GA)."""
 
     errors: List[ExtractError]
     """Extract errors: requested URLs not in the results."""
