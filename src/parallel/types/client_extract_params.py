@@ -2,21 +2,20 @@
 
 from __future__ import annotations
 
-from typing import Union, Optional
-from typing_extensions import Required, TypeAlias, TypedDict
+from typing import Optional
+from typing_extensions import Required, TypedDict
 
 from .._types import SequenceNotStr
-from .fetch_policy_param import FetchPolicyParam
-from .excerpt_settings_param import ExcerptSettingsParam
+from .advanced_extract_settings_param import AdvancedExtractSettingsParam
 
-__all__ = ["ClientExtractParams", "Advanced", "AdvancedFullContent", "AdvancedFullContentFullContentSettings"]
+__all__ = ["ClientExtractParams"]
 
 
 class ClientExtractParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
     """URLs to extract content from. Up to 20 URLs."""
 
-    advanced: Optional[Advanced]
+    advanced: Optional[AdvancedExtractSettingsParam]
     """Advanced extract configuration."""
 
     client_model: Optional[str]
@@ -43,35 +42,4 @@ class ClientExtractParams(TypedDict, total=False):
     """Optional keyword search queries, as in SearchRequest.
 
     Used together with objective to focus excerpts on the most relevant content.
-    """
-
-
-class AdvancedFullContentFullContentSettings(TypedDict, total=False):
-    """Optional settings for returning full content."""
-
-    max_chars_per_result: Optional[int]
-    """
-    Optional limit on the number of characters to include in the full content for
-    each url. Full content always starts at the beginning of the page and is
-    truncated at the limit if necessary.
-    """
-
-
-AdvancedFullContent: TypeAlias = Union[AdvancedFullContentFullContentSettings, bool]
-
-
-class Advanced(TypedDict, total=False):
-    """Advanced extract configuration."""
-
-    excerpt_settings: Optional[ExcerptSettingsParam]
-    """Optional settings for returning relevant excerpts."""
-
-    fetch_policy: Optional[FetchPolicyParam]
-    """Policy for live fetching web results."""
-
-    full_content: AdvancedFullContent
-    """Controls full content extraction.
-
-    Set to true to enable with defaults, false to disable, or provide
-    FullContentSettings for fine-grained control.
     """

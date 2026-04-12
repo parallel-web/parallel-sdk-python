@@ -6,11 +6,9 @@ from typing import Optional
 from typing_extensions import Literal, Required, TypedDict
 
 from .._types import SequenceNotStr
-from .fetch_policy_param import FetchPolicyParam
-from .excerpt_settings_param import ExcerptSettingsParam
-from .shared_params.source_policy import SourcePolicy
+from .advanced_search_settings_param import AdvancedSearchSettingsParam
 
-__all__ = ["ClientSearchParams", "Advanced"]
+__all__ = ["ClientSearchParams"]
 
 
 class ClientSearchParams(TypedDict, total=False):
@@ -21,7 +19,7 @@ class ClientSearchParams(TypedDict, total=False):
     objective to focus results on the most relevant content.
     """
 
-    advanced: Optional[Advanced]
+    advanced: Optional[AdvancedSearchSettingsParam]
     """Advanced search configuration."""
 
     client_model: Optional[str]
@@ -50,23 +48,4 @@ class ClientSearchParams(TypedDict, total=False):
     search. Used together with search_queries to focus results on the most relevant
     content. Should be self-contained with enough context to understand the intent
     of the search.
-    """
-
-
-class Advanced(TypedDict, total=False):
-    """Advanced search configuration."""
-
-    excerpt_settings: Optional[ExcerptSettingsParam]
-    """Optional settings for returning relevant excerpts."""
-
-    fetch_policy: Optional[FetchPolicyParam]
-    """Policy for live fetching web results."""
-
-    location: Optional[str]
-    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
-
-    source_policy: Optional[SourcePolicy]
-    """Source policy for web search results.
-
-    This policy governs which sources are allowed/disallowed in results.
     """

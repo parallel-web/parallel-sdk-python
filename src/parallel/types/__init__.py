@@ -35,3 +35,5 @@ from .excerpt_settings_param import ExcerptSettingsParam as ExcerptSettingsParam
 from .parsed_task_run_result import ParsedTaskRunResult as ParsedTaskRunResult
 from .task_run_create_params import TaskRunCreateParams as TaskRunCreateParams
 from .task_run_result_params import TaskRunResultParams as TaskRunResultParams
+from .advanced_search_settings_param import AdvancedSearchSettingsParam as AdvancedSearchSettingsParam
+from .advanced_extract_settings_param import AdvancedExtractSettingsParam as AdvancedExtractSettingsParam

@@ -49,6 +49,8 @@ from ._base_client import (
 )
 from .types.search_result import SearchResult
 from .types.extract_response import ExtractResponse
+from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
+from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
     from .resources import beta, task_run
@@ -229,7 +231,7 @@ class Parallel(SyncAPIClient):
         self,
         *,
         urls: SequenceNotStr[str],
-        advanced: Optional[client_extract_params.Advanced] | Omit = omit,
+        advanced: Optional[AdvancedExtractSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -294,7 +296,7 @@ class Parallel(SyncAPIClient):
         self,
         *,
         search_queries: SequenceNotStr[str],
-        advanced: Optional[client_search_params.Advanced] | Omit = omit,
+        advanced: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,
@@ -554,7 +556,7 @@ class AsyncParallel(AsyncAPIClient):
         self,
         *,
         urls: SequenceNotStr[str],
-        advanced: Optional[client_extract_params.Advanced] | Omit = omit,
+        advanced: Optional[AdvancedExtractSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -619,7 +621,7 @@ class AsyncParallel(AsyncAPIClient):
         self,
         *,
         search_queries: SequenceNotStr[str],
-        advanced: Optional[client_search_params.Advanced] | Omit = omit,
+        advanced: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,

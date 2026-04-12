@@ -10,6 +10,8 @@ Types:
 
 ```python
 from parallel.types import (
+    AdvancedExtractSettings,
+    AdvancedSearchSettings,
     ExcerptSettings,
     ExtractError,
     ExtractResponse,
