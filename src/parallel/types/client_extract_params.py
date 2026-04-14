@@ -15,7 +15,7 @@ class ClientExtractParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
     """URLs to extract content from. Up to 20 URLs."""
 
-    advanced: Optional[AdvancedExtractSettingsParam]
+    advanced_settings: Optional[AdvancedExtractSettingsParam]
     """Advanced extract configuration."""
 
     client_model: Optional[str]

@@ -104,7 +104,7 @@ class FindAllResource(SyncAPIResource):
           match_conditions: List of match conditions for the FindAll run.
 
           match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
-              1000 (inclusive).
+              1000 (inclusive). May return fewer results.
 
           objective: Natural language objective of the FindAll run.
 
@@ -649,7 +649,7 @@ class AsyncFindAllResource(AsyncAPIResource):
           match_conditions: List of match conditions for the FindAll run.
 
           match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
-              1000 (inclusive).
+              1000 (inclusive). May return fewer results.
 
           objective: Natural language objective of the FindAll run.
 

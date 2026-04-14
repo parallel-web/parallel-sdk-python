@@ -24,6 +24,9 @@ class AdvancedSearchSettingsParam(TypedDict, total=False):
     location: Optional[str]
     """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
 
+    max_results: Optional[int]
+    """Upper bound on the number of results to return. Defaults to 10 if not provided."""
+
     source_policy: Optional[SourcePolicy]
     """Source policy for web search results.
 

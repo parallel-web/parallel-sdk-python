@@ -19,7 +19,7 @@ class ClientSearchParams(TypedDict, total=False):
     objective to focus results on the most relevant content.
     """
 
-    advanced: Optional[AdvancedSearchSettingsParam]
+    advanced_settings: Optional[AdvancedSearchSettingsParam]
     """Advanced search configuration."""
 
     client_model: Optional[str]
@@ -39,7 +39,7 @@ class ClientSearchParams(TypedDict, total=False):
 
     Basic mode offers the lowest latency and works best with 2-3 high-quality
     search_queries. Standard mode provides higher quality with more advanced
-    retrieval and compression.
+    retrieval and compression. Defaults to standard when omitted.
     """
 
     objective: Optional[str]
