@@ -32,7 +32,7 @@ class TestClient:
     def test_method_extract_with_all_params(self, client: Parallel) -> None:
         client_ = client.extract(
             urls=["string"],
-            advanced={
+            advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
                     "disable_cache_fallback": True,
@@ -83,7 +83,7 @@ class TestClient:
     def test_method_search_with_all_params(self, client: Parallel) -> None:
         client_ = client.search(
             search_queries=["string"],
-            advanced={
+            advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
                     "disable_cache_fallback": True,
@@ -91,6 +91,7 @@ class TestClient:
                     "timeout_seconds": 60,
                 },
                 "location": "us",
+                "max_results": 0,
                 "source_policy": {
                     "after_date": parse_date("2024-01-01"),
                     "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -145,7 +146,7 @@ class TestAsyncClient:
     async def test_method_extract_with_all_params(self, async_client: AsyncParallel) -> None:
         client = await async_client.extract(
             urls=["string"],
-            advanced={
+            advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
                     "disable_cache_fallback": True,
@@ -196,7 +197,7 @@ class TestAsyncClient:
     async def test_method_search_with_all_params(self, async_client: AsyncParallel) -> None:
         client = await async_client.search(
             search_queries=["string"],
-            advanced={
+            advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
                     "disable_cache_fallback": True,
@@ -204,6 +205,7 @@ class TestAsyncClient:
                     "timeout_seconds": 60,
                 },
                 "location": "us",
+                "max_results": 0,
                 "source_policy": {
                     "after_date": parse_date("2024-01-01"),
                     "exclude_domains": ["reddit.com", "x.com", ".ai"],

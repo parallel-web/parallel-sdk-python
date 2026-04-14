@@ -231,7 +231,7 @@ class Parallel(SyncAPIClient):
         self,
         *,
         urls: SequenceNotStr[str],
-        advanced: Optional[AdvancedExtractSettingsParam] | Omit = omit,
+        advanced_settings: Optional[AdvancedExtractSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -249,7 +249,7 @@ class Parallel(SyncAPIClient):
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
-          advanced: Advanced extract configuration.
+          advanced_settings: Advanced extract configuration.
 
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
@@ -278,7 +278,7 @@ class Parallel(SyncAPIClient):
             body=maybe_transform(
                 {
                     "urls": urls,
-                    "advanced": advanced,
+                    "advanced_settings": advanced_settings,
                     "client_model": client_model,
                     "max_chars_total": max_chars_total,
                     "objective": objective,
@@ -296,7 +296,7 @@ class Parallel(SyncAPIClient):
         self,
         *,
         search_queries: SequenceNotStr[str],
-        advanced: Optional[AdvancedSearchSettingsParam] | Omit = omit,
+        advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,
@@ -316,7 +316,7 @@ class Parallel(SyncAPIClient):
               provide 2-3 for best results. Used together with objective to focus results on
               the most relevant content.
 
-          advanced: Advanced search configuration.
+          advanced_settings: Advanced search configuration.
 
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
@@ -327,6 +327,7 @@ class Parallel(SyncAPIClient):
           mode: Search mode preset: supported values are basic and standard. Basic mode offers
               the lowest latency and works best with 2-3 high-quality search_queries. Standard
               mode provides higher quality with more advanced retrieval and compression.
+              Defaults to standard when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
@@ -346,7 +347,7 @@ class Parallel(SyncAPIClient):
             body=maybe_transform(
                 {
                     "search_queries": search_queries,
-                    "advanced": advanced,
+                    "advanced_settings": advanced_settings,
                     "client_model": client_model,
                     "max_chars_total": max_chars_total,
                     "mode": mode,
@@ -556,7 +557,7 @@ class AsyncParallel(AsyncAPIClient):
         self,
         *,
         urls: SequenceNotStr[str],
-        advanced: Optional[AdvancedExtractSettingsParam] | Omit = omit,
+        advanced_settings: Optional[AdvancedExtractSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
@@ -574,7 +575,7 @@ class AsyncParallel(AsyncAPIClient):
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
-          advanced: Advanced extract configuration.
+          advanced_settings: Advanced extract configuration.
 
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
@@ -603,7 +604,7 @@ class AsyncParallel(AsyncAPIClient):
             body=await async_maybe_transform(
                 {
                     "urls": urls,
-                    "advanced": advanced,
+                    "advanced_settings": advanced_settings,
                     "client_model": client_model,
                     "max_chars_total": max_chars_total,
                     "objective": objective,
@@ -621,7 +622,7 @@ class AsyncParallel(AsyncAPIClient):
         self,
         *,
         search_queries: SequenceNotStr[str],
-        advanced: Optional[AdvancedSearchSettingsParam] | Omit = omit,
+        advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,
@@ -641,7 +642,7 @@ class AsyncParallel(AsyncAPIClient):
               provide 2-3 for best results. Used together with objective to focus results on
               the most relevant content.
 
-          advanced: Advanced search configuration.
+          advanced_settings: Advanced search configuration.
 
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
@@ -652,6 +653,7 @@ class AsyncParallel(AsyncAPIClient):
           mode: Search mode preset: supported values are basic and standard. Basic mode offers
               the lowest latency and works best with 2-3 high-quality search_queries. Standard
               mode provides higher quality with more advanced retrieval and compression.
+              Defaults to standard when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
@@ -671,7 +673,7 @@ class AsyncParallel(AsyncAPIClient):
             body=await async_maybe_transform(
                 {
                     "search_queries": search_queries,
-                    "advanced": advanced,
+                    "advanced_settings": advanced_settings,
                     "client_model": client_model,
                     "max_chars_total": max_chars_total,
                     "mode": mode,

@@ -25,7 +25,7 @@ class FindAllCreateParams(TypedDict, total=False):
     match_limit: Required[int]
     """Maximum number of matches to find for this FindAll run.
 
-    Must be between 5 and 1000 (inclusive).
+    Must be between 5 and 1000 (inclusive). May return fewer results.
     """
 
     objective: Required[str]
