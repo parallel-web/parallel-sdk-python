@@ -8,7 +8,14 @@ from .task_spec import TaskSpec
 from .mcp_server import McpServer
 from .shared.source_policy import SourcePolicy
 
-__all__ = ["RunInput"]
+__all__ = ["RunInput", "AdvancedSettings"]
+
+
+class AdvancedSettings(BaseModel):
+    """Advanced search configuration for a task run."""
+
+    location: Optional[str] = None
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
 
 
 class RunInput(BaseModel):
@@ -19,6 +26,9 @@ class RunInput(BaseModel):
 
     processor: str
     """Processor to use for the task."""
+
+    advanced_settings: Optional[AdvancedSettings] = None
+    """Advanced search configuration for a task run."""
 
     enable_events: Optional[bool] = None
     """Controls tracking of task run execution progress.

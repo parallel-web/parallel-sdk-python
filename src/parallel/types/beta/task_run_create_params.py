@@ -12,7 +12,7 @@ from ..mcp_server_param import McpServerParam
 from .parallel_beta_param import ParallelBetaParam
 from ..shared_params.source_policy import SourcePolicy
 
-__all__ = ["TaskRunCreateParams"]
+__all__ = ["TaskRunCreateParams", "AdvancedSettings"]
 
 
 class TaskRunCreateParams(TypedDict, total=False):
@@ -21,6 +21,9 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     processor: Required[str]
     """Processor to use for the task."""
+
+    advanced_settings: Optional[AdvancedSettings]
+    """Advanced search configuration for a task run."""
 
     enable_events: Optional[bool]
     """Controls tracking of task run execution progress.
@@ -65,3 +68,10 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
+
+
+class AdvancedSettings(TypedDict, total=False):
+    """Advanced search configuration for a task run."""
+
+    location: Optional[str]
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""

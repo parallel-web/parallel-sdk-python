@@ -59,6 +59,13 @@ class BetaSearchParams(TypedDict, total=False):
     be provided.
     """
 
+    session_id: Optional[str]
+    """
+    Session identifier for calls to search and extract made by an agent as part of a
+    larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+    from a previous request.
+    """
+
     source_policy: Optional[SourcePolicy]
     """Source policy for web search results.
 

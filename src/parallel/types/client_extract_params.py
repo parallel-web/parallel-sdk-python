@@ -16,7 +16,11 @@ class ClientExtractParams(TypedDict, total=False):
     """URLs to extract content from. Up to 20 URLs."""
 
     advanced_settings: Optional[AdvancedExtractSettingsParam]
-    """Advanced extract configuration."""
+    """Advanced extract configuration.
+
+    These settings may impact result quality and latency unless used carefully. See
+    https://docs.parallel.ai/search/advanced-extract-settings for more info.
+    """
 
     client_model: Optional[str]
     """The model generating this request and consuming the results.
@@ -42,4 +46,11 @@ class ClientExtractParams(TypedDict, total=False):
     """Optional keyword search queries, as in SearchRequest.
 
     Used together with objective to focus excerpts on the most relevant content.
+    """
+
+    session_id: Optional[str]
+    """
+    Session identifier for calls to search and extract made by an agent as part of a
+    larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+    returned by a previous request.
     """

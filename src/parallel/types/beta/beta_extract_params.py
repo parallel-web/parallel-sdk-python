@@ -40,6 +40,13 @@ class BetaExtractParams(TypedDict, total=False):
     search_queries: Optional[SequenceNotStr[str]]
     """If provided, focuses extracted content on the specified keyword search queries."""
 
+    session_id: Optional[str]
+    """
+    Session identifier for calls to search and extract made by an agent as part of a
+    larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+    from a previous request.
+    """
+
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
 

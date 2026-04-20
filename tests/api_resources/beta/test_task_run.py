@@ -36,6 +36,7 @@ class TestTaskRun:
             task_run = client.beta.task_run.create(
                 input="What was the GDP of France in 2023?",
                 processor="base",
+                advanced_settings={"location": "us"},
                 enable_events=True,
                 mcp_servers=[
                     {
@@ -220,6 +221,7 @@ class TestAsyncTaskRun:
             task_run = await async_client.beta.task_run.create(
                 input="What was the GDP of France in 2023?",
                 processor="base",
+                advanced_settings={"location": "us"},
                 enable_events=True,
                 mcp_servers=[
                     {

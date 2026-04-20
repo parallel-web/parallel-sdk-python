@@ -122,6 +122,7 @@ class BetaResource(SyncAPIResource):
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -146,6 +147,10 @@ class BetaResource(SyncAPIResource):
           objective: If provided, focuses extracted content on the specified search objective.
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+              from a previous request.
 
           betas: Optional header to specify the beta version(s) to enable.
 
@@ -178,6 +183,7 @@ class BetaResource(SyncAPIResource):
                     "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                 },
                 beta_extract_params.BetaExtractParams,
             ),
@@ -199,6 +205,7 @@ class BetaResource(SyncAPIResource):
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -241,6 +248,10 @@ class BetaResource(SyncAPIResource):
               contain search operators. At least one of objective or search_queries must be
               provided.
 
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+              from a previous request.
+
           source_policy: Source policy for web search results.
 
               This policy governs which sources are allowed/disallowed in results.
@@ -279,6 +290,7 @@ class BetaResource(SyncAPIResource):
                     "objective": objective,
                     "processor": processor,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                     "source_policy": source_policy,
                 },
                 beta_search_params.BetaSearchParams,
@@ -358,6 +370,7 @@ class AsyncBetaResource(AsyncAPIResource):
         full_content: beta_extract_params.FullContent | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -382,6 +395,10 @@ class AsyncBetaResource(AsyncAPIResource):
           objective: If provided, focuses extracted content on the specified search objective.
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+              from a previous request.
 
           betas: Optional header to specify the beta version(s) to enable.
 
@@ -414,6 +431,7 @@ class AsyncBetaResource(AsyncAPIResource):
                     "full_content": full_content,
                     "objective": objective,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                 },
                 beta_extract_params.BetaExtractParams,
             ),
@@ -435,6 +453,7 @@ class AsyncBetaResource(AsyncAPIResource):
         objective: Optional[str] | Omit = omit,
         processor: Optional[Literal["base", "pro"]] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -477,6 +496,10 @@ class AsyncBetaResource(AsyncAPIResource):
               contain search operators. At least one of objective or search_queries must be
               provided.
 
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
+              from a previous request.
+
           source_policy: Source policy for web search results.
 
               This policy governs which sources are allowed/disallowed in results.
@@ -515,6 +538,7 @@ class AsyncBetaResource(AsyncAPIResource):
                     "objective": objective,
                     "processor": processor,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                     "source_policy": source_policy,
                 },
                 beta_search_params.BetaSearchParams,

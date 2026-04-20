@@ -69,6 +69,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
+        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -95,6 +96,8 @@ class TaskRunResource(SyncAPIResource):
           input: Input to the task, either text or a JSON object.
 
           processor: Processor to use for the task.
+
+          advanced_settings: Advanced search configuration for a task run.
 
           enable_events: Controls tracking of task run execution progress. When set to true, progress
               events are recorded and can be accessed via the
@@ -143,6 +146,7 @@ class TaskRunResource(SyncAPIResource):
                 {
                     "input": input,
                     "processor": processor,
+                    "advanced_settings": advanced_settings,
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
                     "metadata": metadata,
@@ -320,6 +324,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
+        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -346,6 +351,8 @@ class AsyncTaskRunResource(AsyncAPIResource):
           input: Input to the task, either text or a JSON object.
 
           processor: Processor to use for the task.
+
+          advanced_settings: Advanced search configuration for a task run.
 
           enable_events: Controls tracking of task run execution progress. When set to true, progress
               events are recorded and can be accessed via the
@@ -394,6 +401,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                 {
                     "input": input,
                     "processor": processor,
+                    "advanced_settings": advanced_settings,
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
                     "metadata": metadata,

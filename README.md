@@ -127,9 +127,9 @@ client = Parallel()
 task_run = client.task_run.create(
     input="What was the GDP of France in 2023?",
     processor="base",
-    source_policy={},
+    advanced_settings={},
 )
-print(task_run.source_policy)
+print(task_run.advanced_settings)
 ```
 
 ## Handling errors

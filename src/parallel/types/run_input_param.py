@@ -10,7 +10,14 @@ from .task_spec_param import TaskSpecParam
 from .mcp_server_param import McpServerParam
 from .shared_params.source_policy import SourcePolicy
 
-__all__ = ["RunInputParam"]
+__all__ = ["RunInputParam", "AdvancedSettings"]
+
+
+class AdvancedSettings(TypedDict, total=False):
+    """Advanced search configuration for a task run."""
+
+    location: Optional[str]
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
 
 
 class RunInputParam(TypedDict, total=False):
@@ -21,6 +28,9 @@ class RunInputParam(TypedDict, total=False):
 
     processor: Required[str]
     """Processor to use for the task."""
+
+    advanced_settings: Optional[AdvancedSettings]
+    """Advanced search configuration for a task run."""
 
     enable_events: Optional[bool]
     """Controls tracking of task run execution progress.

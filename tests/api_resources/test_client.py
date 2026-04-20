@@ -45,6 +45,7 @@ class TestClient:
             max_chars_total=0,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
         )
         assert_matches_type(ExtractResponse, client_, path=["response"])
 
@@ -102,6 +103,7 @@ class TestClient:
             max_chars_total=0,
             mode="basic",
             objective="objective",
+            session_id="session_id",
         )
         assert_matches_type(SearchResult, client_, path=["response"])
 
@@ -159,6 +161,7 @@ class TestAsyncClient:
             max_chars_total=0,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
         )
         assert_matches_type(ExtractResponse, client, path=["response"])
 
@@ -216,6 +219,7 @@ class TestAsyncClient:
             max_chars_total=0,
             mode="basic",
             objective="objective",
+            session_id="session_id",
         )
         assert_matches_type(SearchResult, client, path=["response"])
 
