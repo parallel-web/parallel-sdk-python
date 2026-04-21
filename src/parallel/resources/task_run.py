@@ -26,6 +26,7 @@ from ..types.task_run import TaskRun
 from ..types.webhook_param import WebhookParam
 from ..types.task_run_result import TaskRunResult
 from ..types.task_spec_param import OutputT, OutputSchema, TaskSpecParam
+from ..types.mcp_server_param import McpServerParam
 from ..lib._parsing._task_spec import build_task_spec_param
 from ..types.parsed_task_run_result import ParsedTaskRunResult
 from ..lib._parsing._task_run_result import (
@@ -33,7 +34,6 @@ from ..lib._parsing._task_run_result import (
     wait_for_result_async as _wait_for_result_async,
     task_run_result_parser,
 )
-from ..types.mcp_server_param import McpServerParam
 from ..types.beta.parallel_beta_param import ParallelBetaParam
 from ..types.task_run_events_response import TaskRunEventsResponse
 from ..types.shared_params.source_policy import SourcePolicy
