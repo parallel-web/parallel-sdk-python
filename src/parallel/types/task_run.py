@@ -9,10 +9,7 @@ from .._models import BaseModel
 from .shared.warning import Warning
 from .shared.error_object import ErrorObject
 
-__all__ = [
-    "TaskRun",
-    "Warning",  # for backwards compatibility with v0.1.3
-]
+__all__ = ["TaskRun"]
 
 
 class TaskRun(BaseModel):

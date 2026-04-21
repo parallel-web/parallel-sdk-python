@@ -6,7 +6,7 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .webhook_param import WebhookParam
+from ..webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 
 __all__ = ["FindAllCreateParams", "FindallCreateParams", "MatchCondition", "ExcludeList"]
@@ -25,7 +25,7 @@ class FindAllCreateParams(TypedDict, total=False):
     match_limit: Required[int]
     """Maximum number of matches to find for this FindAll run.
 
-    Must be between 5 and 1000 (inclusive).
+    Must be between 5 and 1000 (inclusive). May return fewer results.
     """
 
     objective: Required[str]

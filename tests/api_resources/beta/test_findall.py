@@ -13,6 +13,7 @@ from parallel.types.beta import (
     FindAllRun,
     FindAllSchema,
     FindAllRunResult,
+    FindAllCandidatesResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -200,6 +201,49 @@ class TestFindAll:
             )
 
     @parametrize
+    def test_method_candidates(self, client: Parallel) -> None:
+        findall = client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_method_candidates_with_all_params(self, client: Parallel) -> None:
+        findall = client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+            match_limit=5,
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_raw_response_candidates(self, client: Parallel) -> None:
+        response = client.beta.findall.with_raw_response.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        findall = response.parse()
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_streaming_response_candidates(self, client: Parallel) -> None:
+        with client.beta.findall.with_streaming_response.candidates(
+            entity_type="company",
+            objective="objective",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            findall = response.parse()
+            assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     def test_method_enrich(self, client: Parallel) -> None:
         findall = client.beta.findall.enrich(
             findall_id="findall_id",
@@ -296,7 +340,6 @@ class TestFindAll:
                 },
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events(self, client: Parallel) -> None:
         findall_stream = client.beta.findall.events(
@@ -304,7 +347,6 @@ class TestFindAll:
         )
         findall_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_method_events_with_all_params(self, client: Parallel) -> None:
         findall_stream = client.beta.findall.events(
@@ -315,7 +357,6 @@ class TestFindAll:
         )
         findall_stream.response.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_raw_response_events(self, client: Parallel) -> None:
         response = client.beta.findall.with_raw_response.events(
@@ -326,7 +367,6 @@ class TestFindAll:
         stream = response.parse()
         stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_streaming_response_events(self, client: Parallel) -> None:
         with client.beta.findall.with_streaming_response.events(
@@ -340,7 +380,6 @@ class TestFindAll:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     def test_path_params_events(self, client: Parallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `findall_id` but received ''"):
@@ -715,6 +754,49 @@ class TestAsyncFindAll:
             )
 
     @parametrize
+    async def test_method_candidates(self, async_client: AsyncParallel) -> None:
+        findall = await async_client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_method_candidates_with_all_params(self, async_client: AsyncParallel) -> None:
+        findall = await async_client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+            match_limit=5,
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_raw_response_candidates(self, async_client: AsyncParallel) -> None:
+        response = await async_client.beta.findall.with_raw_response.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        findall = await response.parse()
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_candidates(self, async_client: AsyncParallel) -> None:
+        async with async_client.beta.findall.with_streaming_response.candidates(
+            entity_type="company",
+            objective="objective",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            findall = await response.parse()
+            assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
     async def test_method_enrich(self, async_client: AsyncParallel) -> None:
         findall = await async_client.beta.findall.enrich(
             findall_id="findall_id",
@@ -811,7 +893,6 @@ class TestAsyncFindAll:
                 },
             )
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events(self, async_client: AsyncParallel) -> None:
         findall_stream = await async_client.beta.findall.events(
@@ -819,7 +900,6 @@ class TestAsyncFindAll:
         )
         await findall_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_method_events_with_all_params(self, async_client: AsyncParallel) -> None:
         findall_stream = await async_client.beta.findall.events(
@@ -830,7 +910,6 @@ class TestAsyncFindAll:
         )
         await findall_stream.response.aclose()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
         response = await async_client.beta.findall.with_raw_response.events(
@@ -841,7 +920,6 @@ class TestAsyncFindAll:
         stream = await response.parse()
         await stream.close()
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
         async with async_client.beta.findall.with_streaming_response.events(
@@ -855,7 +933,6 @@ class TestAsyncFindAll:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip(reason="Mock server doesn't support text/event-stream responses")
     @parametrize
     async def test_path_params_events(self, async_client: AsyncParallel) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `findall_id` but received ''"):

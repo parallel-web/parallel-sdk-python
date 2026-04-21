@@ -10,10 +10,7 @@ import pytest
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
 from parallel._utils import parse_date
-from parallel.types.beta import (
-    SearchResult,
-    ExtractResponse,
-)
+from parallel.types.beta import SearchResult, ExtractResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -41,6 +38,7 @@ class TestBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
             betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
@@ -86,12 +84,14 @@ class TestBeta:
                 "max_age_seconds": 86400,
                 "timeout_seconds": 60,
             },
+            location="us",
             max_chars_per_result=0,
             max_results=0,
             mode="one-shot",
             objective="objective",
             processor="base",
             search_queries=["string"],
+            session_id="session_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -147,6 +147,7 @@ class TestAsyncBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
             betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
@@ -192,12 +193,14 @@ class TestAsyncBeta:
                 "max_age_seconds": 86400,
                 "timeout_seconds": 60,
             },
+            location="us",
             max_chars_per_result=0,
             max_results=0,
             mode="one-shot",
             objective="objective",
             processor="base",
             search_queries=["string"],
+            session_id="session_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],

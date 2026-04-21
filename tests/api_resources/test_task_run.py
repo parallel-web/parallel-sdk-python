@@ -9,7 +9,10 @@ import pytest
 
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
-from parallel.types import TaskRun, TaskRunResult
+from parallel.types import (
+    TaskRun,
+    TaskRunResult,
+)
 from parallel._utils import parse_date
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -31,6 +34,17 @@ class TestTaskRun:
         task_run = client.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
+            advanced_settings={"location": "us"},
+            enable_events=True,
+            mcp_servers=[
+                {
+                    "name": "name",
+                    "url": "url",
+                    "allowed_tools": ["string"],
+                    "headers": {"foo": "string"},
+                    "type": "url",
+                }
+            ],
             metadata={"foo": "string"},
             previous_interaction_id="previous_interaction_id",
             source_policy={
@@ -50,6 +64,11 @@ class TestTaskRun:
                 },
                 "input_schema": "string",
             },
+            webhook={
+                "url": "url",
+                "event_types": ["task_run.status"],
+            },
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
@@ -118,6 +137,43 @@ class TestTaskRun:
             )
 
     @parametrize
+    def test_method_events(self, client: Parallel) -> None:
+        task_run_stream = client.task_run.events(
+            "run_id",
+        )
+        task_run_stream.response.close()
+
+    @parametrize
+    def test_raw_response_events(self, client: Parallel) -> None:
+        response = client.task_run.with_raw_response.events(
+            "run_id",
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = response.parse()
+        stream.close()
+
+    @parametrize
+    def test_streaming_response_events(self, client: Parallel) -> None:
+        with client.task_run.with_streaming_response.events(
+            "run_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = response.parse()
+            stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_events(self, client: Parallel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            client.task_run.with_raw_response.events(
+                "",
+            )
+
+    @parametrize
     def test_method_result(self, client: Parallel) -> None:
         task_run = client.task_run.result(
             run_id="run_id",
@@ -129,6 +185,7 @@ class TestTaskRun:
         task_run = client.task_run.result(
             run_id="run_id",
             api_timeout=0,
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRunResult, task_run, path=["response"])
 
@@ -182,6 +239,17 @@ class TestAsyncTaskRun:
         task_run = await async_client.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
+            advanced_settings={"location": "us"},
+            enable_events=True,
+            mcp_servers=[
+                {
+                    "name": "name",
+                    "url": "url",
+                    "allowed_tools": ["string"],
+                    "headers": {"foo": "string"},
+                    "type": "url",
+                }
+            ],
             metadata={"foo": "string"},
             previous_interaction_id="previous_interaction_id",
             source_policy={
@@ -201,6 +269,11 @@ class TestAsyncTaskRun:
                 },
                 "input_schema": "string",
             },
+            webhook={
+                "url": "url",
+                "event_types": ["task_run.status"],
+            },
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRun, task_run, path=["response"])
 
@@ -269,6 +342,43 @@ class TestAsyncTaskRun:
             )
 
     @parametrize
+    async def test_method_events(self, async_client: AsyncParallel) -> None:
+        task_run_stream = await async_client.task_run.events(
+            "run_id",
+        )
+        await task_run_stream.response.aclose()
+
+    @parametrize
+    async def test_raw_response_events(self, async_client: AsyncParallel) -> None:
+        response = await async_client.task_run.with_raw_response.events(
+            "run_id",
+        )
+
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        stream = await response.parse()
+        await stream.close()
+
+    @parametrize
+    async def test_streaming_response_events(self, async_client: AsyncParallel) -> None:
+        async with async_client.task_run.with_streaming_response.events(
+            "run_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            stream = await response.parse()
+            await stream.close()
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_events(self, async_client: AsyncParallel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            await async_client.task_run.with_raw_response.events(
+                "",
+            )
+
+    @parametrize
     async def test_method_result(self, async_client: AsyncParallel) -> None:
         task_run = await async_client.task_run.result(
             run_id="run_id",
@@ -280,6 +390,7 @@ class TestAsyncTaskRun:
         task_run = await async_client.task_run.result(
             run_id="run_id",
             api_timeout=0,
+            betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(TaskRunResult, task_run, path=["response"])
 

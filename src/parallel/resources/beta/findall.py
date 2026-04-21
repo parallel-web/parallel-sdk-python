@@ -9,7 +9,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -25,6 +25,7 @@ from ...types.beta import (
     findall_events_params,
     findall_extend_params,
     findall_ingest_params,
+    findall_candidates_params,
 )
 from ..._base_client import make_request_options
 from ...types.beta.findall_run import FindAllRun
@@ -35,6 +36,7 @@ from ...types.beta.mcp_server_param import McpServerParam
 from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
+from ...types.beta.findall_candidates_response import FindAllCandidatesResponse
 
 __all__ = [
     "FindAllResource",
@@ -117,7 +119,7 @@ class FindAllResource(SyncAPIResource):
           match_conditions: List of match conditions for the FindAll run.
 
           match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
-              1000 (inclusive).
+              1000 (inclusive). May return fewer results.
 
           objective: Natural language objective of the FindAll run.
 
@@ -209,7 +211,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}",
+            path_template("/v1beta/findall/runs/{findall_id}", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -256,11 +258,64 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/cancel",
+            path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
+        )
+
+    def candidates(
+        self,
+        *,
+        entity_type: Literal["company", "people"],
+        objective: str,
+        match_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FindAllCandidatesResponse:
+        """
+        Return ranked entity candidates matching a natural language objective.
+
+        This endpoint performs a best-effort search optimised for low latency. For
+        comprehensive match evaluation and enrichment, use the
+        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+
+        Args:
+          entity_type: Type of entity to search for.
+
+          objective: Natural language description of target entities.
+
+          match_limit: Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+              May return fewer results. Defaults to 100.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return self._post(
+            "/v1beta/findall/candidates",
+            body=maybe_transform(
+                {
+                    "entity_type": entity_type,
+                    "objective": objective,
+                    "match_limit": match_limit,
+                },
+                findall_candidates_params.FindAllCandidatesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FindAllCandidatesResponse,
         )
 
     def enrich(
@@ -312,7 +367,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/enrich",
+            path_template("/v1beta/findall/runs/{findall_id}/enrich", findall_id=findall_id),
             body=maybe_transform(
                 {
                     "output_schema": output_schema,
@@ -375,7 +430,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/events",
+            path_template("/v1beta/findall/runs/{findall_id}/events", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -439,7 +494,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/findall/runs/{findall_id}/extend",
+            path_template("/v1beta/findall/runs/{findall_id}/extend", findall_id=findall_id),
             body=maybe_transform(
                 {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
@@ -542,7 +597,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/result",
+            path_template("/v1beta/findall/runs/{findall_id}/result", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -589,7 +644,7 @@ class FindAllResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/findall/runs/{findall_id}/schema",
+            path_template("/v1beta/findall/runs/{findall_id}/schema", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -662,7 +717,7 @@ class AsyncFindAllResource(AsyncAPIResource):
           match_conditions: List of match conditions for the FindAll run.
 
           match_limit: Maximum number of matches to find for this FindAll run. Must be between 5 and
-              1000 (inclusive).
+              1000 (inclusive). May return fewer results.
 
           objective: Natural language objective of the FindAll run.
 
@@ -754,7 +809,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}",
+            path_template("/v1beta/findall/runs/{findall_id}", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -801,11 +856,64 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/cancel",
+            path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=object,
+        )
+
+    async def candidates(
+        self,
+        *,
+        entity_type: Literal["company", "people"],
+        objective: str,
+        match_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FindAllCandidatesResponse:
+        """
+        Return ranked entity candidates matching a natural language objective.
+
+        This endpoint performs a best-effort search optimised for low latency. For
+        comprehensive match evaluation and enrichment, use the
+        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+
+        Args:
+          entity_type: Type of entity to search for.
+
+          objective: Natural language description of target entities.
+
+          match_limit: Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
+              May return fewer results. Defaults to 100.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return await self._post(
+            "/v1beta/findall/candidates",
+            body=await async_maybe_transform(
+                {
+                    "entity_type": entity_type,
+                    "objective": objective,
+                    "match_limit": match_limit,
+                },
+                findall_candidates_params.FindAllCandidatesParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FindAllCandidatesResponse,
         )
 
     async def enrich(
@@ -857,7 +965,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/enrich",
+            path_template("/v1beta/findall/runs/{findall_id}/enrich", findall_id=findall_id),
             body=await async_maybe_transform(
                 {
                     "output_schema": output_schema,
@@ -920,7 +1028,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/events",
+            path_template("/v1beta/findall/runs/{findall_id}/events", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -984,7 +1092,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/findall/runs/{findall_id}/extend",
+            path_template("/v1beta/findall/runs/{findall_id}/extend", findall_id=findall_id),
             body=await async_maybe_transform(
                 {"additional_match_limit": additional_match_limit}, findall_extend_params.FindAllExtendParams
             ),
@@ -1087,7 +1195,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/result",
+            path_template("/v1beta/findall/runs/{findall_id}/result", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1134,7 +1242,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/findall/runs/{findall_id}/schema",
+            path_template("/v1beta/findall/runs/{findall_id}/schema", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -1154,6 +1262,9 @@ class FindAllResourceWithRawResponse:
         )
         self.cancel = to_raw_response_wrapper(
             findall.cancel,
+        )
+        self.candidates = to_raw_response_wrapper(
+            findall.candidates,
         )
         self.enrich = to_raw_response_wrapper(
             findall.enrich,
@@ -1188,6 +1299,9 @@ class AsyncFindAllResourceWithRawResponse:
         self.cancel = async_to_raw_response_wrapper(
             findall.cancel,
         )
+        self.candidates = async_to_raw_response_wrapper(
+            findall.candidates,
+        )
         self.enrich = async_to_raw_response_wrapper(
             findall.enrich,
         )
@@ -1221,6 +1335,9 @@ class FindAllResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             findall.cancel,
         )
+        self.candidates = to_streamed_response_wrapper(
+            findall.candidates,
+        )
         self.enrich = to_streamed_response_wrapper(
             findall.enrich,
         )
@@ -1253,6 +1370,9 @@ class AsyncFindAllResourceWithStreamingResponse:
         )
         self.cancel = async_to_streamed_response_wrapper(
             findall.cancel,
+        )
+        self.candidates = async_to_streamed_response_wrapper(
+            findall.candidates,
         )
         self.enrich = async_to_streamed_response_wrapper(
             findall.enrich,

@@ -3,8 +3,8 @@
 from typing import List, Optional
 
 from ..._models import BaseModel
-from .usage_item import UsageItem
-from .extract_error import ExtractError
+from ..usage_item import UsageItem
+from ..extract_error import ExtractError
 from .extract_result import ExtractResult
 from ..shared.warning import Warning
 

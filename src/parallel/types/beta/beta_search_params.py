@@ -7,7 +7,7 @@ from typing_extensions import Literal, Annotated, TypedDict
 
 from ..._types import SequenceNotStr
 from ..._utils import PropertyInfo
-from .fetch_policy_param import FetchPolicyParam
+from ..fetch_policy_param import FetchPolicyParam
 from .parallel_beta_param import ParallelBetaParam
 from .excerpt_settings_param import ExcerptSettingsParam
 from ..shared_params.source_policy import SourcePolicy
@@ -21,6 +21,9 @@ class BetaSearchParams(TypedDict, total=False):
 
     fetch_policy: Optional[FetchPolicyParam]
     """Policy for live fetching web results."""
+
+    location: Optional[str]
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
 
     max_chars_per_result: Optional[int]
     """DEPRECATED: Use `excerpts.max_chars_per_result` instead."""
@@ -54,6 +57,13 @@ class BetaSearchParams(TypedDict, total=False):
 
     May contain search operators. At least one of objective or search_queries must
     be provided.
+    """
+
+    session_id: Optional[str]
+    """
+    Session identifier to track calls across separate search and extract calls, to
+    be used as part of a larger task. Specifying it may give better contextual
+    results for subsequent API calls.
     """
 
     source_policy: Optional[SourcePolicy]

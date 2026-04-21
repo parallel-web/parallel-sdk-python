@@ -3,7 +3,7 @@
 from typing import List, Optional
 
 from ..._models import BaseModel
-from .usage_item import UsageItem
+from ..usage_item import UsageItem
 from ..shared.warning import Warning
 from .web_search_result import WebSearchResult
 

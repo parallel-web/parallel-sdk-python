@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
-from typing import Dict, Union, Optional
-from typing_extensions import Required, TypedDict
+from typing import Dict, List, Union, Iterable, Optional
+from typing_extensions import Required, Annotated, TypedDict
 
+from .._utils import PropertyInfo
+from .webhook_param import WebhookParam
 from .task_spec_param import TaskSpecParam
+from .mcp_server_param import McpServerParam
+from .beta.parallel_beta_param import ParallelBetaParam
 from .shared_params.source_policy import SourcePolicy
 
-__all__ = ["TaskRunCreateParams"]
+__all__ = ["TaskRunCreateParams", "AdvancedSettings"]
 
 
 class TaskRunCreateParams(TypedDict, total=False):
@@ -17,6 +21,22 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     processor: Required[str]
     """Processor to use for the task."""
+
+    advanced_settings: Optional[AdvancedSettings]
+    """Advanced search configuration for a task run."""
+
+    enable_events: Optional[bool]
+    """Controls tracking of task run execution progress.
+
+    When set to true, progress events are recorded and can be accessed via the
+    [Task Run events](https://docs.parallel.ai/api-reference) endpoint. When false,
+    no progress events are tracked. Note that progress tracking cannot be enabled
+    after a run has been created. The flag is set to true by default for premium
+    processors (pro and above).
+    """
+
+    mcp_servers: Optional[Iterable[McpServerParam]]
+    """Optional list of MCP servers to use for the run."""
 
     metadata: Optional[Dict[str, Union[str, float, bool]]]
     """User-provided metadata stored with the run.
@@ -42,3 +62,16 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     For convenience bare strings are also accepted as input or output schemas.
     """
+
+    webhook: Optional[WebhookParam]
+    """Webhooks for Task Runs."""
+
+    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
+    """Optional header to specify the beta version(s) to enable."""
+
+
+class AdvancedSettings(TypedDict, total=False):
+    """Advanced search configuration for a task run."""
+
+    location: Optional[str]
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""

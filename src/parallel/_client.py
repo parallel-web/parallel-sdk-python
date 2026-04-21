@@ -3,32 +3,54 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING, Any, Mapping
-from typing_extensions import Self, override
+from typing import TYPE_CHECKING, Any, Mapping, Optional
+from typing_extensions import Self, Literal, override
 
 import httpx
 
 from . import _exceptions
 from ._qs import Querystring
+from .types import client_search_params, client_extract_params
 from ._types import (
+    Body,
     Omit,
+    Query,
+    Headers,
     Timeout,
     NotGiven,
     Transport,
     ProxiesTypes,
     RequestOptions,
+    SequenceNotStr,
+    omit,
     not_given,
 )
-from ._utils import is_given, get_async_library
+from ._utils import (
+    is_given,
+    maybe_transform,
+    get_async_library,
+    async_maybe_transform,
+)
 from ._compat import cached_property
 from ._version import __version__
+from ._response import (
+    to_raw_response_wrapper,
+    to_streamed_response_wrapper,
+    async_to_raw_response_wrapper,
+    async_to_streamed_response_wrapper,
+)
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import ParallelError, APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
     AsyncAPIClient,
+    make_request_options,
 )
+from .types.search_result import SearchResult
+from .types.extract_response import ExtractResponse
+from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
+from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
     from .resources import beta, task_run
@@ -108,6 +130,13 @@ class Parallel(SyncAPIClient):
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import TaskRunResource
 
@@ -197,6 +226,161 @@ class Parallel(SyncAPIClient):
     # Alias for `copy` for nicer inline usage, e.g.
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
+
+    def extract(
+        self,
+        *,
+        urls: SequenceNotStr[str],
+        advanced_settings: Optional[AdvancedExtractSettingsParam] | Omit = omit,
+        client_model: Optional[str] | Omit = omit,
+        max_chars_total: Optional[int] | Omit = omit,
+        objective: Optional[str] | Omit = omit,
+        search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExtractResponse:
+        """
+        Extracts relevant content from specific web URLs.
+
+        The legacy Extract API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+
+        Args:
+          urls: URLs to extract content from. Up to 20 URLs.
+
+          advanced_settings: Advanced extract configuration.
+
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-extract-settings for more info.
+
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
+          max_chars_total: Upper bound on total characters across excerpts from all extracted results.
+
+          objective: As in SearchRequest, a natural-language description of the underlying question
+              or goal driving the request. Used together with search_queries to focus excerpts
+              on the most relevant content.
+
+          search_queries: Optional keyword search queries, as in SearchRequest. Used together with
+              objective to focus excerpts on the most relevant content.
+
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self.post(
+            "/v1/extract",
+            body=maybe_transform(
+                {
+                    "urls": urls,
+                    "advanced_settings": advanced_settings,
+                    "client_model": client_model,
+                    "max_chars_total": max_chars_total,
+                    "objective": objective,
+                    "search_queries": search_queries,
+                    "session_id": session_id,
+                },
+                client_extract_params.ClientExtractParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExtractResponse,
+        )
+
+    def search(
+        self,
+        *,
+        search_queries: SequenceNotStr[str],
+        advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
+        client_model: Optional[str] | Omit = omit,
+        max_chars_total: Optional[int] | Omit = omit,
+        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
+        objective: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SearchResult:
+        """
+        Searches the web.
+
+        The legacy Search API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
+
+        Args:
+          search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,
+              provide 2-3 for best results. Used together with objective to focus results on
+              the most relevant content.
+
+          advanced_settings: Advanced search configuration.
+
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-search-settings for more info.
+
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
+          max_chars_total: Upper bound on total characters across excerpts from all results.
+
+          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
+              offers the lowest latency and works best with 2-3 high-quality search_queries.
+              Advanced mode provides higher quality with more advanced retrieval and
+              compression. Defaults to `advanced` when omitted.
+
+          objective: Natural-language description of the underlying question or goal driving the
+              search. Used together with search_queries to focus results on the most relevant
+              content. Should be self-contained with enough context to understand the intent
+              of the search.
+
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return self.post(
+            "/v1/search",
+            body=maybe_transform(
+                {
+                    "search_queries": search_queries,
+                    "advanced_settings": advanced_settings,
+                    "client_model": client_model,
+                    "max_chars_total": max_chars_total,
+                    "mode": mode,
+                    "objective": objective,
+                    "session_id": session_id,
+                },
+                client_search_params.ClientSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SearchResult,
+        )
 
     @override
     def _make_status_error(
@@ -293,6 +477,13 @@ class AsyncParallel(AsyncAPIClient):
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import AsyncTaskRunResource
 
@@ -383,6 +574,161 @@ class AsyncParallel(AsyncAPIClient):
     # client.with_options(timeout=10).foo.create(...)
     with_options = copy
 
+    async def extract(
+        self,
+        *,
+        urls: SequenceNotStr[str],
+        advanced_settings: Optional[AdvancedExtractSettingsParam] | Omit = omit,
+        client_model: Optional[str] | Omit = omit,
+        max_chars_total: Optional[int] | Omit = omit,
+        objective: Optional[str] | Omit = omit,
+        search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> ExtractResponse:
+        """
+        Extracts relevant content from specific web URLs.
+
+        The legacy Extract API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+
+        Args:
+          urls: URLs to extract content from. Up to 20 URLs.
+
+          advanced_settings: Advanced extract configuration.
+
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-extract-settings for more info.
+
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
+          max_chars_total: Upper bound on total characters across excerpts from all extracted results.
+
+          objective: As in SearchRequest, a natural-language description of the underlying question
+              or goal driving the request. Used together with search_queries to focus excerpts
+              on the most relevant content.
+
+          search_queries: Optional keyword search queries, as in SearchRequest. Used together with
+              objective to focus excerpts on the most relevant content.
+
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self.post(
+            "/v1/extract",
+            body=await async_maybe_transform(
+                {
+                    "urls": urls,
+                    "advanced_settings": advanced_settings,
+                    "client_model": client_model,
+                    "max_chars_total": max_chars_total,
+                    "objective": objective,
+                    "search_queries": search_queries,
+                    "session_id": session_id,
+                },
+                client_extract_params.ClientExtractParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ExtractResponse,
+        )
+
+    async def search(
+        self,
+        *,
+        search_queries: SequenceNotStr[str],
+        advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
+        client_model: Optional[str] | Omit = omit,
+        max_chars_total: Optional[int] | Omit = omit,
+        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
+        objective: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> SearchResult:
+        """
+        Searches the web.
+
+        The legacy Search API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
+
+        Args:
+          search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,
+              provide 2-3 for best results. Used together with objective to focus results on
+              the most relevant content.
+
+          advanced_settings: Advanced search configuration.
+
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-search-settings for more info.
+
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
+          max_chars_total: Upper bound on total characters across excerpts from all results.
+
+          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
+              offers the lowest latency and works best with 2-3 high-quality search_queries.
+              Advanced mode provides higher quality with more advanced retrieval and
+              compression. Defaults to `advanced` when omitted.
+
+          objective: Natural-language description of the underlying question or goal driving the
+              search. Used together with search_queries to focus results on the most relevant
+              content. Should be self-contained with enough context to understand the intent
+              of the search.
+
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        return await self.post(
+            "/v1/search",
+            body=await async_maybe_transform(
+                {
+                    "search_queries": search_queries,
+                    "advanced_settings": advanced_settings,
+                    "client_model": client_model,
+                    "max_chars_total": max_chars_total,
+                    "mode": mode,
+                    "objective": objective,
+                    "session_id": session_id,
+                },
+                client_search_params.ClientSearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=SearchResult,
+        )
+
     @override
     def _make_status_error(
         self,
@@ -423,12 +769,26 @@ class ParallelWithRawResponse:
     def __init__(self, client: Parallel) -> None:
         self._client = client
 
+        self.extract = to_raw_response_wrapper(
+            client.extract,
+        )
+        self.search = to_raw_response_wrapper(
+            client.search,
+        )
+
     @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithRawResponse:
         """The Task API executes web research and extraction tasks.
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import TaskRunResourceWithRawResponse
 
@@ -447,12 +807,26 @@ class AsyncParallelWithRawResponse:
     def __init__(self, client: AsyncParallel) -> None:
         self._client = client
 
+        self.extract = async_to_raw_response_wrapper(
+            client.extract,
+        )
+        self.search = async_to_raw_response_wrapper(
+            client.search,
+        )
+
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithRawResponse:
         """The Task API executes web research and extraction tasks.
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import AsyncTaskRunResourceWithRawResponse
 
@@ -471,12 +845,26 @@ class ParallelWithStreamedResponse:
     def __init__(self, client: Parallel) -> None:
         self._client = client
 
+        self.extract = to_streamed_response_wrapper(
+            client.extract,
+        )
+        self.search = to_streamed_response_wrapper(
+            client.search,
+        )
+
     @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithStreamingResponse:
         """The Task API executes web research and extraction tasks.
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import TaskRunResourceWithStreamingResponse
 
@@ -495,12 +883,26 @@ class AsyncParallelWithStreamedResponse:
     def __init__(self, client: AsyncParallel) -> None:
         self._client = client
 
+        self.extract = async_to_streamed_response_wrapper(
+            client.extract,
+        )
+        self.search = async_to_streamed_response_wrapper(
+            client.search,
+        )
+
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithStreamingResponse:
         """The Task API executes web research and extraction tasks.
 
         Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
         - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+         - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
         """
         from .resources.task_run import AsyncTaskRunResourceWithStreamingResponse
 

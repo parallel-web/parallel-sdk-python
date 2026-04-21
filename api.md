@@ -4,6 +4,30 @@
 from parallel.types import ErrorObject, ErrorResponse, SourcePolicy, Warning
 ```
 
+# Parallel
+
+Types:
+
+```python
+from parallel.types import (
+    AdvancedExtractSettings,
+    AdvancedSearchSettings,
+    ExcerptSettings,
+    ExtractError,
+    ExtractResponse,
+    ExtractResult,
+    FetchPolicy,
+    SearchResult,
+    UsageItem,
+    WebSearchResult,
+)
+```
+
+Methods:
+
+- <code title="post /v1/extract">client.<a href="./src/parallel/_client.py">extract</a>(\*\*<a href="src/parallel/types/client_extract_params.py">params</a>) -> <a href="./src/parallel/types/extract_response.py">ExtractResponse</a></code>
+- <code title="post /v1/search">client.<a href="./src/parallel/_client.py">search</a>(\*\*<a href="src/parallel/types/client_search_params.py">params</a>) -> <a href="./src/parallel/types/search_result.py">SearchResult</a></code>
+
 # TaskRun
 
 Types:

@@ -9,7 +9,7 @@ from typing_extensions import Literal
 import httpx
 
 from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
-from ..._utils import is_given, maybe_transform, strip_not_given, async_maybe_transform
+from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -38,14 +38,17 @@ __all__ = ["TaskGroupResource", "AsyncTaskGroupResource"]
 
 
 class TaskGroupResource(SyncAPIResource):
-    """
-    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+    Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
      - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
     - Group-level retry and error aggregation
-    Status: beta and subject to change.
     """
 
     @cached_property
@@ -129,7 +132,7 @@ class TaskGroupResource(SyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}",
+            path_template("/v1beta/tasks/groups/{task_group_id}", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -141,6 +144,7 @@ class TaskGroupResource(SyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
+        refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -188,7 +192,7 @@ class TaskGroupResource(SyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._post(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             body=maybe_transform(
                 {
                     "inputs": inputs,
@@ -197,7 +201,13 @@ class TaskGroupResource(SyncAPIResource):
                 task_group_add_runs_params.TaskGroupAddRunsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"refresh_status": refresh_status}, task_group_add_runs_params.TaskGroupAddRunsParams
+                ),
             ),
             cast_to=TaskGroupRunResponse,
         )
@@ -235,7 +245,7 @@ class TaskGroupResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/events",
+            path_template("/v1beta/tasks/groups/{task_group_id}/events", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -300,7 +310,7 @@ class TaskGroupResource(SyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -325,14 +335,17 @@ class TaskGroupResource(SyncAPIResource):
 
 
 class AsyncTaskGroupResource(AsyncAPIResource):
-    """
-    The Task Group API is currently in beta and enables batch execution of many independent Task runs with group-level monitoring and failure handling.
+    """The Task API executes web research and extraction tasks.
+
+    Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+    - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+    Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
      - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
     - Group-level retry and error aggregation
-    Status: beta and subject to change.
     """
 
     @cached_property
@@ -416,7 +429,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}",
+            path_template("/v1beta/tasks/groups/{task_group_id}", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -428,6 +441,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         task_group_id: str,
         *,
         inputs: Iterable[BetaRunInputParam],
+        refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -475,7 +489,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         }
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._post(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             body=await async_maybe_transform(
                 {
                     "inputs": inputs,
@@ -484,7 +498,13 @@ class AsyncTaskGroupResource(AsyncAPIResource):
                 task_group_add_runs_params.TaskGroupAddRunsParams,
             ),
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"refresh_status": refresh_status}, task_group_add_runs_params.TaskGroupAddRunsParams
+                ),
             ),
             cast_to=TaskGroupRunResponse,
         )
@@ -522,7 +542,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/events",
+            path_template("/v1beta/tasks/groups/{task_group_id}/events", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -587,7 +607,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         extra_headers = {"Accept": "text/event-stream", **(extra_headers or {})}
         extra_headers = {"parallel-beta": "search-extract-2025-10-10", **(extra_headers or {})}
         return await self._get(
-            f"/v1beta/tasks/groups/{task_group_id}/runs",
+            path_template("/v1beta/tasks/groups/{task_group_id}/runs", task_group_id=task_group_id),
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,

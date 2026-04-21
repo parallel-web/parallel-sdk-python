@@ -26,7 +26,8 @@ class SourcePolicy(BaseModel):
 
     If specified, sources from these domains will be excluded. Accepts plain domains
     (e.g., example.com, subdomain.example.gov) or bare domain extension starting
-    with a period (e.g., .gov, .edu, .co.uk).
+    with a period (e.g., .gov, .edu, .co.uk). The combined number of domains in
+    include_domains and exclude_domains cannot exceed 200.
     """
 
     include_domains: Optional[List[str]] = None
@@ -34,5 +35,6 @@ class SourcePolicy(BaseModel):
 
     If specified, only sources from these domains will be included. Accepts plain
     domains (e.g., example.com, subdomain.example.gov) or bare domain extension
-    starting with a period (e.g., .gov, .edu, .co.uk).
+    starting with a period (e.g., .gov, .edu, .co.uk). The combined number of
+    domains in include_domains and exclude_domains cannot exceed 200.
     """

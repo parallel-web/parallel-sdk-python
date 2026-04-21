@@ -40,7 +40,6 @@ OutputTaskRunTextOutputBasis = FieldBasis  # for backwards compatibility with v0
 OutputTaskRunTextOutputBasisCitation = Citation  # for backwards compatibility with v0.1.3
 """This is deprecated, `Citation` should be used instead"""
 
-
 Output: TypeAlias = Annotated[Union[TaskRunTextOutput, TaskRunJsonOutput], PropertyInfo(discriminator="type")]
 
 

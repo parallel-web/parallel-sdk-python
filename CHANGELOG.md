@@ -1,5 +1,54 @@
 # Changelog
 
+## 0.5.0 (2026-04-21)
+
+Full Changelog: [v0.4.2...v0.5.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.2...v0.5.0)
+
+### Features
+
+* **api:** Add Findall Candidates ([57c4ae2](https://github.com/parallel-web/parallel-sdk-python/commit/57c4ae25d77a8627c6be3673312bfd7f373e17da))
+* **api:** Add Search and Extract v1 and associated types ([ea487f3](https://github.com/parallel-web/parallel-sdk-python/commit/ea487f32b73aee955f662d1fa225841421ce1ba3))
+* **api:** manual - add AdvancedSearchSettings and AdvancedExtractSettings models ([5836a6f](https://github.com/parallel-web/parallel-sdk-python/commit/5836a6fbe8db3a3509556442067f087918edb2bb))
+* **api:** manual updates - update openapi spec ([02db6c0](https://github.com/parallel-web/parallel-sdk-python/commit/02db6c07ec5eb254b18732fcb6f7dc43e31de471))
+* **api:** Remove full_content from OpenAPI Spec ([7a4d651](https://github.com/parallel-web/parallel-sdk-python/commit/7a4d651c3e9f35334175f82daaf6392e9f76dee5))
+* **api:** Search/Extract v1 with advanced_settings and max_results ([4ded29c](https://github.com/parallel-web/parallel-sdk-python/commit/4ded29c2382594f1735101753a0b09a2f7c6972e))
+* **api:** Update OpenAPI spec ([58f19f3](https://github.com/parallel-web/parallel-sdk-python/commit/58f19f38174fb71dc906049c0aef6610ac67971e))
+* **api:** Update OpenAPI spec ([fae95f4](https://github.com/parallel-web/parallel-sdk-python/commit/fae95f4f2c7cb60ebc0babc4fe540617e3334b2d))
+* **internal:** implement indices array format for query and form serialization ([3df5972](https://github.com/parallel-web/parallel-sdk-python/commit/3df5972e34c9aa1709eabc4eb5b8cbbc0adccae2))
+
+
+### Bug Fixes
+
+* **client:** preserve hardcoded query params when merging with user params ([08080bc](https://github.com/parallel-web/parallel-sdk-python/commit/08080bc22c415881cc9f9b05bc22f09ab83c7e8d))
+* **deps:** bump minimum typing-extensions version ([964a46d](https://github.com/parallel-web/parallel-sdk-python/commit/964a46ddfc9ead64e4105e42192a780bc91716b0))
+* ensure file data are only sent as 1 parameter ([1c15cc0](https://github.com/parallel-web/parallel-sdk-python/commit/1c15cc00b1ae223db8e51893ce23b9a2193e3ae7))
+* **pydantic:** do not pass `by_alias` unless set ([f0793c1](https://github.com/parallel-web/parallel-sdk-python/commit/f0793c171465dd57d0fbf82a3bb2281d046f500e))
+* sanitize endpoint path params ([5931597](https://github.com/parallel-web/parallel-sdk-python/commit/59315972d27246485be5cb52671aecaa3aa46253))
+
+
+### Performance Improvements
+
+* **client:** optimize file structure copying in multipart requests ([00e8564](https://github.com/parallel-web/parallel-sdk-python/commit/00e856464a2828693483a704de83ee5d6c4fe19e))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([403448c](https://github.com/parallel-web/parallel-sdk-python/commit/403448c7760e70fe0f4b3998a20f048910e91cd6))
+* **internal:** tweak CI branches ([014c802](https://github.com/parallel-web/parallel-sdk-python/commit/014c80287318df0db6207df1579be00c4717f24d))
+* **internal:** update gitignore ([1f4f6b0](https://github.com/parallel-web/parallel-sdk-python/commit/1f4f6b0e5d2a46e1a5457879e937ea5aa551073c))
+* **tests:** bump steady to v0.19.4 ([ebee2e7](https://github.com/parallel-web/parallel-sdk-python/commit/ebee2e761e2a8587cc6aa4c2decfd6310092b039))
+* **tests:** bump steady to v0.19.5 ([2774099](https://github.com/parallel-web/parallel-sdk-python/commit/2774099f753bc0826e9c6b6e9fbb40d4e72e3405))
+* **tests:** bump steady to v0.19.6 ([8e3ee3d](https://github.com/parallel-web/parallel-sdk-python/commit/8e3ee3d04dc149b2bcedb0e4acd92474fafd8d05))
+* **tests:** bump steady to v0.19.7 ([4bcf12e](https://github.com/parallel-web/parallel-sdk-python/commit/4bcf12e670b7997e23ade3d991711fe1ef741e35))
+* **tests:** bump steady to v0.20.1 ([d82ce60](https://github.com/parallel-web/parallel-sdk-python/commit/d82ce601c5687553b0e96990e418289fd8a14e00))
+* **tests:** bump steady to v0.20.2 ([746ca39](https://github.com/parallel-web/parallel-sdk-python/commit/746ca39c749f899dc9137a2f9be5de9aa39210c6))
+* **tests:** bump steady to v0.22.1 ([dec81af](https://github.com/parallel-web/parallel-sdk-python/commit/dec81afb89f46850635daa89e64debe15717d053))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([032745e](https://github.com/parallel-web/parallel-sdk-python/commit/032745ea1a03b3d2516b789a28a3c8b8034660d8))
+
 ## 0.4.2 (2026-03-09)
 
 Full Changelog: [v0.4.1...v0.4.2](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.1...v0.4.2)
