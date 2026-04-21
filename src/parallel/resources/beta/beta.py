@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import List, Optional
 from itertools import chain
 from typing_extensions import Literal
@@ -113,6 +114,9 @@ class BetaResource(SyncAPIResource):
         """
         return BetaResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated(
+        "Use client.extract instead. For more info, see https://docs.parallel.ai/extract/extract-migration-guide"
+    )
     def extract(
         self,
         *,
@@ -193,6 +197,9 @@ class BetaResource(SyncAPIResource):
             cast_to=ExtractResponse,
         )
 
+    @typing_extensions.deprecated(
+        "Use client.search instead. For more info, see https://docs.parallel.ai/search/search-migration-guide"
+    )
     def search(
         self,
         *,
@@ -361,6 +368,9 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         return AsyncBetaResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated(
+        "Use client.extract instead. For more info, see https://docs.parallel.ai/extract/extract-migration-guide"
+    )
     async def extract(
         self,
         *,
@@ -441,6 +451,9 @@ class AsyncBetaResource(AsyncAPIResource):
             cast_to=ExtractResponse,
         )
 
+    @typing_extensions.deprecated(
+        "Use client.search instead. For more info, see https://docs.parallel.ai/search/search-migration-guide"
+    )
     async def search(
         self,
         *,
@@ -554,11 +567,15 @@ class BetaResourceWithRawResponse:
     def __init__(self, beta: BetaResource) -> None:
         self._beta = beta
 
-        self.extract = to_raw_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = to_raw_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -605,11 +622,15 @@ class AsyncBetaResourceWithRawResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
         self._beta = beta
 
-        self.extract = async_to_raw_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = async_to_raw_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -656,11 +677,15 @@ class BetaResourceWithStreamingResponse:
     def __init__(self, beta: BetaResource) -> None:
         self._beta = beta
 
-        self.extract = to_streamed_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = to_streamed_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -707,11 +732,15 @@ class AsyncBetaResourceWithStreamingResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
         self._beta = beta
 
-        self.extract = async_to_streamed_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = async_to_streamed_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
