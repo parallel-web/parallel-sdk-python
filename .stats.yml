@@ -1,4 +1,4 @@
-configured_endpoints: 23
+configured_endpoints: 24
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/parallel-web%2Fparallel-sdk-c4cc922783460c6e65811d13c9abe35807a551c77c126d452806f93caaaf48fb.yml
 openapi_spec_hash: 99c9e48d4dafaca71f058107008d174b
-config_hash: fe820a5a10ee48e143c9e49a153b23b4
+config_hash: 80e7ee7ad8e3424616aca7189ffd5ae7
