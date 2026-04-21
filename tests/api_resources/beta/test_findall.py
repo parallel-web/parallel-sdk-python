@@ -13,6 +13,7 @@ from parallel.types.beta import (
     FindAllRun,
     FindAllSchema,
     FindAllRunResult,
+    FindAllCandidatesResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -198,6 +199,49 @@ class TestFindAll:
             client.beta.findall.with_raw_response.cancel(
                 findall_id="",
             )
+
+    @parametrize
+    def test_method_candidates(self, client: Parallel) -> None:
+        findall = client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_method_candidates_with_all_params(self, client: Parallel) -> None:
+        findall = client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+            match_limit=5,
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_raw_response_candidates(self, client: Parallel) -> None:
+        response = client.beta.findall.with_raw_response.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        findall = response.parse()
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    def test_streaming_response_candidates(self, client: Parallel) -> None:
+        with client.beta.findall.with_streaming_response.candidates(
+            entity_type="company",
+            objective="objective",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            findall = response.parse()
+            assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     def test_method_enrich(self, client: Parallel) -> None:
@@ -708,6 +752,49 @@ class TestAsyncFindAll:
             await async_client.beta.findall.with_raw_response.cancel(
                 findall_id="",
             )
+
+    @parametrize
+    async def test_method_candidates(self, async_client: AsyncParallel) -> None:
+        findall = await async_client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_method_candidates_with_all_params(self, async_client: AsyncParallel) -> None:
+        findall = await async_client.beta.findall.candidates(
+            entity_type="company",
+            objective="objective",
+            match_limit=5,
+        )
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_raw_response_candidates(self, async_client: AsyncParallel) -> None:
+        response = await async_client.beta.findall.with_raw_response.candidates(
+            entity_type="company",
+            objective="objective",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        findall = await response.parse()
+        assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_candidates(self, async_client: AsyncParallel) -> None:
+        async with async_client.beta.findall.with_streaming_response.candidates(
+            entity_type="company",
+            objective="objective",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            findall = await response.parse()
+            assert_matches_type(FindAllCandidatesResponse, findall, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
 
     @parametrize
     async def test_method_enrich(self, async_client: AsyncParallel) -> None:
