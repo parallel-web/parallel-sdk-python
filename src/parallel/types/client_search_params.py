@@ -33,17 +33,14 @@ class ClientSearchParams(TypedDict, total=False):
     """
 
     max_chars_total: Optional[int]
-    """Upper bound on total characters across excerpts from all results.
+    """Upper bound on total characters across excerpts from all results."""
 
-    Default is dynamic based on search_queries, objective, and client_model.
-    """
-
-    mode: Optional[Literal["basic", "standard"]]
-    """Search mode preset: supported values are basic and standard.
+    mode: Optional[Literal["basic", "advanced"]]
+    """Search mode preset: supported values are `basic` and `advanced`.
 
     Basic mode offers the lowest latency and works best with 2-3 high-quality
-    search_queries. Standard mode provides higher quality with more advanced
-    retrieval and compression. Defaults to standard when omitted.
+    search_queries. Advanced mode provides higher quality with more advanced
+    retrieval and compression. Defaults to `advanced` when omitted.
     """
 
     objective: Optional[str]
@@ -56,7 +53,7 @@ class ClientSearchParams(TypedDict, total=False):
 
     session_id: Optional[str]
     """
-    Session identifier for calls to search and extract made by an agent as part of a
-    larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-    returned by a previous request.
+    Session identifier to track calls across separate search and extract calls, to
+    be used as part of a larger task. Specifying it may give better contextual
+    results for subsequent API calls.
     """
