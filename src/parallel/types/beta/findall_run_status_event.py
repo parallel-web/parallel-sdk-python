@@ -6,7 +6,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .findall_run import FindAllRun
 
-__all__ = ["FindAllRunStatusEvent"]
+__all__ = ["FindAllRunStatusEvent", "FindallRunStatusEvent"]
 
 
 class FindAllRunStatusEvent(BaseModel):
@@ -23,3 +23,7 @@ class FindAllRunStatusEvent(BaseModel):
 
     type: Literal["findall.status"]
     """Event type; always 'findall.status'."""
+
+
+FindallRunStatusEvent = FindAllRunStatusEvent  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllRunStatusEvent` should be used instead"""

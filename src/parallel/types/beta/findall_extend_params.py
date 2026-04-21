@@ -8,7 +8,7 @@ from typing_extensions import Required, Annotated, TypedDict
 from ..._utils import PropertyInfo
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindAllExtendParams"]
+__all__ = ["FindAllExtendParams", "FindallExtendParams"]
 
 
 class FindAllExtendParams(TypedDict, total=False):
@@ -21,3 +21,7 @@ class FindAllExtendParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
+
+
+FindallExtendParams = FindAllExtendParams  # for backwards compatibility with v0.3.4
+"""This is deprecated, `FindAllExtendParams` should be used instead"""
