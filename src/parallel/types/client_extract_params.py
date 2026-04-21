@@ -29,11 +29,7 @@ class ClientExtractParams(TypedDict, total=False):
     """
 
     max_chars_total: Optional[int]
-    """Upper bound on total characters across excerpts from all extracted results.
-
-    Does not affect full_content if requested. Default is dynamic based on urls,
-    objective, and client_model.
-    """
+    """Upper bound on total characters across excerpts from all extracted results."""
 
     objective: Optional[str]
     """
@@ -50,7 +46,7 @@ class ClientExtractParams(TypedDict, total=False):
 
     session_id: Optional[str]
     """
-    Session identifier for calls to search and extract made by an agent as part of a
-    larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-    returned by a previous request.
+    Session identifier to track calls across separate search and extract calls, to
+    be used as part of a larger task. Specifying it may give better contextual
+    results for subsequent API calls.
     """

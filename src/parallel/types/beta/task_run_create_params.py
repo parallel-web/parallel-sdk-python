@@ -29,10 +29,10 @@ class TaskRunCreateParams(TypedDict, total=False):
     """Controls tracking of task run execution progress.
 
     When set to true, progress events are recorded and can be accessed via the
-    [Task Run events](https://platform.parallel.ai/api-reference) endpoint. When
-    false, no progress events are tracked. Note that progress tracking cannot be
-    enabled after a run has been created. The flag is set to true by default for
-    premium processors (pro and above).
+    [Task Run events](https://docs.parallel.ai/api-reference) endpoint. When false,
+    no progress events are tracked. Note that progress tracking cannot be enabled
+    after a run has been created. The flag is set to true by default for premium
+    processors (pro and above).
     """
 
     mcp_servers: Optional[Iterable[McpServerParam]]

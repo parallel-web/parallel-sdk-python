@@ -42,9 +42,9 @@ class BetaExtractParams(TypedDict, total=False):
 
     session_id: Optional[str]
     """
-    Session identifier for calls to search and extract made by an agent as part of a
-    larger task. May be a user-generated random string (e.g. a uuid) or a session_id
-    from a previous request.
+    Session identifier to track calls across separate search and extract calls, to
+    be used as part of a larger task. Specifying it may give better contextual
+    results for subsequent API calls.
     """
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]

@@ -12,7 +12,7 @@ __all__ = ["ExtractResponse"]
 
 
 class ExtractResponse(BaseModel):
-    """Extract response (GA)."""
+    """Extract response."""
 
     errors: List[ExtractError]
     """Extract errors: requested URLs not in the results."""

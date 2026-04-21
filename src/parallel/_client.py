@@ -247,6 +247,9 @@ class Parallel(SyncAPIClient):
         """
         Extracts relevant content from specific web URLs.
 
+        The legacy Extract API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
@@ -258,9 +261,7 @@ class Parallel(SyncAPIClient):
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
-          max_chars_total: Upper bound on total characters across excerpts from all extracted results. Does
-              not affect full_content if requested. Default is dynamic based on urls,
-              objective, and client_model.
+          max_chars_total: Upper bound on total characters across excerpts from all extracted results.
 
           objective: As in SearchRequest, a natural-language description of the underlying question
               or goal driving the request. Used together with search_queries to focus excerpts
@@ -269,9 +270,9 @@ class Parallel(SyncAPIClient):
           search_queries: Optional keyword search queries, as in SearchRequest. Used together with
               objective to focus excerpts on the most relevant content.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-              returned by a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           extra_headers: Send extra headers
 
@@ -308,7 +309,7 @@ class Parallel(SyncAPIClient):
         advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
-        mode: Optional[Literal["basic", "standard"]] | Omit = omit,
+        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -320,6 +321,9 @@ class Parallel(SyncAPIClient):
     ) -> SearchResult:
         """
         Searches the web.
+
+        The legacy Search API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
 
         Args:
           search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,
@@ -334,22 +338,21 @@ class Parallel(SyncAPIClient):
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
-          max_chars_total: Upper bound on total characters across excerpts from all results. Default is
-              dynamic based on search_queries, objective, and client_model.
+          max_chars_total: Upper bound on total characters across excerpts from all results.
 
-          mode: Search mode preset: supported values are basic and standard. Basic mode offers
-              the lowest latency and works best with 2-3 high-quality search_queries. Standard
-              mode provides higher quality with more advanced retrieval and compression.
-              Defaults to standard when omitted.
+          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
+              offers the lowest latency and works best with 2-3 high-quality search_queries.
+              Advanced mode provides higher quality with more advanced retrieval and
+              compression. Defaults to `advanced` when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
               content. Should be self-contained with enough context to understand the intent
               of the search.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-              returned by a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           extra_headers: Send extra headers
 
@@ -591,6 +594,9 @@ class AsyncParallel(AsyncAPIClient):
         """
         Extracts relevant content from specific web URLs.
 
+        The legacy Extract API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract).
+
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
@@ -602,9 +608,7 @@ class AsyncParallel(AsyncAPIClient):
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
-          max_chars_total: Upper bound on total characters across excerpts from all extracted results. Does
-              not affect full_content if requested. Default is dynamic based on urls,
-              objective, and client_model.
+          max_chars_total: Upper bound on total characters across excerpts from all extracted results.
 
           objective: As in SearchRequest, a natural-language description of the underlying question
               or goal driving the request. Used together with search_queries to focus excerpts
@@ -613,9 +617,9 @@ class AsyncParallel(AsyncAPIClient):
           search_queries: Optional keyword search queries, as in SearchRequest. Used together with
               objective to focus excerpts on the most relevant content.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-              returned by a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           extra_headers: Send extra headers
 
@@ -652,7 +656,7 @@ class AsyncParallel(AsyncAPIClient):
         advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
-        mode: Optional[Literal["basic", "standard"]] | Omit = omit,
+        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -664,6 +668,9 @@ class AsyncParallel(AsyncAPIClient):
     ) -> SearchResult:
         """
         Searches the web.
+
+        The legacy Search API reference is available
+        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search).
 
         Args:
           search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,
@@ -678,22 +685,21 @@ class AsyncParallel(AsyncAPIClient):
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
-          max_chars_total: Upper bound on total characters across excerpts from all results. Default is
-              dynamic based on search_queries, objective, and client_model.
+          max_chars_total: Upper bound on total characters across excerpts from all results.
 
-          mode: Search mode preset: supported values are basic and standard. Basic mode offers
-              the lowest latency and works best with 2-3 high-quality search_queries. Standard
-              mode provides higher quality with more advanced retrieval and compression.
-              Defaults to standard when omitted.
+          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
+              offers the lowest latency and works best with 2-3 high-quality search_queries.
+              Advanced mode provides higher quality with more advanced retrieval and
+              compression. Defaults to `advanced` when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
               content. Should be self-contained with enough context to understand the intent
               of the search.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
-              returned by a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           extra_headers: Send extra headers
 

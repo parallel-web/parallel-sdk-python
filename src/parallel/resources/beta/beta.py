@@ -151,9 +151,9 @@ class BetaResource(SyncAPIResource):
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
-              from a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           betas: Optional header to specify the beta version(s) to enable.
 
@@ -251,9 +251,9 @@ class BetaResource(SyncAPIResource):
               contain search operators. At least one of objective or search_queries must be
               provided.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
-              from a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           source_policy: Source policy for web search results.
 
@@ -402,9 +402,9 @@ class AsyncBetaResource(AsyncAPIResource):
 
           search_queries: If provided, focuses extracted content on the specified keyword search queries.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
-              from a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           betas: Optional header to specify the beta version(s) to enable.
 
@@ -502,9 +502,9 @@ class AsyncBetaResource(AsyncAPIResource):
               contain search operators. At least one of objective or search_queries must be
               provided.
 
-          session_id: Session identifier for calls to search and extract made by an agent as part of a
-              larger task. May be a user-generated random string (e.g. a uuid) or a session_id
-              from a previous request.
+          session_id: Session identifier to track calls across separate search and extract calls, to
+              be used as part of a larger task. Specifying it may give better contextual
+              results for subsequent API calls.
 
           source_policy: Source policy for web search results.
 
