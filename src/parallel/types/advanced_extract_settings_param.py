@@ -26,7 +26,11 @@ FullContent: TypeAlias = Union[FullContentFullContentSettings, bool]
 
 
 class AdvancedExtractSettingsParam(TypedDict, total=False):
-    """Advanced extract configuration."""
+    """Advanced extract configuration.
+
+    These settings may impact result quality and latency unless used carefully.
+    See https://docs.parallel.ai/search/advanced-extract-settings for more info.
+    """
 
     excerpt_settings: Optional[ExcerptSettingsParam]
     """Optional settings for returning relevant excerpts."""

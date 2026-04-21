@@ -236,6 +236,7 @@ class Parallel(SyncAPIClient):
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -251,6 +252,9 @@ class Parallel(SyncAPIClient):
 
           advanced_settings: Advanced extract configuration.
 
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-extract-settings for more info.
+
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
@@ -264,6 +268,10 @@ class Parallel(SyncAPIClient):
 
           search_queries: Optional keyword search queries, as in SearchRequest. Used together with
               objective to focus excerpts on the most relevant content.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+              returned by a previous request.
 
           extra_headers: Send extra headers
 
@@ -283,6 +291,7 @@ class Parallel(SyncAPIClient):
                     "max_chars_total": max_chars_total,
                     "objective": objective,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                 },
                 client_extract_params.ClientExtractParams,
             ),
@@ -301,6 +310,7 @@ class Parallel(SyncAPIClient):
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -318,6 +328,9 @@ class Parallel(SyncAPIClient):
 
           advanced_settings: Advanced search configuration.
 
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-search-settings for more info.
+
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
@@ -333,6 +346,10 @@ class Parallel(SyncAPIClient):
               search. Used together with search_queries to focus results on the most relevant
               content. Should be self-contained with enough context to understand the intent
               of the search.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+              returned by a previous request.
 
           extra_headers: Send extra headers
 
@@ -352,6 +369,7 @@ class Parallel(SyncAPIClient):
                     "max_chars_total": max_chars_total,
                     "mode": mode,
                     "objective": objective,
+                    "session_id": session_id,
                 },
                 client_search_params.ClientSearchParams,
             ),
@@ -562,6 +580,7 @@ class AsyncParallel(AsyncAPIClient):
         max_chars_total: Optional[int] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         search_queries: Optional[SequenceNotStr[str]] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -577,6 +596,9 @@ class AsyncParallel(AsyncAPIClient):
 
           advanced_settings: Advanced extract configuration.
 
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-extract-settings for more info.
+
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
@@ -590,6 +612,10 @@ class AsyncParallel(AsyncAPIClient):
 
           search_queries: Optional keyword search queries, as in SearchRequest. Used together with
               objective to focus excerpts on the most relevant content.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+              returned by a previous request.
 
           extra_headers: Send extra headers
 
@@ -609,6 +635,7 @@ class AsyncParallel(AsyncAPIClient):
                     "max_chars_total": max_chars_total,
                     "objective": objective,
                     "search_queries": search_queries,
+                    "session_id": session_id,
                 },
                 client_extract_params.ClientExtractParams,
             ),
@@ -627,6 +654,7 @@ class AsyncParallel(AsyncAPIClient):
         max_chars_total: Optional[int] | Omit = omit,
         mode: Optional[Literal["basic", "standard"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
+        session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -644,6 +672,9 @@ class AsyncParallel(AsyncAPIClient):
 
           advanced_settings: Advanced search configuration.
 
+              These settings may impact result quality and latency unless used carefully. See
+              https://docs.parallel.ai/search/advanced-search-settings for more info.
+
           client_model: The model generating this request and consuming the results. Enables
               optimizations and tailors default settings for the model's capabilities.
 
@@ -659,6 +690,10 @@ class AsyncParallel(AsyncAPIClient):
               search. Used together with search_queries to focus results on the most relevant
               content. Should be self-contained with enough context to understand the intent
               of the search.
+
+          session_id: Session identifier for calls to search and extract made by an agent as part of a
+              larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+              returned by a previous request.
 
           extra_headers: Send extra headers
 
@@ -678,6 +713,7 @@ class AsyncParallel(AsyncAPIClient):
                     "max_chars_total": max_chars_total,
                     "mode": mode,
                     "objective": objective,
+                    "session_id": session_id,
                 },
                 client_search_params.ClientSearchParams,
             ),

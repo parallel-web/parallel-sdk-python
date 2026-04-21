@@ -2,20 +2,27 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing import Dict, Union, Iterable, Optional
+from typing_extensions import Required, TypedDict
 
-from ..._utils import PropertyInfo
-from ..webhook_param import WebhookParam
-from ..task_spec_param import TaskSpecParam
-from ..mcp_server_param import McpServerParam
-from .parallel_beta_param import ParallelBetaParam
-from ..shared_params.source_policy import SourcePolicy
+from .webhook_param import WebhookParam
+from .task_spec_param import TaskSpecParam
+from .mcp_server_param import McpServerParam
+from .shared_params.source_policy import SourcePolicy
 
-__all__ = ["TaskRunCreateParams", "AdvancedSettings"]
+__all__ = ["RunInputParam", "AdvancedSettings"]
 
 
-class TaskRunCreateParams(TypedDict, total=False):
+class AdvancedSettings(TypedDict, total=False):
+    """Advanced search configuration for a task run."""
+
+    location: Optional[str]
+    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
+
+
+class RunInputParam(TypedDict, total=False):
+    """Request to run a task."""
+
     input: Required[Union[str, Dict[str, object]]]
     """Input to the task, either text or a JSON object."""
 
@@ -65,13 +72,3 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     webhook: Optional[WebhookParam]
     """Webhooks for Task Runs."""
-
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
-    """Optional header to specify the beta version(s) to enable."""
-
-
-class AdvancedSettings(TypedDict, total=False):
-    """Advanced search configuration for a task run."""
-
-    location: Optional[str]
-    """ISO 3166-1 alpha-2 country code for geo-targeted search results."""

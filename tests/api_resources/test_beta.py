@@ -38,6 +38,7 @@ class TestBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
             betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
@@ -90,6 +91,7 @@ class TestBeta:
             objective="objective",
             processor="base",
             search_queries=["string"],
+            session_id="session_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],
@@ -145,6 +147,7 @@ class TestAsyncBeta:
             full_content=True,
             objective="objective",
             search_queries=["string"],
+            session_id="session_id",
             betas=["mcp-server-2025-07-17"],
         )
         assert_matches_type(ExtractResponse, beta, path=["response"])
@@ -197,6 +200,7 @@ class TestAsyncBeta:
             objective="objective",
             processor="base",
             search_queries=["string"],
+            session_id="session_id",
             source_policy={
                 "after_date": parse_date("2024-01-01"),
                 "exclude_domains": ["reddit.com", "x.com", ".ai"],

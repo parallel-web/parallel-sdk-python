@@ -20,7 +20,11 @@ class ClientSearchParams(TypedDict, total=False):
     """
 
     advanced_settings: Optional[AdvancedSearchSettingsParam]
-    """Advanced search configuration."""
+    """Advanced search configuration.
+
+    These settings may impact result quality and latency unless used carefully. See
+    https://docs.parallel.ai/search/advanced-search-settings for more info.
+    """
 
     client_model: Optional[str]
     """The model generating this request and consuming the results.
@@ -48,4 +52,11 @@ class ClientSearchParams(TypedDict, total=False):
     search. Used together with search_queries to focus results on the most relevant
     content. Should be self-contained with enough context to understand the intent
     of the search.
+    """
+
+    session_id: Optional[str]
+    """
+    Session identifier for calls to search and extract made by an agent as part of a
+    larger task. May be a user-generated random string, e.g. a uuid, or a session_id
+    returned by a previous request.
     """

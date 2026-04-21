@@ -5,7 +5,7 @@ from typing_extensions import Literal
 
 from ..._models import BaseModel
 
-__all__ = ["FindAllRun", "FindallRun", "Status", "StatusMetrics"]
+__all__ = ["FindAllRun", "Status", "StatusMetrics"]
 
 
 class StatusMetrics(BaseModel):
@@ -67,7 +67,3 @@ class FindAllRun(BaseModel):
     Timestamp of the latest modification to the FindAll run result, in RFC 3339
     format.
     """
-
-
-FindallRun = FindAllRun  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllRun` should be used instead"""

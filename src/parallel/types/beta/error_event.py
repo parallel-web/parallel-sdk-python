@@ -1,18 +1,8 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing_extensions import Literal
-
-from ..._models import BaseModel
-from ..shared.error_object import ErrorObject
+from .. import error_event
 
 __all__ = ["ErrorEvent"]
 
-
-class ErrorEvent(BaseModel):
-    """Event indicating an error."""
-
-    error: ErrorObject
-    """Error."""
-
-    type: Literal["error"]
-    """Event type; always 'error'."""
+ErrorEvent = error_event.ErrorEvent
+"""Use parallel.types.task_run.ErrorEvent instead"""

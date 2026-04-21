@@ -6,10 +6,10 @@ from typing import Dict, List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
-from .webhook_param import WebhookParam
+from ..webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindAllCreateParams", "FindallCreateParams", "MatchCondition", "ExcludeList"]
+__all__ = ["FindAllCreateParams", "MatchCondition", "ExcludeList"]
 
 
 class FindAllCreateParams(TypedDict, total=False):
@@ -66,7 +66,3 @@ class ExcludeList(TypedDict, total=False):
 
     url: Required[str]
     """URL of the entity to exclude from results."""
-
-
-FindallCreateParams = FindAllCreateParams  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllCreateParams` should be used instead"""

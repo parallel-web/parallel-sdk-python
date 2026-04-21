@@ -13,7 +13,11 @@ __all__ = ["AdvancedSearchSettingsParam"]
 
 
 class AdvancedSearchSettingsParam(TypedDict, total=False):
-    """Advanced search configuration."""
+    """Advanced search configuration.
+
+    These settings may impact result quality and latency unless used carefully.
+    See https://docs.parallel.ai/search/advanced-search-settings for more info.
+    """
 
     excerpt_settings: Optional[ExcerptSettingsParam]
     """Optional settings for returning relevant excerpts."""

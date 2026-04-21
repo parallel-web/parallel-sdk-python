@@ -112,6 +112,7 @@ class TestTaskGroup:
                 {
                     "input": "What was the GDP of France in 2023?",
                     "processor": "base",
+                    "advanced_settings": {"location": "us"},
                     "enable_events": True,
                     "mcp_servers": [
                         {
@@ -404,6 +405,7 @@ class TestAsyncTaskGroup:
                 {
                     "input": "What was the GDP of France in 2023?",
                     "processor": "base",
+                    "advanced_settings": {"location": "us"},
                     "enable_events": True,
                     "mcp_servers": [
                         {

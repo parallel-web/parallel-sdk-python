@@ -7,7 +7,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from ..field_basis import FieldBasis
 
-__all__ = ["FindAllCandidateMatchStatusEvent", "FindallCandidateMatchStatusEvent", "Data"]
+__all__ = ["FindAllCandidateMatchStatusEvent", "Data"]
 
 
 class Data(BaseModel):
@@ -66,7 +66,3 @@ class FindAllCandidateMatchStatusEvent(BaseModel):
     findall.candidate.unmatched, findall.candidate.discarded,
     findall.candidate.enriched.
     """
-
-
-FindallCandidateMatchStatusEvent = FindAllCandidateMatchStatusEvent  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllCandidateMatchStatusEvent` should be used instead"""

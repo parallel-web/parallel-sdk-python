@@ -2,17 +2,6 @@
 
 from __future__ import annotations
 
-from typing import List
-from typing_extensions import Literal, Required, TypedDict
+from .. import webhook_param
 
-__all__ = ["WebhookParam"]
-
-
-class WebhookParam(TypedDict, total=False):
-    """Webhooks for Task Runs."""
-
-    url: Required[str]
-    """URL for the webhook."""
-
-    event_types: List[Literal["task_run.status"]]
-    """Event types to send the webhook notifications for."""
+WebhookParam = webhook_param.WebhookParam
