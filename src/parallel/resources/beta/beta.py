@@ -121,6 +121,7 @@ class BetaResource(SyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
+        client_model: Optional[str] | Omit = omit,
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
@@ -142,6 +143,9 @@ class BetaResource(SyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -185,6 +189,7 @@ class BetaResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "urls": urls,
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "full_content": full_content,
@@ -206,6 +211,7 @@ class BetaResource(SyncAPIResource):
     def search(
         self,
         *,
+        client_model: Optional[str] | Omit = omit,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         location: Optional[str] | Omit = omit,
@@ -229,6 +235,9 @@ class BetaResource(SyncAPIResource):
         Searches the web.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
@@ -291,6 +300,7 @@ class BetaResource(SyncAPIResource):
             "/v1beta/search",
             body=maybe_transform(
                 {
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "location": location,
@@ -378,6 +388,7 @@ class AsyncBetaResource(AsyncAPIResource):
         self,
         *,
         urls: SequenceNotStr[str],
+        client_model: Optional[str] | Omit = omit,
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
@@ -399,6 +410,9 @@ class AsyncBetaResource(AsyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -442,6 +456,7 @@ class AsyncBetaResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "urls": urls,
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "full_content": full_content,
@@ -463,6 +478,7 @@ class AsyncBetaResource(AsyncAPIResource):
     async def search(
         self,
         *,
+        client_model: Optional[str] | Omit = omit,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         location: Optional[str] | Omit = omit,
@@ -486,6 +502,9 @@ class AsyncBetaResource(AsyncAPIResource):
         Searches the web.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
@@ -548,6 +567,7 @@ class AsyncBetaResource(AsyncAPIResource):
             "/v1beta/search",
             body=await async_maybe_transform(
                 {
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "location": location,

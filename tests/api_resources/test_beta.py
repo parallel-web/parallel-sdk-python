@@ -34,6 +34,7 @@ class TestBeta:
         with pytest.warns(DeprecationWarning):
             beta = client.beta.extract(
                 urls=["string"],
+                client_model="claude-opus-4-7",
                 excerpts=True,
                 fetch_policy={
                     "disable_cache_fallback": True,
@@ -86,6 +87,7 @@ class TestBeta:
     def test_method_search_with_all_params(self, client: Parallel) -> None:
         with pytest.warns(DeprecationWarning):
             beta = client.beta.search(
+                client_model="claude-opus-4-7",
                 excerpts={
                     "max_chars_per_result": 0,
                     "max_chars_total": 0,
@@ -155,6 +157,7 @@ class TestAsyncBeta:
         with pytest.warns(DeprecationWarning):
             beta = await async_client.beta.extract(
                 urls=["string"],
+                client_model="claude-opus-4-7",
                 excerpts=True,
                 fetch_policy={
                     "disable_cache_fallback": True,
@@ -207,6 +210,7 @@ class TestAsyncBeta:
     async def test_method_search_with_all_params(self, async_client: AsyncParallel) -> None:
         with pytest.warns(DeprecationWarning):
             beta = await async_client.beta.search(
+                client_model="claude-opus-4-7",
                 excerpts={
                     "max_chars_per_result": 0,
                     "max_chars_total": 0,

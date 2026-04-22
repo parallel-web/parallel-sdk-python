@@ -17,6 +17,12 @@ __all__ = ["BetaExtractParams", "Excerpts", "FullContent", "FullContentFullConte
 class BetaExtractParams(TypedDict, total=False):
     urls: Required[SequenceNotStr[str]]
 
+    client_model: Optional[str]
+    """The model generating this request and consuming the results.
+
+    Enables optimizations and tailors default settings for the model's capabilities.
+    """
+
     excerpts: Excerpts
     """Include excerpts from each URL relevant to the search objective and queries.
 
