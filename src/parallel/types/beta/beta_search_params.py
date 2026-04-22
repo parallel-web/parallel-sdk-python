@@ -16,6 +16,12 @@ __all__ = ["BetaSearchParams"]
 
 
 class BetaSearchParams(TypedDict, total=False):
+    client_model: Optional[str]
+    """The model generating this request and consuming the results.
+
+    Enables optimizations and tailors default settings for the model's capabilities.
+    """
+
     excerpts: ExcerptSettingsParam
     """Optional settings to configure excerpt generation."""
 
