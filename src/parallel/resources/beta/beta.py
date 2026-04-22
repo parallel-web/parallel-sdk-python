@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import List, Optional
 from itertools import chain
 from typing_extensions import Literal
@@ -113,10 +114,14 @@ class BetaResource(SyncAPIResource):
         """
         return BetaResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated(
+        "Use client.extract instead. For more info, see https://docs.parallel.ai/extract/extract-migration-guide"
+    )
     def extract(
         self,
         *,
         urls: SequenceNotStr[str],
+        client_model: Optional[str] | Omit = omit,
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
@@ -138,6 +143,9 @@ class BetaResource(SyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -181,6 +189,7 @@ class BetaResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "urls": urls,
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "full_content": full_content,
@@ -196,9 +205,13 @@ class BetaResource(SyncAPIResource):
             cast_to=ExtractResponse,
         )
 
+    @typing_extensions.deprecated(
+        "Use client.search instead. For more info, see https://docs.parallel.ai/search/search-migration-guide"
+    )
     def search(
         self,
         *,
+        client_model: Optional[str] | Omit = omit,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         location: Optional[str] | Omit = omit,
@@ -222,6 +235,9 @@ class BetaResource(SyncAPIResource):
         Searches the web.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
@@ -284,6 +300,7 @@ class BetaResource(SyncAPIResource):
             "/v1beta/search",
             body=maybe_transform(
                 {
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "location": location,
@@ -364,10 +381,14 @@ class AsyncBetaResource(AsyncAPIResource):
         """
         return AsyncBetaResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated(
+        "Use client.extract instead. For more info, see https://docs.parallel.ai/extract/extract-migration-guide"
+    )
     async def extract(
         self,
         *,
         urls: SequenceNotStr[str],
+        client_model: Optional[str] | Omit = omit,
         excerpts: beta_extract_params.Excerpts | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         full_content: beta_extract_params.FullContent | Omit = omit,
@@ -389,6 +410,9 @@ class AsyncBetaResource(AsyncAPIResource):
         `search-extract-2025-10-10`.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Include excerpts from each URL relevant to the search objective and queries.
               Note that if neither objective nor search_queries is provided, excerpts are
               redundant with full content.
@@ -432,6 +456,7 @@ class AsyncBetaResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "urls": urls,
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "full_content": full_content,
@@ -447,9 +472,13 @@ class AsyncBetaResource(AsyncAPIResource):
             cast_to=ExtractResponse,
         )
 
+    @typing_extensions.deprecated(
+        "Use client.search instead. For more info, see https://docs.parallel.ai/search/search-migration-guide"
+    )
     async def search(
         self,
         *,
+        client_model: Optional[str] | Omit = omit,
         excerpts: ExcerptSettingsParam | Omit = omit,
         fetch_policy: Optional[FetchPolicyParam] | Omit = omit,
         location: Optional[str] | Omit = omit,
@@ -473,6 +502,9 @@ class AsyncBetaResource(AsyncAPIResource):
         Searches the web.
 
         Args:
+          client_model: The model generating this request and consuming the results. Enables
+              optimizations and tailors default settings for the model's capabilities.
+
           excerpts: Optional settings to configure excerpt generation.
 
           fetch_policy: Policy for live fetching web results.
@@ -535,6 +567,7 @@ class AsyncBetaResource(AsyncAPIResource):
             "/v1beta/search",
             body=await async_maybe_transform(
                 {
+                    "client_model": client_model,
                     "excerpts": excerpts,
                     "fetch_policy": fetch_policy,
                     "location": location,
@@ -560,11 +593,15 @@ class BetaResourceWithRawResponse:
     def __init__(self, beta: BetaResource) -> None:
         self._beta = beta
 
-        self.extract = to_raw_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = to_raw_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -611,11 +648,15 @@ class AsyncBetaResourceWithRawResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
         self._beta = beta
 
-        self.extract = async_to_raw_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = async_to_raw_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -662,11 +703,15 @@ class BetaResourceWithStreamingResponse:
     def __init__(self, beta: BetaResource) -> None:
         self._beta = beta
 
-        self.extract = to_streamed_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = to_streamed_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property
@@ -713,11 +758,15 @@ class AsyncBetaResourceWithStreamingResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
         self._beta = beta
 
-        self.extract = async_to_streamed_response_wrapper(
-            beta.extract,
+        self.extract = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                beta.extract,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.search = async_to_streamed_response_wrapper(
-            beta.search,
+        self.search = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                beta.search,  # pyright: ignore[reportDeprecated],
+            )
         )
 
     @cached_property

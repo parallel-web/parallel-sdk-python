@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.5.1 (2026-04-22)
+
+Full Changelog: [v0.5.0...v0.5.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.5.0...v0.5.1)
+
+### Features
+
+* **api:** manual updates ([86c7d33](https://github.com/parallel-web/parallel-sdk-python/commit/86c7d334df7c2018d0277fe3efa93fb7029f6a41))
+* **api:** Mark search and extract as deprecated ([cfdea3b](https://github.com/parallel-web/parallel-sdk-python/commit/cfdea3b19622911e65c9359f0acdbd4b201d2d08))
+* **api:** OpenAPI changes ([cfc5fb3](https://github.com/parallel-web/parallel-sdk-python/commit/cfc5fb373a46c73c2f79057b593712d7b847ee33))
+
 ## 0.5.0 (2026-04-21)
 
 Full Changelog: [v0.4.2...v0.5.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.4.2...v0.5.0)
