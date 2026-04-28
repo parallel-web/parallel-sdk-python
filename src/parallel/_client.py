@@ -27,6 +27,7 @@ from ._types import (
 )
 from ._utils import (
     is_given,
+    is_mapping_t,
     maybe_transform,
     get_async_library,
     async_maybe_transform,
@@ -112,6 +113,15 @@ class Parallel(SyncAPIClient):
             base_url = os.environ.get("PARALLEL_BASE_URL")
         if base_url is None:
             base_url = f"https://api.parallel.ai"
+
+        custom_headers_env = os.environ.get("PARALLEL_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
 
         super().__init__(
             version=__version__,
@@ -463,6 +473,15 @@ class AsyncParallel(AsyncAPIClient):
             base_url = os.environ.get("PARALLEL_BASE_URL")
         if base_url is None:
             base_url = f"https://api.parallel.ai"
+
+        custom_headers_env = os.environ.get("PARALLEL_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
 
         super().__init__(
             version=__version__,
