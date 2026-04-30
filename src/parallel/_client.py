@@ -54,9 +54,10 @@ from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
 from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
-    from .resources import beta, task_run
+    from .resources import beta, task_run, task_group
     from .resources.task_run import TaskRunResource, AsyncTaskRunResource
     from .resources.beta.beta import BetaResource, AsyncBetaResource
+    from .resources.task_group import TaskGroupResource, AsyncTaskGroupResource
 
 __all__ = [
     "Timeout",
@@ -142,7 +143,7 @@ class Parallel(SyncAPIClient):
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -151,6 +152,24 @@ class Parallel(SyncAPIClient):
         from .resources.task_run import TaskRunResource
 
         return TaskRunResource(self)
+
+    @cached_property
+    def task_group(self) -> TaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResource
+
+        return TaskGroupResource(self)
 
     @cached_property
     def beta(self) -> BetaResource:
@@ -502,7 +521,7 @@ class AsyncParallel(AsyncAPIClient):
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -511,6 +530,24 @@ class AsyncParallel(AsyncAPIClient):
         from .resources.task_run import AsyncTaskRunResource
 
         return AsyncTaskRunResource(self)
+
+    @cached_property
+    def task_group(self) -> AsyncTaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResource
+
+        return AsyncTaskGroupResource(self)
 
     @cached_property
     def beta(self) -> AsyncBetaResource:
@@ -811,7 +848,7 @@ class ParallelWithRawResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -820,6 +857,24 @@ class ParallelWithRawResponse:
         from .resources.task_run import TaskRunResourceWithRawResponse
 
         return TaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.TaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResourceWithRawResponse
+
+        return TaskGroupResourceWithRawResponse(self._client.task_group)
 
     @cached_property
     def beta(self) -> beta.BetaResourceWithRawResponse:
@@ -849,7 +904,7 @@ class AsyncParallelWithRawResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -858,6 +913,24 @@ class AsyncParallelWithRawResponse:
         from .resources.task_run import AsyncTaskRunResourceWithRawResponse
 
         return AsyncTaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.AsyncTaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResourceWithRawResponse
+
+        return AsyncTaskGroupResourceWithRawResponse(self._client.task_group)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithRawResponse:
@@ -887,7 +960,7 @@ class ParallelWithStreamedResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -896,6 +969,24 @@ class ParallelWithStreamedResponse:
         from .resources.task_run import TaskRunResourceWithStreamingResponse
 
         return TaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.TaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResourceWithStreamingResponse
+
+        return TaskGroupResourceWithStreamingResponse(self._client.task_group)
 
     @cached_property
     def beta(self) -> beta.BetaResourceWithStreamingResponse:
@@ -925,7 +1016,7 @@ class AsyncParallelWithStreamedResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -934,6 +1025,24 @@ class AsyncParallelWithStreamedResponse:
         from .resources.task_run import AsyncTaskRunResourceWithStreamingResponse
 
         return AsyncTaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.AsyncTaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResourceWithStreamingResponse
+
+        return AsyncTaskGroupResourceWithStreamingResponse(self._client.task_group)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithStreamingResponse:

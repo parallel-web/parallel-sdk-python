@@ -61,4 +61,26 @@ Methods:
 - <code title="get /v1/tasks/runs/{run_id}/events">client.task_run.<a href="./src/parallel/resources/task_run.py">events</a>(run_id) -> <a href="./src/parallel/types/task_run_events_response.py">TaskRunEventsResponse</a></code>
 - <code title="get /v1/tasks/runs/{run_id}/result">client.task_run.<a href="./src/parallel/resources/task_run.py">result</a>(run_id, \*\*<a href="src/parallel/types/task_run_result_params.py">params</a>) -> <a href="./src/parallel/types/task_run_result.py">TaskRunResult</a></code>
 
+# TaskGroup
+
+Types:
+
+```python
+from parallel.types import (
+    TaskGroup,
+    TaskGroupRunResponse,
+    TaskGroupStatus,
+    TaskGroupEventsResponse,
+    TaskGroupGetRunsResponse,
+)
+```
+
+Methods:
+
+- <code title="post /v1/tasks/groups">client.task_group.<a href="./src/parallel/resources/task_group.py">create</a>(\*\*<a href="src/parallel/types/task_group_create_params.py">params</a>) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}">client.task_group.<a href="./src/parallel/resources/task_group.py">retrieve</a>(task_group_id) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="post /v1/tasks/groups/{taskgroup_id}/runs">client.task_group.<a href="./src/parallel/resources/task_group.py">add_runs</a>(task_group_id, \*\*<a href="src/parallel/types/task_group_add_runs_params.py">params</a>) -> <a href="./src/parallel/types/task_group_run_response.py">TaskGroupRunResponse</a></code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}/events">client.task_group.<a href="./src/parallel/resources/task_group.py">events</a>(task_group_id, \*\*<a href="src/parallel/types/task_group_events_params.py">params</a>) -> <a href="./src/parallel/types/task_group_events_response.py">TaskGroupEventsResponse</a></code>
+- <code title="get /v1/tasks/groups/{taskgroup_id}/runs">client.task_group.<a href="./src/parallel/resources/task_group.py">get_runs</a>(task_group_id, \*\*<a href="src/parallel/types/task_group_get_runs_params.py">params</a>) -> <a href="./src/parallel/types/task_group_get_runs_response.py">TaskGroupGetRunsResponse</a></code>
+
 # [Beta](src/parallel/resources/beta/api.md)

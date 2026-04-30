@@ -50,19 +50,19 @@ Types:
 
 ```python
 from parallel.types.beta import (
-    TaskGroup,
-    TaskGroupRunResponse,
-    TaskGroupStatus,
     TaskGroupEventsResponse,
     TaskGroupGetRunsResponse,
+    TaskGroupStatus,
+    TaskGroup,
+    TaskGroupRunResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v1beta/tasks/groups">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">create</a>(\*\*<a href="src/parallel/types/beta/task_group_create_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group.py">TaskGroup</a></code>
-- <code title="get /v1beta/tasks/groups/{taskgroup_id}">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">retrieve</a>(task_group_id) -> <a href="./src/parallel/types/beta/task_group.py">TaskGroup</a></code>
-- <code title="post /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">add_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_add_runs_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_run_response.py">TaskGroupRunResponse</a></code>
+- <code title="post /v1beta/tasks/groups">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">create</a>(\*\*<a href="src/parallel/types/beta/task_group_create_params.py">params</a>) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="get /v1beta/tasks/groups/{taskgroup_id}">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">retrieve</a>(task_group_id) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="post /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">add_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_add_runs_params.py">params</a>) -> <a href="./src/parallel/types/task_group_run_response.py">TaskGroupRunResponse</a></code>
 - <code title="get /v1beta/tasks/groups/{taskgroup_id}/events">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">events</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_events_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_events_response.py">TaskGroupEventsResponse</a></code>
 - <code title="get /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">get_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_get_runs_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_get_runs_response.py">TaskGroupGetRunsResponse</a></code>
 
