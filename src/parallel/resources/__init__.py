@@ -8,6 +8,14 @@ from .task_run import (
     TaskRunResourceWithStreamingResponse,
     AsyncTaskRunResourceWithStreamingResponse,
 )
+from .task_group import (
+    TaskGroupResource,
+    AsyncTaskGroupResource,
+    TaskGroupResourceWithRawResponse,
+    AsyncTaskGroupResourceWithRawResponse,
+    TaskGroupResourceWithStreamingResponse,
+    AsyncTaskGroupResourceWithStreamingResponse,
+)
 
 __all__ = [
     "TaskRunResource",
@@ -16,4 +24,10 @@ __all__ = [
     "AsyncTaskRunResourceWithRawResponse",
     "TaskRunResourceWithStreamingResponse",
     "AsyncTaskRunResourceWithStreamingResponse",
+    "TaskGroupResource",
+    "AsyncTaskGroupResource",
+    "TaskGroupResourceWithRawResponse",
+    "AsyncTaskGroupResourceWithRawResponse",
+    "TaskGroupResourceWithStreamingResponse",
+    "AsyncTaskGroupResourceWithStreamingResponse",
 ]

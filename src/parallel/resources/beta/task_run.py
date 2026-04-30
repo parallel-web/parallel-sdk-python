@@ -40,7 +40,7 @@ class TaskRunResource(SyncAPIResource):
     - Output metadata: citations, excerpts, reasoning, and confidence per field
 
     Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-     - Submit hundreds or thousands of Tasks as a single group
+    - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
@@ -278,7 +278,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
     - Output metadata: citations, excerpts, reasoning, and confidence per field
 
     Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-     - Submit hundreds or thousands of Tasks as a single group
+    - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
