@@ -27,6 +27,7 @@ from ._types import (
 )
 from ._utils import (
     is_given,
+    is_mapping_t,
     maybe_transform,
     get_async_library,
     async_maybe_transform,
@@ -53,9 +54,11 @@ from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
 from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
-    from .resources import beta, task_run
+    from .resources import beta, monitor, task_run, task_group
+    from .resources.monitor import MonitorResource, AsyncMonitorResource
     from .resources.task_run import TaskRunResource, AsyncTaskRunResource
     from .resources.beta.beta import BetaResource, AsyncBetaResource
+    from .resources.task_group import TaskGroupResource, AsyncTaskGroupResource
 
 __all__ = [
     "Timeout",
@@ -113,6 +116,15 @@ class Parallel(SyncAPIClient):
         if base_url is None:
             base_url = f"https://api.parallel.ai"
 
+        custom_headers_env = os.environ.get("PARALLEL_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -132,7 +144,7 @@ class Parallel(SyncAPIClient):
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -141,6 +153,38 @@ class Parallel(SyncAPIClient):
         from .resources.task_run import TaskRunResource
 
         return TaskRunResource(self)
+
+    @cached_property
+    def task_group(self) -> TaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResource
+
+        return TaskGroupResource(self)
+
+    @cached_property
+    def monitor(self) -> MonitorResource:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResource
+
+        return MonitorResource(self)
 
     @cached_property
     def beta(self) -> BetaResource:
@@ -464,6 +508,15 @@ class AsyncParallel(AsyncAPIClient):
         if base_url is None:
             base_url = f"https://api.parallel.ai"
 
+        custom_headers_env = os.environ.get("PARALLEL_CUSTOM_HEADERS")
+        if custom_headers_env is not None:
+            parsed: dict[str, str] = {}
+            for line in custom_headers_env.split("\n"):
+                colon = line.find(":")
+                if colon >= 0:
+                    parsed[line[:colon].strip()] = line[colon + 1 :].strip()
+            default_headers = {**parsed, **(default_headers if is_mapping_t(default_headers) else {})}
+
         super().__init__(
             version=__version__,
             base_url=base_url,
@@ -483,7 +536,7 @@ class AsyncParallel(AsyncAPIClient):
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -492,6 +545,38 @@ class AsyncParallel(AsyncAPIClient):
         from .resources.task_run import AsyncTaskRunResource
 
         return AsyncTaskRunResource(self)
+
+    @cached_property
+    def task_group(self) -> AsyncTaskGroupResource:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResource
+
+        return AsyncTaskGroupResource(self)
+
+    @cached_property
+    def monitor(self) -> AsyncMonitorResource:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResource
+
+        return AsyncMonitorResource(self)
 
     @cached_property
     def beta(self) -> AsyncBetaResource:
@@ -792,7 +877,7 @@ class ParallelWithRawResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -801,6 +886,38 @@ class ParallelWithRawResponse:
         from .resources.task_run import TaskRunResourceWithRawResponse
 
         return TaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.TaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResourceWithRawResponse
+
+        return TaskGroupResourceWithRawResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.MonitorResourceWithRawResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResourceWithRawResponse
+
+        return MonitorResourceWithRawResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.BetaResourceWithRawResponse:
@@ -830,7 +947,7 @@ class AsyncParallelWithRawResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -839,6 +956,38 @@ class AsyncParallelWithRawResponse:
         from .resources.task_run import AsyncTaskRunResourceWithRawResponse
 
         return AsyncTaskRunResourceWithRawResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.AsyncTaskGroupResourceWithRawResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResourceWithRawResponse
+
+        return AsyncTaskGroupResourceWithRawResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.AsyncMonitorResourceWithRawResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResourceWithRawResponse
+
+        return AsyncMonitorResourceWithRawResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithRawResponse:
@@ -868,7 +1017,7 @@ class ParallelWithStreamedResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -877,6 +1026,38 @@ class ParallelWithStreamedResponse:
         from .resources.task_run import TaskRunResourceWithStreamingResponse
 
         return TaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.TaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import TaskGroupResourceWithStreamingResponse
+
+        return TaskGroupResourceWithStreamingResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.MonitorResourceWithStreamingResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResourceWithStreamingResponse
+
+        return MonitorResourceWithStreamingResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.BetaResourceWithStreamingResponse:
@@ -906,7 +1087,7 @@ class AsyncParallelWithStreamedResponse:
         - Output metadata: citations, excerpts, reasoning, and confidence per field
 
         Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-         - Submit hundreds or thousands of Tasks as a single group
+        - Submit hundreds or thousands of Tasks as a single group
         - Observe group progress and receive results as they complete
         - Real-time updates via Server-Sent Events (SSE)
         - Add tasks to an existing group while it is running
@@ -915,6 +1096,38 @@ class AsyncParallelWithStreamedResponse:
         from .resources.task_run import AsyncTaskRunResourceWithStreamingResponse
 
         return AsyncTaskRunResourceWithStreamingResponse(self._client.task_run)
+
+    @cached_property
+    def task_group(self) -> task_group.AsyncTaskGroupResourceWithStreamingResponse:
+        """The Task API executes web research and extraction tasks.
+
+        Clients submit a natural-language objective with an optional input schema; the service plans retrieval, fetches relevant URLs, and returns outputs that conform to a provided or inferred JSON schema. Supports deep research style queries and can return rich structured JSON outputs. Processors trade-off between cost, latency, and quality. Each processor supports calibrated confidences.
+        - Output metadata: citations, excerpts, reasoning, and confidence per field
+
+        Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
+        - Submit hundreds or thousands of Tasks as a single group
+        - Observe group progress and receive results as they complete
+        - Real-time updates via Server-Sent Events (SSE)
+        - Add tasks to an existing group while it is running
+        - Group-level retry and error aggregation
+        """
+        from .resources.task_group import AsyncTaskGroupResourceWithStreamingResponse
+
+        return AsyncTaskGroupResourceWithStreamingResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.AsyncMonitorResourceWithStreamingResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResourceWithStreamingResponse
+
+        return AsyncMonitorResourceWithStreamingResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithStreamingResponse:

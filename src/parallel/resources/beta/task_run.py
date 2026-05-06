@@ -28,6 +28,7 @@ from ...types.task_spec_param import TaskSpecParam
 from ...types.mcp_server_param import McpServerParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.shared_params.source_policy import SourcePolicy
+from ...types.task_advanced_settings_param import TaskAdvancedSettingsParam
 from ...types.beta.task_run_events_response import TaskRunEventsResponse
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
@@ -40,7 +41,7 @@ class TaskRunResource(SyncAPIResource):
     - Output metadata: citations, excerpts, reasoning, and confidence per field
 
     Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-     - Submit hundreds or thousands of Tasks as a single group
+    - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
@@ -72,7 +73,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -278,7 +279,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
     - Output metadata: citations, excerpts, reasoning, and confidence per field
 
     Task Groups enable batch execution of many independent Task runs with group-level monitoring and failure handling.
-     - Submit hundreds or thousands of Tasks as a single group
+    - Submit hundreds or thousands of Tasks as a single group
     - Observe group progress and receive results as they complete
     - Real-time updates via Server-Sent Events (SSE)
     - Add tasks to an existing group while it is running
@@ -310,7 +311,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,

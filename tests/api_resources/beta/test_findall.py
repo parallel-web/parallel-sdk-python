@@ -159,7 +159,7 @@ class TestFindAll:
         findall = client.beta.findall.cancel(
             findall_id="findall_id",
         )
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     def test_method_cancel_with_all_params(self, client: Parallel) -> None:
@@ -167,7 +167,7 @@ class TestFindAll:
             findall_id="findall_id",
             betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     def test_raw_response_cancel(self, client: Parallel) -> None:
@@ -178,7 +178,7 @@ class TestFindAll:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         findall = response.parse()
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     def test_streaming_response_cancel(self, client: Parallel) -> None:
@@ -189,7 +189,7 @@ class TestFindAll:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             findall = response.parse()
-            assert_matches_type(object, findall, path=["response"])
+            assert findall is None
 
         assert cast(Any, response.is_closed) is True
 
@@ -712,7 +712,7 @@ class TestAsyncFindAll:
         findall = await async_client.beta.findall.cancel(
             findall_id="findall_id",
         )
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     async def test_method_cancel_with_all_params(self, async_client: AsyncParallel) -> None:
@@ -720,7 +720,7 @@ class TestAsyncFindAll:
             findall_id="findall_id",
             betas=["mcp-server-2025-07-17"],
         )
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     async def test_raw_response_cancel(self, async_client: AsyncParallel) -> None:
@@ -731,7 +731,7 @@ class TestAsyncFindAll:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         findall = await response.parse()
-        assert_matches_type(object, findall, path=["response"])
+        assert findall is None
 
     @parametrize
     async def test_streaming_response_cancel(self, async_client: AsyncParallel) -> None:
@@ -742,7 +742,7 @@ class TestAsyncFindAll:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             findall = await response.parse()
-            assert_matches_type(object, findall, path=["response"])
+            assert findall is None
 
         assert cast(Any, response.is_closed) is True
 

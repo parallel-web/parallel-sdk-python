@@ -11,6 +11,7 @@ from parallel.types.beta import (
     WebSearchResult,
     ExtractError,
     FetchPolicy,
+    FullContentSettings,
     UsageItem,
 )
 ```
@@ -50,19 +51,19 @@ Types:
 
 ```python
 from parallel.types.beta import (
-    TaskGroup,
-    TaskGroupRunResponse,
-    TaskGroupStatus,
     TaskGroupEventsResponse,
     TaskGroupGetRunsResponse,
+    TaskGroupStatus,
+    TaskGroupStatusEvent,
+    TaskGroupRunResponse,
 )
 ```
 
 Methods:
 
-- <code title="post /v1beta/tasks/groups">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">create</a>(\*\*<a href="src/parallel/types/beta/task_group_create_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group.py">TaskGroup</a></code>
-- <code title="get /v1beta/tasks/groups/{taskgroup_id}">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">retrieve</a>(task_group_id) -> <a href="./src/parallel/types/beta/task_group.py">TaskGroup</a></code>
-- <code title="post /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">add_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_add_runs_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_run_response.py">TaskGroupRunResponse</a></code>
+- <code title="post /v1beta/tasks/groups">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">create</a>(\*\*<a href="src/parallel/types/beta/task_group_create_params.py">params</a>) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="get /v1beta/tasks/groups/{taskgroup_id}">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">retrieve</a>(task_group_id) -> <a href="./src/parallel/types/task_group.py">TaskGroup</a></code>
+- <code title="post /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">add_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_add_runs_params.py">params</a>) -> <a href="./src/parallel/types/task_group_run_response.py">TaskGroupRunResponse</a></code>
 - <code title="get /v1beta/tasks/groups/{taskgroup_id}/events">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">events</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_events_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_events_response.py">TaskGroupEventsResponse</a></code>
 - <code title="get /v1beta/tasks/groups/{taskgroup_id}/runs">client.beta.task_group.<a href="./src/parallel/resources/beta/task_group.py">get_runs</a>(task_group_id, \*\*<a href="src/parallel/types/beta/task_group_get_runs_params.py">params</a>) -> <a href="./src/parallel/types/beta/task_group_get_runs_response.py">TaskGroupGetRunsResponse</a></code>
 
@@ -72,7 +73,9 @@ Types:
 
 ```python
 from parallel.types.beta import (
+    FindAllCandidate,
     FindAllCandidateMatchStatusEvent,
+    FindAllCandidateMetrics,
     FindAllCandidatesRequest,
     FindAllCandidatesResponse,
     FindAllEnrichInput,
@@ -80,10 +83,12 @@ from parallel.types.beta import (
     FindAllRun,
     FindAllRunInput,
     FindAllRunResult,
+    FindAllRunStatus,
     FindAllRunStatusEvent,
     FindAllSchema,
     FindAllSchemaUpdatedEvent,
     IngestInput,
+    MatchCondition,
     FindAllEventsResponse,
 )
 ```
@@ -92,7 +97,7 @@ Methods:
 
 - <code title="post /v1beta/findall/runs">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">create</a>(\*\*<a href="src/parallel/types/beta/findall_create_params.py">params</a>) -> <a href="./src/parallel/types/beta/findall_run.py">FindAllRun</a></code>
 - <code title="get /v1beta/findall/runs/{findall_id}">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">retrieve</a>(findall_id) -> <a href="./src/parallel/types/beta/findall_run.py">FindAllRun</a></code>
-- <code title="post /v1beta/findall/runs/{findall_id}/cancel">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">cancel</a>(findall_id) -> object</code>
+- <code title="post /v1beta/findall/runs/{findall_id}/cancel">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">cancel</a>(findall_id) -> None</code>
 - <code title="post /v1beta/findall/candidates">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">candidates</a>(\*\*<a href="src/parallel/types/beta/findall_candidates_params.py">params</a>) -> <a href="./src/parallel/types/beta/findall_candidates_response.py">FindAllCandidatesResponse</a></code>
 - <code title="post /v1beta/findall/runs/{findall_id}/enrich">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">enrich</a>(findall_id, \*\*<a href="src/parallel/types/beta/findall_enrich_params.py">params</a>) -> <a href="./src/parallel/types/beta/findall_schema.py">FindAllSchema</a></code>
 - <code title="get /v1beta/findall/runs/{findall_id}/events">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">events</a>(findall_id, \*\*<a href="src/parallel/types/beta/findall_events_params.py">params</a>) -> <a href="./src/parallel/types/beta/findall_events_response.py">FindAllEventsResponse</a></code>

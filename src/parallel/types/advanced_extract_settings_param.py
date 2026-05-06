@@ -7,22 +7,11 @@ from typing_extensions import TypeAlias, TypedDict
 
 from .fetch_policy_param import FetchPolicyParam
 from .excerpt_settings_param import ExcerptSettingsParam
+from .full_content_settings_param import FullContentSettingsParam
 
-__all__ = ["AdvancedExtractSettingsParam", "FullContent", "FullContentFullContentSettings"]
+__all__ = ["AdvancedExtractSettingsParam", "FullContent"]
 
-
-class FullContentFullContentSettings(TypedDict, total=False):
-    """Optional settings for returning full content."""
-
-    max_chars_per_result: Optional[int]
-    """
-    Optional limit on the number of characters to include in the full content for
-    each url. Full content always starts at the beginning of the page and is
-    truncated at the limit if necessary.
-    """
-
-
-FullContent: TypeAlias = Union[FullContentFullContentSettings, bool]
+FullContent: TypeAlias = Union[FullContentSettingsParam, bool]
 
 
 class AdvancedExtractSettingsParam(TypedDict, total=False):
@@ -44,3 +33,9 @@ class AdvancedExtractSettingsParam(TypedDict, total=False):
     Set to true to enable with defaults, false to disable, or provide
     FullContentSettings for fine-grained control.
     """
+
+
+# Backwards-compat alias (deprecated). `FullContentFullContentSettings` was the
+# auto-generated nested-class name in this module; it now lives as the top-level
+# `FullContentSettingsParam`.
+FullContentFullContentSettings = FullContentSettingsParam

@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.6.0 (2026-05-06)
+
+Full Changelog: [v0.5.1...v0.6.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.5.1...v0.6.0)
+
+### Features
+
+* **api:** manual updates ([8cb17ac](https://github.com/parallel-web/parallel-sdk-python/commit/8cb17ac6d6c9a5a9e6443d9ecf5c121250b2eed2))
+* **api:** manual updates ([e4008e4](https://github.com/parallel-web/parallel-sdk-python/commit/e4008e4f8432a6c3e2341d18fee37fcedf8a530e))
+* **api:** manual updates ([174407f](https://github.com/parallel-web/parallel-sdk-python/commit/174407ff7467789e19d3abeffcaccd36fd35e786))
+* **api:** manual updates ([1c47c8b](https://github.com/parallel-web/parallel-sdk-python/commit/1c47c8baa579a403064e59a5fbb75400315951c9))
+* **api:** Task Groups v1 added to SDK ([198e317](https://github.com/parallel-web/parallel-sdk-python/commit/198e317bb3b5e5961e63c1c04bac0eb593385b7b))
+* support setting headers via env ([6dd2b05](https://github.com/parallel-web/parallel-sdk-python/commit/6dd2b05bcf25259ae50e650376c3182913439487))
+
+
+### Bug Fixes
+
+* re-export TaskGroup from parallel.types.beta and silence reportDeprecated ([dc6119f](https://github.com/parallel-web/parallel-sdk-python/commit/dc6119f6dccdef75bdbe4ce838dd8ba51cc2428a))
+* **scripts:** remove unreachable check and redundant type annotation ([f63ad0a](https://github.com/parallel-web/parallel-sdk-python/commit/f63ad0ae48994be8b16c20438bb80c61cd943fec))
+* **scripts:** satisfy pyright in alias resolver ([892f474](https://github.com/parallel-web/parallel-sdk-python/commit/892f4743488ae5d8c4683123193da4f4e61d2464))
+* **types:** preserve back-compat aliases for renamed inline classes ([532ee8f](https://github.com/parallel-web/parallel-sdk-python/commit/532ee8f32ecbaf611f0ff5f6c80a532e2f0bcd66))
+* **types:** use module-level alias instead of import-as ([b1b9858](https://github.com/parallel-web/parallel-sdk-python/commit/b1b9858ffa95d90871ce36b06e510638e3546bde))
+* use correct field name format for multipart file arrays ([1e34228](https://github.com/parallel-web/parallel-sdk-python/commit/1e3422859a25c66804f7f588fd24276417c52057))
+
+
+### Chores
+
+* **internal:** more robust bootstrap script ([d4c7737](https://github.com/parallel-web/parallel-sdk-python/commit/d4c773762e983a657fb4c6f5d39529c3467e0994))
+* **internal:** reformat pyproject.toml ([b3c0639](https://github.com/parallel-web/parallel-sdk-python/commit/b3c063982542886a490679f840ca0fad94695227))
+* **scripts:** follow alias and attribute redirections in breaking-change detection ([89b1495](https://github.com/parallel-web/parallel-sdk-python/commit/89b1495236f280eee8af7c48ecff3ff2453291bd))
+* stop tracking uv.lock (project uses requirements*.lock from rye) ([540471a](https://github.com/parallel-web/parallel-sdk-python/commit/540471afb4da3a6ed485af15554cb548e7086bbd))
+
 ## 0.5.1 (2026-04-22)
 
 Full Changelog: [v0.5.0...v0.5.1](https://github.com/parallel-web/parallel-sdk-python/compare/v0.5.0...v0.5.1)

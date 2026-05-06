@@ -1,6 +1,6 @@
 [project]
 name = "parallel-web"
-version = "0.5.1"
+version = "0.6.0"
 description = "The official Python library for the Parallel API"
 dynamic = ["readme"]
 license = "MIT"
@@ -158,6 +158,11 @@ reportOverlappingOverload = false
 
 reportImportCycles = false
 reportPrivateUsage = false
+# Deprecation is a runtime concern; type-check warnings produce noise when the
+# breaking-change detector compares against pre-deprecation baseline tests.
+# Newly-generated tests already add a per-file `# pyright: reportDeprecated=false`
+# marker for deprecated resources, so this just promotes that to project-level.
+reportDeprecated = false
 
 [tool.mypy]
 pretty = true
@@ -169,7 +174,7 @@ show_error_codes = true
 #
 # We also exclude our `tests` as mypy doesn't always infer
 # types correctly and Pyright will still catch any type errors.
-exclude = ['src/parallel/_files.py', '_dev/.*.py', 'tests/.*']
+exclude = ["src/parallel/_files.py", "_dev/.*.py", "tests/.*"]
 
 strict_equality = true
 implicit_reexport = true

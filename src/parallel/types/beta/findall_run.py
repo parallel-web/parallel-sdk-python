@@ -4,44 +4,9 @@ from typing import Dict, Union, Optional
 from typing_extensions import Literal
 
 from ..._models import BaseModel
+from .findall_run_status import FindAllRunStatus
 
-__all__ = ["FindAllRun", "FindallRun", "Status", "StatusMetrics"]
-
-
-class StatusMetrics(BaseModel):
-    """Candidate metrics for the FindAll run."""
-
-    generated_candidates_count: Optional[int] = None
-    """Number of candidates that were selected."""
-
-    matched_candidates_count: Optional[int] = None
-    """Number of candidates that evaluated to matched."""
-
-
-class Status(BaseModel):
-    """Status object for the FindAll run."""
-
-    is_active: bool
-    """Whether the FindAll run is active"""
-
-    metrics: StatusMetrics
-    """Candidate metrics for the FindAll run."""
-
-    status: Literal["queued", "action_required", "running", "completed", "failed", "cancelling", "cancelled"]
-    """Status of the FindAll run."""
-
-    termination_reason: Optional[
-        Literal[
-            "low_match_rate",
-            "match_limit_met",
-            "candidates_exhausted",
-            "user_cancelled",
-            "error_occurred",
-            "timeout",
-            "insufficient_funds",
-        ]
-    ] = None
-    """Reason for termination when FindAll run is in terminal status."""
+__all__ = [ "FindallRun", "FindAllRun"]
 
 
 class FindAllRun(BaseModel):
@@ -53,7 +18,7 @@ class FindAllRun(BaseModel):
     generator: Literal["base", "core", "pro", "preview"]
     """Generator for the FindAll run."""
 
-    status: Status
+    status: FindAllRunStatus
     """Status object for the FindAll run."""
 
     created_at: Optional[str] = None
@@ -71,3 +36,11 @@ class FindAllRun(BaseModel):
 
 FindallRun = FindAllRun  # for backwards compatibility with v0.3.4
 """This is deprecated, `FindAllRun` should be used instead"""
+
+# Backwards-compat aliases (deprecated). `Status` and `StatusMetrics` were
+# inline classes in this module; they now live as top-level `FindAllRunStatus`
+# and `FindAllCandidateMetrics` models.
+from .findall_candidate_metrics import FindAllCandidateMetrics  # noqa: E402
+
+Status = FindAllRunStatus
+StatusMetrics = FindAllCandidateMetrics

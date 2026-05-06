@@ -8,7 +8,7 @@ from typing_extensions import Literal
 
 import httpx
 
-from ..._types import Body, Omit, Query, Headers, NotGiven, omit, not_given
+from ..._types import Body, Omit, Query, Headers, NoneType, NotGiven, omit, not_given
 from ..._utils import is_given, path_template, maybe_transform, strip_not_given, async_maybe_transform
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
@@ -35,6 +35,7 @@ from ...types.beta.findall_schema import FindAllSchema
 from ...types.beta.mcp_server_param import McpServerParam
 from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
+from ...types.beta.match_condition_param import MatchConditionParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
 from ...types.beta.findall_candidates_response import FindAllCandidatesResponse
 
@@ -83,7 +84,7 @@ class FindAllResource(SyncAPIResource):
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.MatchCondition],
+        match_conditions: Iterable[MatchConditionParam],
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
@@ -229,7 +230,7 @@ class FindAllResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
         Cancel a FindAll run.
 
@@ -246,6 +247,7 @@ class FindAllResource(SyncAPIResource):
         """
         if not findall_id:
             raise ValueError(f"Expected a non-empty value for `findall_id` but received {findall_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -256,13 +258,13 @@ class FindAllResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        extra_headers.update({"parallel-beta": "findall-2025-09-15"})
         return self._post(
             path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     def candidates(
@@ -681,7 +683,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.MatchCondition],
+        match_conditions: Iterable[MatchConditionParam],
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
@@ -827,7 +829,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> object:
+    ) -> None:
         """
         Cancel a FindAll run.
 
@@ -844,6 +846,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         """
         if not findall_id:
             raise ValueError(f"Expected a non-empty value for `findall_id` but received {findall_id!r}")
+        extra_headers = {"Accept": "*/*", **(extra_headers or {})}
         extra_headers = {
             **strip_not_given(
                 {
@@ -854,13 +857,13 @@ class AsyncFindAllResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        extra_headers.update({"parallel-beta": "findall-2025-09-15"})
         return await self._post(
             path_template("/v1beta/findall/runs/{findall_id}/cancel", findall_id=findall_id),
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=NoneType,
         )
 
     async def candidates(

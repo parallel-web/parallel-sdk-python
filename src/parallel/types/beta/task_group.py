@@ -1,26 +1,14 @@
-# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+# Backwards-compatible re-export module (deprecated).
+#
+# Historically this module exposed `TaskGroup` as the data shape for a beta
+# task group. The Stainless config no longer aliases the GA `TaskGroup` model
+# under `beta` (to avoid a TypeScript class+type collision). Importers that
+# still reference `parallel.types.beta.task_group.TaskGroup` should switch to
+# `parallel.types.task_group.TaskGroup` instead. This module preserves the old
+# import path as a deprecated shim.
 
-from typing import Dict, Union, Optional
-
-from pydantic import Field as FieldInfo
-
-from ..._models import BaseModel
-from .task_group_status import TaskGroupStatus
+from .. import task_group
 
 __all__ = ["TaskGroup"]
 
-
-class TaskGroup(BaseModel):
-    """Response object for a task group, including its status and metadata."""
-
-    created_at: Optional[str] = None
-    """Timestamp of the creation of the group, as an RFC 3339 string."""
-
-    status: TaskGroupStatus
-    """Status of the group."""
-
-    task_group_id: str = FieldInfo(alias="taskgroup_id")
-    """ID of the group."""
-
-    metadata: Optional[Dict[str, Union[str, float, bool]]] = None
-    """User-provided metadata stored with the group."""
+TaskGroup = task_group.TaskGroup
