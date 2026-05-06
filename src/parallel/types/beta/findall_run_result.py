@@ -1,49 +1,12 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Dict, List, Optional
-from typing_extensions import Literal
+from typing import List, Optional
 
 from ..._models import BaseModel
 from .findall_run import FindAllRun
-from ..field_basis import FieldBasis
+from .findall_candidate import FindAllCandidate
 
-__all__ = ["FindAllRunResult", "FindallRunResult", "Candidate"]
-
-
-class Candidate(BaseModel):
-    """Candidate for a find all run that may end up as a match.
-
-    Contains all the candidate's metadata and the output of the match conditions.
-    A candidate is a match if all match conditions are satisfied.
-    """
-
-    candidate_id: str
-    """ID of the candidate."""
-
-    match_status: Literal["generated", "matched", "unmatched", "discarded"]
-    """Status of the candidate. One of generated, matched, unmatched, discarded."""
-
-    name: str
-    """Name of the candidate."""
-
-    url: str
-    """URL that provides context or details of the entity for disambiguation."""
-
-    basis: Optional[List[FieldBasis]] = None
-    """List of FieldBasis objects supporting the output."""
-
-    description: Optional[str] = None
-    """
-    Brief description of the entity that can help answer whether entity satisfies
-    the query.
-    """
-
-    output: Optional[Dict[str, object]] = None
-    """Results of the match condition evaluations for this candidate.
-
-    This object contains the structured output that determines whether the candidate
-    matches the overall FindAll objective.
-    """
+__all__ = [ "FindallRunResult", "FindAllRunResult"]
 
 
 class FindAllRunResult(BaseModel):
@@ -54,7 +17,7 @@ class FindAllRunResult(BaseModel):
     taken.
     """
 
-    candidates: List[Candidate]
+    candidates: List[FindAllCandidate]
     """All evaluated candidates at the time of the snapshot."""
 
     run: FindAllRun

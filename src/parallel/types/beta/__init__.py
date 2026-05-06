@@ -16,13 +16,16 @@ from .beta_run_input import BetaRunInput as BetaRunInput
 from .extract_result import ExtractResult as ExtractResult
 from .findall_schema import FindAllSchema as FindAllSchema, FindallSchema as FindallSchema
 from .task_run_event import TaskRunEvent as TaskRunEvent
+from .match_condition import MatchCondition as MatchCondition
 from .extract_response import ExtractResponse as ExtractResponse
 from .mcp_server_param import McpServerParam as McpServerParam
+from .findall_candidate import FindAllCandidate as FindAllCandidate
 from .task_group_status import TaskGroupStatus as TaskGroupStatus
 from .web_search_result import WebSearchResult as WebSearchResult
 from .beta_search_params import BetaSearchParams as BetaSearchParams
 from .fetch_policy_param import FetchPolicyParam as FetchPolicyParam
 from .findall_run_result import FindAllRunResult as FindAllRunResult, FindallRunResult as FindallRunResult
+from .findall_run_status import FindAllRunStatus as FindAllRunStatus
 from .beta_extract_params import BetaExtractParams as BetaExtractParams
 from .parallel_beta_param import ParallelBetaParam as ParallelBetaParam
 from .beta_run_input_param import BetaRunInputParam as BetaRunInputParam
@@ -48,6 +51,7 @@ from .findall_ingest_params import (
     FindAllIngestParams as FindAllIngestParams,
     FindallIngestParams as FindallIngestParams,
 )
+from .match_condition_param import MatchConditionParam as MatchConditionParam
 from .excerpt_settings_param import ExcerptSettingsParam as ExcerptSettingsParam
 from .task_run_create_params import TaskRunCreateParams as TaskRunCreateParams
 from .task_run_result_params import TaskRunResultParams as TaskRunResultParams
@@ -56,6 +60,7 @@ from .findall_events_response import (
     FindallEventsResponse as FindallEventsResponse,
 )
 from .task_group_run_response import TaskGroupRunResponse as TaskGroupRunResponse
+from .task_group_status_event import TaskGroupStatusEvent as TaskGroupStatusEvent
 from .findall_run_status_event import (
     FindAllRunStatusEvent as FindAllRunStatusEvent,
     FindallRunStatusEvent as FindallRunStatusEvent,
@@ -63,11 +68,13 @@ from .findall_run_status_event import (
 from .task_group_create_params import TaskGroupCreateParams as TaskGroupCreateParams
 from .task_group_events_params import TaskGroupEventsParams as TaskGroupEventsParams
 from .task_run_events_response import TaskRunEventsResponse as TaskRunEventsResponse
+from .findall_candidate_metrics import FindAllCandidateMetrics as FindAllCandidateMetrics
 from .findall_candidates_params import FindAllCandidatesParams as FindAllCandidatesParams
 from .task_group_add_runs_params import TaskGroupAddRunsParams as TaskGroupAddRunsParams
 from .task_group_events_response import TaskGroupEventsResponse as TaskGroupEventsResponse
 from .task_group_get_runs_params import TaskGroupGetRunsParams as TaskGroupGetRunsParams
 from .findall_candidates_response import FindAllCandidatesResponse as FindAllCandidatesResponse
+from .full_content_settings_param import FullContentSettingsParam as FullContentSettingsParam
 from .findall_schema_updated_event import (
     FindAllSchemaUpdatedEvent as FindAllSchemaUpdatedEvent,
     FindallSchemaUpdatedEvent as FindallSchemaUpdatedEvent,

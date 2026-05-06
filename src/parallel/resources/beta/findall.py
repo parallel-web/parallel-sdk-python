@@ -35,6 +35,7 @@ from ...types.beta.findall_schema import FindAllSchema
 from ...types.beta.mcp_server_param import McpServerParam
 from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
+from ...types.beta.match_condition_param import MatchConditionParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
 from ...types.beta.findall_candidates_response import FindAllCandidatesResponse
 
@@ -83,7 +84,7 @@ class FindAllResource(SyncAPIResource):
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.MatchCondition],
+        match_conditions: Iterable[MatchConditionParam],
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
@@ -681,7 +682,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         *,
         entity_type: str,
         generator: Literal["base", "core", "pro", "preview"],
-        match_conditions: Iterable[findall_create_params.MatchCondition],
+        match_conditions: Iterable[MatchConditionParam],
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,

@@ -28,6 +28,7 @@ from ...types.task_spec_param import TaskSpecParam
 from ...types.mcp_server_param import McpServerParam
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.shared_params.source_policy import SourcePolicy
+from ...types.task_advanced_settings_param import TaskAdvancedSettingsParam
 from ...types.beta.task_run_events_response import TaskRunEventsResponse
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
@@ -72,7 +73,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -310,7 +311,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,

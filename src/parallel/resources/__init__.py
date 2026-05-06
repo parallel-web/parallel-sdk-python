@@ -1,5 +1,13 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+from .monitor import (
+    MonitorResource,
+    AsyncMonitorResource,
+    MonitorResourceWithRawResponse,
+    AsyncMonitorResourceWithRawResponse,
+    MonitorResourceWithStreamingResponse,
+    AsyncMonitorResourceWithStreamingResponse,
+)
 from .task_run import (
     TaskRunResource,
     AsyncTaskRunResource,
@@ -30,4 +38,10 @@ __all__ = [
     "AsyncTaskGroupResourceWithRawResponse",
     "TaskGroupResourceWithStreamingResponse",
     "AsyncTaskGroupResourceWithStreamingResponse",
+    "MonitorResource",
+    "AsyncMonitorResource",
+    "MonitorResourceWithRawResponse",
+    "AsyncMonitorResourceWithRawResponse",
+    "MonitorResourceWithStreamingResponse",
+    "AsyncMonitorResourceWithStreamingResponse",
 ]

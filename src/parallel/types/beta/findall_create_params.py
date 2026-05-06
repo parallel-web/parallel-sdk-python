@@ -8,8 +8,9 @@ from typing_extensions import Literal, Required, Annotated, TypedDict
 from ..._utils import PropertyInfo
 from ..webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
+from .match_condition_param import MatchConditionParam
 
-__all__ = ["FindAllCreateParams", "FindallCreateParams", "MatchCondition", "ExcludeList"]
+__all__ = ["FindAllCreateParams", "FindallCreateParams", "ExcludeList"]
 
 
 class FindAllCreateParams(TypedDict, total=False):
@@ -19,7 +20,7 @@ class FindAllCreateParams(TypedDict, total=False):
     generator: Required[Literal["base", "core", "pro", "preview"]]
     """Generator for the FindAll run. One of base, core, pro, preview."""
 
-    match_conditions: Required[Iterable[MatchCondition]]
+    match_conditions: Required[Iterable[MatchConditionParam]]
     """List of match conditions for the FindAll run."""
 
     match_limit: Required[int]
@@ -42,20 +43,6 @@ class FindAllCreateParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
-
-
-class MatchCondition(TypedDict, total=False):
-    """Match condition model for FindAll ingest."""
-
-    description: Required[str]
-    """Detailed description of the match condition.
-
-    Include as much specific information as possible to help improve the quality and
-    accuracy of Find All run results.
-    """
-
-    name: Required[str]
-    """Name of the match condition."""
 
 
 class ExcludeList(TypedDict, total=False):

@@ -54,7 +54,8 @@ from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
 from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
-    from .resources import beta, task_run, task_group
+    from .resources import beta, monitor, task_run, task_group
+    from .resources.monitor import MonitorResource, AsyncMonitorResource
     from .resources.task_run import TaskRunResource, AsyncTaskRunResource
     from .resources.beta.beta import BetaResource, AsyncBetaResource
     from .resources.task_group import TaskGroupResource, AsyncTaskGroupResource
@@ -170,6 +171,20 @@ class Parallel(SyncAPIClient):
         from .resources.task_group import TaskGroupResource
 
         return TaskGroupResource(self)
+
+    @cached_property
+    def monitor(self) -> MonitorResource:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResource
+
+        return MonitorResource(self)
 
     @cached_property
     def beta(self) -> BetaResource:
@@ -550,6 +565,20 @@ class AsyncParallel(AsyncAPIClient):
         return AsyncTaskGroupResource(self)
 
     @cached_property
+    def monitor(self) -> AsyncMonitorResource:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResource
+
+        return AsyncMonitorResource(self)
+
+    @cached_property
     def beta(self) -> AsyncBetaResource:
         from .resources.beta import AsyncBetaResource
 
@@ -877,6 +906,20 @@ class ParallelWithRawResponse:
         return TaskGroupResourceWithRawResponse(self._client.task_group)
 
     @cached_property
+    def monitor(self) -> monitor.MonitorResourceWithRawResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResourceWithRawResponse
+
+        return MonitorResourceWithRawResponse(self._client.monitor)
+
+    @cached_property
     def beta(self) -> beta.BetaResourceWithRawResponse:
         from .resources.beta import BetaResourceWithRawResponse
 
@@ -931,6 +974,20 @@ class AsyncParallelWithRawResponse:
         from .resources.task_group import AsyncTaskGroupResourceWithRawResponse
 
         return AsyncTaskGroupResourceWithRawResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.AsyncMonitorResourceWithRawResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResourceWithRawResponse
+
+        return AsyncMonitorResourceWithRawResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithRawResponse:
@@ -989,6 +1046,20 @@ class ParallelWithStreamedResponse:
         return TaskGroupResourceWithStreamingResponse(self._client.task_group)
 
     @cached_property
+    def monitor(self) -> monitor.MonitorResourceWithStreamingResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import MonitorResourceWithStreamingResponse
+
+        return MonitorResourceWithStreamingResponse(self._client.monitor)
+
+    @cached_property
     def beta(self) -> beta.BetaResourceWithStreamingResponse:
         from .resources.beta import BetaResourceWithStreamingResponse
 
@@ -1043,6 +1114,20 @@ class AsyncParallelWithStreamedResponse:
         from .resources.task_group import AsyncTaskGroupResourceWithStreamingResponse
 
         return AsyncTaskGroupResourceWithStreamingResponse(self._client.task_group)
+
+    @cached_property
+    def monitor(self) -> monitor.AsyncMonitorResourceWithStreamingResponse:
+        """The Monitor API watches the web for material changes on a fixed frequency.
+
+        Each monitor runs once on creation and then on its configured schedule, emitting events when meaningful changes are detected.
+        - `event_stream` monitors track a search query and emit an event for each new material change.
+        - `snapshot` monitors track a specific task run's output and emit an event when the output changes.
+
+        Results can be polled via the events endpoint or delivered via webhooks.
+        """
+        from .resources.monitor import AsyncMonitorResourceWithStreamingResponse
+
+        return AsyncMonitorResourceWithStreamingResponse(self._client.monitor)
 
     @cached_property
     def beta(self) -> beta.AsyncBetaResourceWithStreamingResponse:

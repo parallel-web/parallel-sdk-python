@@ -11,6 +11,7 @@ from parallel.types.beta import (
     WebSearchResult,
     ExtractError,
     FetchPolicy,
+    FullContentSettings,
     UsageItem,
 )
 ```
@@ -53,6 +54,7 @@ from parallel.types.beta import (
     TaskGroupEventsResponse,
     TaskGroupGetRunsResponse,
     TaskGroupStatus,
+    TaskGroupStatusEvent,
     TaskGroup,
     TaskGroupRunResponse,
 )
@@ -72,7 +74,9 @@ Types:
 
 ```python
 from parallel.types.beta import (
+    FindAllCandidate,
     FindAllCandidateMatchStatusEvent,
+    FindAllCandidateMetrics,
     FindAllCandidatesRequest,
     FindAllCandidatesResponse,
     FindAllEnrichInput,
@@ -80,10 +84,12 @@ from parallel.types.beta import (
     FindAllRun,
     FindAllRunInput,
     FindAllRunResult,
+    FindAllRunStatus,
     FindAllRunStatusEvent,
     FindAllSchema,
     FindAllSchemaUpdatedEvent,
     IngestInput,
+    MatchCondition,
     FindAllEventsResponse,
 )
 ```
