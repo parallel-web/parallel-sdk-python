@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import typing_extensions
 from typing import Any, Dict, List, Union, Iterable, Optional, cast
 from itertools import chain
 from typing_extensions import Literal
@@ -59,6 +60,7 @@ class TaskGroupResource(SyncAPIResource):
         """
         return TaskGroupResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     def create(
         self,
         *,
@@ -94,6 +96,7 @@ class TaskGroupResource(SyncAPIResource):
             cast_to=TaskGroup,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     def retrieve(
         self,
         task_group_id: str,
@@ -128,6 +131,7 @@ class TaskGroupResource(SyncAPIResource):
             cast_to=TaskGroup,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     def add_runs(
         self,
         task_group_id: str,
@@ -201,6 +205,7 @@ class TaskGroupResource(SyncAPIResource):
             cast_to=TaskGroupRunResponse,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     def events(
         self,
         task_group_id: str,
@@ -255,6 +260,7 @@ class TaskGroupResource(SyncAPIResource):
             stream_cls=Stream[TaskGroupEventsResponse],
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     def get_runs(
         self,
         task_group_id: str,
@@ -345,6 +351,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         """
         return AsyncTaskGroupResourceWithStreamingResponse(self)
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     async def create(
         self,
         *,
@@ -380,6 +387,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             cast_to=TaskGroup,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     async def retrieve(
         self,
         task_group_id: str,
@@ -414,6 +422,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             cast_to=TaskGroup,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     async def add_runs(
         self,
         task_group_id: str,
@@ -487,6 +496,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             cast_to=TaskGroupRunResponse,
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     async def events(
         self,
         task_group_id: str,
@@ -541,6 +551,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             stream_cls=AsyncStream[TaskGroupEventsResponse],
         )
 
+    @typing_extensions.deprecated("Use GA Task Group instead")
     async def get_runs(
         self,
         task_group_id: str,
@@ -613,20 +624,30 @@ class TaskGroupResourceWithRawResponse:
     def __init__(self, task_group: TaskGroupResource) -> None:
         self._task_group = task_group
 
-        self.create = to_raw_response_wrapper(
-            task_group.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_group.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_raw_response_wrapper(
-            task_group.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_group.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.add_runs = to_raw_response_wrapper(
-            task_group.add_runs,
+        self.add_runs = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_group.add_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = to_raw_response_wrapper(
-            task_group.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_group.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_runs = to_raw_response_wrapper(
-            task_group.get_runs,
+        self.get_runs = (  # pyright: ignore[reportDeprecated]
+            to_raw_response_wrapper(
+                task_group.get_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -634,20 +655,30 @@ class AsyncTaskGroupResourceWithRawResponse:
     def __init__(self, task_group: AsyncTaskGroupResource) -> None:
         self._task_group = task_group
 
-        self.create = async_to_raw_response_wrapper(
-            task_group.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_group.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_raw_response_wrapper(
-            task_group.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_group.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.add_runs = async_to_raw_response_wrapper(
-            task_group.add_runs,
+        self.add_runs = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_group.add_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = async_to_raw_response_wrapper(
-            task_group.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_group.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_runs = async_to_raw_response_wrapper(
-            task_group.get_runs,
+        self.get_runs = (  # pyright: ignore[reportDeprecated]
+            async_to_raw_response_wrapper(
+                task_group.get_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -655,20 +686,30 @@ class TaskGroupResourceWithStreamingResponse:
     def __init__(self, task_group: TaskGroupResource) -> None:
         self._task_group = task_group
 
-        self.create = to_streamed_response_wrapper(
-            task_group.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_group.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = to_streamed_response_wrapper(
-            task_group.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_group.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.add_runs = to_streamed_response_wrapper(
-            task_group.add_runs,
+        self.add_runs = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_group.add_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = to_streamed_response_wrapper(
-            task_group.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_group.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_runs = to_streamed_response_wrapper(
-            task_group.get_runs,
+        self.get_runs = (  # pyright: ignore[reportDeprecated]
+            to_streamed_response_wrapper(
+                task_group.get_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
 
 
@@ -676,18 +717,28 @@ class AsyncTaskGroupResourceWithStreamingResponse:
     def __init__(self, task_group: AsyncTaskGroupResource) -> None:
         self._task_group = task_group
 
-        self.create = async_to_streamed_response_wrapper(
-            task_group.create,
+        self.create = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_group.create,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.retrieve = async_to_streamed_response_wrapper(
-            task_group.retrieve,
+        self.retrieve = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_group.retrieve,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.add_runs = async_to_streamed_response_wrapper(
-            task_group.add_runs,
+        self.add_runs = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_group.add_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.events = async_to_streamed_response_wrapper(
-            task_group.events,
+        self.events = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_group.events,  # pyright: ignore[reportDeprecated],
+            )
         )
-        self.get_runs = async_to_streamed_response_wrapper(
-            task_group.get_runs,
+        self.get_runs = (  # pyright: ignore[reportDeprecated]
+            async_to_streamed_response_wrapper(
+                task_group.get_runs,  # pyright: ignore[reportDeprecated],
+            )
         )
