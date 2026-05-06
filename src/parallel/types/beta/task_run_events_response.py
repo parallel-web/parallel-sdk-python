@@ -19,4 +19,6 @@ TaskRunEventsResponse: TypeAlias = Annotated[
 # Backwards-compat alias (deprecated). `TaskRunProgressStatsEventSourceStats`
 # was the auto-generated nested-class name for the source-stats payload; it now
 # lives as the top-level `TaskRunSourceStats` model.
-from ..task_run_source_stats import TaskRunSourceStats as TaskRunProgressStatsEventSourceStats  # noqa: E402,F401
+from ..task_run_source_stats import TaskRunSourceStats  # noqa: E402
+
+TaskRunProgressStatsEventSourceStats = TaskRunSourceStats
