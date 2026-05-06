@@ -10,8 +10,9 @@ from ..._utils import PropertyInfo
 from ..fetch_policy_param import FetchPolicyParam
 from .parallel_beta_param import ParallelBetaParam
 from .excerpt_settings_param import ExcerptSettingsParam
+from ..full_content_settings_param import FullContentSettingsParam
 
-__all__ = ["BetaExtractParams", "Excerpts", "FullContent", "FullContentFullContentSettings"]
+__all__ = ["BetaExtractParams", "Excerpts", "FullContent"]
 
 
 class BetaExtractParams(TypedDict, total=False):
@@ -59,16 +60,4 @@ class BetaExtractParams(TypedDict, total=False):
 
 Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
 
-
-class FullContentFullContentSettings(TypedDict, total=False):
-    """Optional settings for returning full content."""
-
-    max_chars_per_result: Optional[int]
-    """
-    Optional limit on the number of characters to include in the full content for
-    each url. Full content always starts at the beginning of the page and is
-    truncated at the limit if necessary.
-    """
-
-
-FullContent: TypeAlias = Union[bool, FullContentFullContentSettings]
+FullContent: TypeAlias = Union[bool, FullContentSettingsParam]

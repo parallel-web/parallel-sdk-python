@@ -20,6 +20,7 @@ from .._response import (
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
 from ..types.task_run import TaskRun
+from ..types.run_input import RunInput
 from ..types.webhook_param import WebhookParam
 from ..types.task_run_result import TaskRunResult
 from ..types.task_spec_param import TaskSpecParam
@@ -27,6 +28,7 @@ from ..types.mcp_server_param import McpServerParam
 from ..types.beta.parallel_beta_param import ParallelBetaParam
 from ..types.task_run_events_response import TaskRunEventsResponse
 from ..types.shared_params.source_policy import SourcePolicy
+from ..types.task_advanced_settings_param import TaskAdvancedSettingsParam
 
 __all__ = ["TaskRunResource", "AsyncTaskRunResource"]
 
@@ -69,7 +71,7 @@ class TaskRunResource(SyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -285,6 +287,39 @@ class TaskRunResource(SyncAPIResource):
             cast_to=TaskRunResult,
         )
 
+    def retrieve_input(
+        self,
+        run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunInput:
+        """
+        Retrieves the input of a run by run_id.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not run_id:
+            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        return self._get(
+            path_template("/v1/tasks/runs/{run_id}/input", run_id=run_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RunInput,
+        )
+
 
 class AsyncTaskRunResource(AsyncAPIResource):
     """The Task API executes web research and extraction tasks.
@@ -324,7 +359,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         *,
         input: Union[str, Dict[str, object]],
         processor: str,
-        advanced_settings: Optional[task_run_create_params.AdvancedSettings] | Omit = omit,
+        advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
@@ -542,6 +577,39 @@ class AsyncTaskRunResource(AsyncAPIResource):
             cast_to=TaskRunResult,
         )
 
+    async def retrieve_input(
+        self,
+        run_id: str,
+        *,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> RunInput:
+        """
+        Retrieves the input of a run by run_id.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not run_id:
+            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        return await self._get(
+            path_template("/v1/tasks/runs/{run_id}/input", run_id=run_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=RunInput,
+        )
+
 
 class TaskRunResourceWithRawResponse:
     def __init__(self, task_run: TaskRunResource) -> None:
@@ -558,6 +626,9 @@ class TaskRunResourceWithRawResponse:
         )
         self.result = to_raw_response_wrapper(
             task_run.result,
+        )
+        self.retrieve_input = to_raw_response_wrapper(
+            task_run.retrieve_input,
         )
 
 
@@ -577,6 +648,9 @@ class AsyncTaskRunResourceWithRawResponse:
         self.result = async_to_raw_response_wrapper(
             task_run.result,
         )
+        self.retrieve_input = async_to_raw_response_wrapper(
+            task_run.retrieve_input,
+        )
 
 
 class TaskRunResourceWithStreamingResponse:
@@ -595,6 +669,9 @@ class TaskRunResourceWithStreamingResponse:
         self.result = to_streamed_response_wrapper(
             task_run.result,
         )
+        self.retrieve_input = to_streamed_response_wrapper(
+            task_run.retrieve_input,
+        )
 
 
 class AsyncTaskRunResourceWithStreamingResponse:
@@ -612,4 +689,7 @@ class AsyncTaskRunResourceWithStreamingResponse:
         )
         self.result = async_to_streamed_response_wrapper(
             task_run.result,
+        )
+        self.retrieve_input = async_to_streamed_response_wrapper(
+            task_run.retrieve_input,
         )

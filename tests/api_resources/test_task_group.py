@@ -10,6 +10,7 @@ import pytest
 from parallel import Parallel, AsyncParallel
 from tests.utils import assert_matches_type
 from parallel.types import (
+    TaskRun,
     TaskGroup,
     TaskGroupRunResponse,
 )
@@ -308,6 +309,54 @@ class TestTaskGroup:
                 task_group_id="",
             )
 
+    @parametrize
+    def test_method_retrieve_run(self, client: Parallel) -> None:
+        task_group = client.task_group.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        )
+        assert_matches_type(TaskRun, task_group, path=["response"])
+
+    @parametrize
+    def test_raw_response_retrieve_run(self, client: Parallel) -> None:
+        response = client.task_group.with_raw_response.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task_group = response.parse()
+        assert_matches_type(TaskRun, task_group, path=["response"])
+
+    @parametrize
+    def test_streaming_response_retrieve_run(self, client: Parallel) -> None:
+        with client.task_group.with_streaming_response.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task_group = response.parse()
+            assert_matches_type(TaskRun, task_group, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_retrieve_run(self, client: Parallel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
+            client.task_group.with_raw_response.retrieve_run(
+                run_id="run_id",
+                task_group_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            client.task_group.with_raw_response.retrieve_run(
+                run_id="",
+                task_group_id="taskgroup_id",
+            )
+
 
 class TestAsyncTaskGroup:
     parametrize = pytest.mark.parametrize(
@@ -599,4 +648,52 @@ class TestAsyncTaskGroup:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
             await async_client.task_group.with_raw_response.get_runs(
                 task_group_id="",
+            )
+
+    @parametrize
+    async def test_method_retrieve_run(self, async_client: AsyncParallel) -> None:
+        task_group = await async_client.task_group.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        )
+        assert_matches_type(TaskRun, task_group, path=["response"])
+
+    @parametrize
+    async def test_raw_response_retrieve_run(self, async_client: AsyncParallel) -> None:
+        response = await async_client.task_group.with_raw_response.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        task_group = await response.parse()
+        assert_matches_type(TaskRun, task_group, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_retrieve_run(self, async_client: AsyncParallel) -> None:
+        async with async_client.task_group.with_streaming_response.retrieve_run(
+            run_id="run_id",
+            task_group_id="taskgroup_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            task_group = await response.parse()
+            assert_matches_type(TaskRun, task_group, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_retrieve_run(self, async_client: AsyncParallel) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `task_group_id` but received ''"):
+            await async_client.task_group.with_raw_response.retrieve_run(
+                run_id="run_id",
+                task_group_id="",
+            )
+
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `run_id` but received ''"):
+            await async_client.task_group.with_raw_response.retrieve_run(
+                run_id="",
+                task_group_id="taskgroup_id",
             )

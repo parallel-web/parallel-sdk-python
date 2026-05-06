@@ -25,6 +25,7 @@ from .._response import (
 )
 from .._streaming import Stream, AsyncStream
 from .._base_client import make_request_options
+from ..types.task_run import TaskRun
 from ..types.task_group import TaskGroup
 from ..types.run_input_param import RunInputParam
 from ..types.task_spec_param import TaskSpecParam
@@ -321,6 +322,47 @@ class TaskGroupResource(SyncAPIResource):
             stream_cls=Stream[TaskGroupGetRunsResponse],
         )
 
+    def retrieve_run(
+        self,
+        run_id: str,
+        *,
+        task_group_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskRun:
+        """
+        Retrieves run status by run_id.
+
+        This endpoint is equivalent to fetching run status directly using the
+        `retrieve()` method or the `tasks/runs` GET endpoint.
+
+        The run result is available from the `/result` endpoint.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not task_group_id:
+            raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
+        if not run_id:
+            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        return self._get(
+            path_template("/v1/tasks/groups/{task_group_id}/runs/{run_id}", task_group_id=task_group_id, run_id=run_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TaskRun,
+        )
+
 
 class AsyncTaskGroupResource(AsyncAPIResource):
     """The Task API executes web research and extraction tasks.
@@ -607,6 +649,47 @@ class AsyncTaskGroupResource(AsyncAPIResource):
             stream_cls=AsyncStream[TaskGroupGetRunsResponse],
         )
 
+    async def retrieve_run(
+        self,
+        run_id: str,
+        *,
+        task_group_id: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> TaskRun:
+        """
+        Retrieves run status by run_id.
+
+        This endpoint is equivalent to fetching run status directly using the
+        `retrieve()` method or the `tasks/runs` GET endpoint.
+
+        The run result is available from the `/result` endpoint.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not task_group_id:
+            raise ValueError(f"Expected a non-empty value for `task_group_id` but received {task_group_id!r}")
+        if not run_id:
+            raise ValueError(f"Expected a non-empty value for `run_id` but received {run_id!r}")
+        return await self._get(
+            path_template("/v1/tasks/groups/{task_group_id}/runs/{run_id}", task_group_id=task_group_id, run_id=run_id),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=TaskRun,
+        )
+
 
 class TaskGroupResourceWithRawResponse:
     def __init__(self, task_group: TaskGroupResource) -> None:
@@ -626,6 +709,9 @@ class TaskGroupResourceWithRawResponse:
         )
         self.get_runs = to_raw_response_wrapper(
             task_group.get_runs,
+        )
+        self.retrieve_run = to_raw_response_wrapper(
+            task_group.retrieve_run,
         )
 
 
@@ -648,6 +734,9 @@ class AsyncTaskGroupResourceWithRawResponse:
         self.get_runs = async_to_raw_response_wrapper(
             task_group.get_runs,
         )
+        self.retrieve_run = async_to_raw_response_wrapper(
+            task_group.retrieve_run,
+        )
 
 
 class TaskGroupResourceWithStreamingResponse:
@@ -669,6 +758,9 @@ class TaskGroupResourceWithStreamingResponse:
         self.get_runs = to_streamed_response_wrapper(
             task_group.get_runs,
         )
+        self.retrieve_run = to_streamed_response_wrapper(
+            task_group.retrieve_run,
+        )
 
 
 class AsyncTaskGroupResourceWithStreamingResponse:
@@ -689,4 +781,7 @@ class AsyncTaskGroupResourceWithStreamingResponse:
         )
         self.get_runs = async_to_streamed_response_wrapper(
             task_group.get_runs,
+        )
+        self.retrieve_run = async_to_streamed_response_wrapper(
+            task_group.retrieve_run,
         )
