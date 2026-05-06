@@ -26,12 +26,9 @@ def _resolve_redirect(obj: griffe.Object | griffe.Alias) -> griffe.Object | grif
         visited.add(id(current))
         if isinstance(current, griffe.Alias):
             try:
-                final = current.final_target
+                return current.final_target
             except Exception:
                 return None
-            if final is current:
-                return None
-            return final
         if isinstance(current, griffe.Attribute):
             value = current.value
             parent = current.parent
@@ -46,7 +43,7 @@ def _resolve_redirect(obj: griffe.Object | griffe.Alias) -> griffe.Object | grif
             if isinstance(value, griffe.ExprAttribute):
                 # Qualified path like `task_group_status.TaskGroupStatus`.
                 # Walk segment by segment, resolving any module aliases as we go.
-                next_obj: griffe.Object | griffe.Alias | None = parent
+                next_obj = parent
                 for segment in value.values:
                     if not isinstance(segment, griffe.ExprName):
                         continue
