@@ -32,3 +32,7 @@ class FindAllRunResult(BaseModel):
 
 FindallRunResult = FindAllRunResult  # for backwards compatibility with v0.3.4
 """This is deprecated, `FindAllRunResult` should be used instead"""
+
+# Backwards-compat alias (deprecated). `Candidate` was an inline class in this
+# module; it now lives as the top-level `FindAllCandidate` model.
+Candidate = FindAllCandidate

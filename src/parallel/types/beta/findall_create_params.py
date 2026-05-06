@@ -57,3 +57,7 @@ class ExcludeList(TypedDict, total=False):
 
 FindallCreateParams = FindAllCreateParams  # for backwards compatibility with v0.3.4
 """This is deprecated, `FindAllCreateParams` should be used instead"""
+
+# Backwards-compat alias (deprecated). `MatchCondition` was an inline TypedDict
+# in this module; it now lives as the top-level `MatchConditionParam`.
+MatchCondition = MatchConditionParam

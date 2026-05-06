@@ -61,3 +61,8 @@ class BetaExtractParams(TypedDict, total=False):
 Excerpts: TypeAlias = Union[bool, ExcerptSettingsParam]
 
 FullContent: TypeAlias = Union[bool, FullContentSettingsParam]
+
+# Backwards-compat alias (deprecated). `FullContentFullContentSettings` was an
+# inline TypedDict in this module; it now lives as the top-level
+# `FullContentSettingsParam`.
+FullContentFullContentSettings = FullContentSettingsParam

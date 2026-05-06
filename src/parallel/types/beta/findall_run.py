@@ -36,3 +36,10 @@ class FindAllRun(BaseModel):
 
 FindallRun = FindAllRun  # for backwards compatibility with v0.3.4
 """This is deprecated, `FindAllRun` should be used instead"""
+
+# Backwards-compat aliases (deprecated). `Status` and `StatusMetrics` were
+# inline classes in this module; they now live as top-level `FindAllRunStatus`
+# and `FindAllCandidateMetrics` models.
+from .findall_candidate_metrics import FindAllCandidateMetrics as StatusMetrics  # noqa: E402,F401
+
+Status = FindAllRunStatus

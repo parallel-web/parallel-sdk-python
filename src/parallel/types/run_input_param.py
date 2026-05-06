@@ -66,3 +66,8 @@ class RunInputParam(TypedDict, total=False):
 
     webhook: Optional[WebhookParam]
     """Webhooks for Task Runs."""
+
+
+# Backwards-compat alias (deprecated). `AdvancedSettings` was an inline TypedDict
+# in this module; it now lives as the top-level `TaskAdvancedSettingsParam`.
+AdvancedSettings = TaskAdvancedSettingsParam
