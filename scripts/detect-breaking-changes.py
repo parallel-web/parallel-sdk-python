@@ -21,15 +21,15 @@ def _resolve_redirect(obj: griffe.Object | griffe.Alias) -> griffe.Object | grif
     griffe reports every old attribute as removed.
     """
     visited: set[int] = set()
-    current: griffe.Object | griffe.Alias | None = obj
-    while current is not None and id(current) not in visited:
+    current: griffe.Object | griffe.Alias = obj
+    while id(current) not in visited:
         visited.add(id(current))
         if isinstance(current, griffe.Alias):
             try:
                 final = current.final_target
             except Exception:
                 return None
-            if isinstance(final, griffe.Alias) or final is current:
+            if final is current:
                 return None
             return final
         if isinstance(current, griffe.Attribute):
