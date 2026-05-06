@@ -55,7 +55,6 @@ from parallel.types.beta import (
     TaskGroupGetRunsResponse,
     TaskGroupStatus,
     TaskGroupStatusEvent,
-    TaskGroup,
     TaskGroupRunResponse,
 )
 ```
