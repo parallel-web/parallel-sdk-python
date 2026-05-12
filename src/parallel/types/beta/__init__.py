@@ -8,6 +8,7 @@ from .match_condition import MatchCondition as MatchCondition
 from .findall_candidate import FindAllCandidate as FindAllCandidate
 from .findall_run_result import FindAllRunResult as FindAllRunResult
 from .findall_run_status import FindAllRunStatus as FindAllRunStatus
+from .parallel_beta_param import ParallelBetaParam as ParallelBetaParam
 from .findall_enrich_input import FindAllEnrichInput as FindAllEnrichInput
 from .findall_create_params import FindAllCreateParams as FindAllCreateParams
 from .findall_enrich_params import FindAllEnrichParams as FindAllEnrichParams

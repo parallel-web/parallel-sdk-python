@@ -22,6 +22,7 @@ from parallel.types.beta import (
     FindAllSchemaUpdatedEvent,
     IngestInput,
     MatchCondition,
+    ParallelBeta,
     FindAllEventsResponse,
 )
 ```

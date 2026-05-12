@@ -30,6 +30,7 @@ from ..types.task_group import TaskGroup
 from ..types.run_input_param import RunInputParam
 from ..types.task_spec_param import TaskSpecParam
 from ..types.task_group_run_response import TaskGroupRunResponse
+from ..types.beta.parallel_beta_param import ParallelBetaParam
 from ..types.task_group_events_response import TaskGroupEventsResponse
 from ..types.task_group_get_runs_response import TaskGroupGetRunsResponse
 
@@ -143,20 +144,7 @@ class TaskGroupResource(SyncAPIResource):
         inputs: Iterable[RunInputParam],
         refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
-        betas: List[
-            Union[
-                Literal[
-                    "mcp-server-2025-07-17",
-                    "events-sse-2025-07-24",
-                    "webhook-2025-08-12",
-                    "findall-2025-09-15",
-                    "search-extract-2025-10-10",
-                    "field-basis-2025-11-25",
-                ],
-                str,
-            ]
-        ]
-        | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -483,20 +471,7 @@ class AsyncTaskGroupResource(AsyncAPIResource):
         inputs: Iterable[RunInputParam],
         refresh_status: bool | Omit = omit,
         default_task_spec: Optional[TaskSpecParam] | Omit = omit,
-        betas: List[
-            Union[
-                Literal[
-                    "mcp-server-2025-07-17",
-                    "events-sse-2025-07-24",
-                    "webhook-2025-08-12",
-                    "findall-2025-09-15",
-                    "search-extract-2025-10-10",
-                    "field-basis-2025-11-25",
-                ],
-                str,
-            ]
-        ]
-        | Omit = omit,
+        betas: List[ParallelBetaParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
