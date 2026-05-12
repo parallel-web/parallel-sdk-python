@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import List
-from typing_extensions import Annotated, TypedDict
+from typing import List, Union
+from typing_extensions import Literal, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .beta.parallel_beta_param import ParallelBetaParam
 
 __all__ = ["TaskRunResultParams"]
 
@@ -14,5 +13,20 @@ __all__ = ["TaskRunResultParams"]
 class TaskRunResultParams(TypedDict, total=False):
     api_timeout: Annotated[int, PropertyInfo(alias="timeout")]
 
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
+    betas: Annotated[
+        List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ],
+        PropertyInfo(alias="parallel-beta"),
+    ]
     """Optional header to specify the beta version(s) to enable."""

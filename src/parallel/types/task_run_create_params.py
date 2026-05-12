@@ -3,13 +3,12 @@
 from __future__ import annotations
 
 from typing import Dict, List, Union, Iterable, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 from .webhook_param import WebhookParam
 from .task_spec_param import TaskSpecParam
 from .mcp_server_param import McpServerParam
-from .beta.parallel_beta_param import ParallelBetaParam
 from .shared_params.source_policy import SourcePolicy
 from .task_advanced_settings_param import TaskAdvancedSettingsParam
 
@@ -67,7 +66,22 @@ class TaskRunCreateParams(TypedDict, total=False):
     webhook: Optional[WebhookParam]
     """Webhooks for Task Runs."""
 
-    betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
+    betas: Annotated[
+        List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ],
+        PropertyInfo(alias="parallel-beta"),
+    ]
     """Optional header to specify the beta version(s) to enable."""
 
 

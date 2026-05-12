@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from typing import Any, Dict, List, Type, Union, Iterable, Optional, cast, overload
+from typing_extensions import Literal
 
 import httpx
 
@@ -35,7 +36,6 @@ from ..lib._parsing._task_run_result import (
     wait_for_result_async as _wait_for_result_async,
     task_run_result_parser,
 )
-from ..types.beta.parallel_beta_param import ParallelBetaParam
 from ..types.task_run_events_response import TaskRunEventsResponse
 from ..types.shared_params.source_policy import SourcePolicy
 from ..types.task_advanced_settings_param import TaskAdvancedSettingsParam
@@ -89,7 +89,20 @@ class TaskRunResource(SyncAPIResource):
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -257,7 +270,20 @@ class TaskRunResource(SyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -504,7 +530,20 @@ class AsyncTaskRunResource(AsyncAPIResource):
         source_policy: Optional[SourcePolicy] | Omit = omit,
         task_spec: Optional[TaskSpecParam] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -672,7 +711,20 @@ class AsyncTaskRunResource(AsyncAPIResource):
         run_id: str,
         *,
         api_timeout: int | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
