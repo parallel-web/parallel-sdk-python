@@ -34,7 +34,6 @@ from ...types.mcp_server_param import McpServerParam
 from ...types.json_schema_param import JsonSchemaParam
 from ...types.beta.findall_schema import FindAllSchema
 from ...types.beta.findall_run_result import FindAllRunResult
-from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.match_condition_param import MatchConditionParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
 from ...types.beta.findall_candidates_response import FindAllCandidatesResponse
@@ -77,7 +76,20 @@ class FindAllResource(SyncAPIResource):
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -163,7 +175,20 @@ class FindAllResource(SyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -210,7 +235,20 @@ class FindAllResource(SyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -314,7 +352,20 @@ class FindAllResource(SyncAPIResource):
         output_schema: JsonSchemaParam,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         processor: str | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -377,7 +428,20 @@ class FindAllResource(SyncAPIResource):
         *,
         last_event_id: Optional[str] | Omit = omit,
         api_timeout: Optional[float] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -443,7 +507,20 @@ class FindAllResource(SyncAPIResource):
         findall_id: str,
         *,
         additional_match_limit: int,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -497,7 +574,20 @@ class FindAllResource(SyncAPIResource):
         self,
         *,
         objective: str,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -550,7 +640,20 @@ class FindAllResource(SyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -597,7 +700,20 @@ class FindAllResource(SyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -676,7 +792,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -762,7 +891,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -809,7 +951,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -913,7 +1068,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         output_schema: JsonSchemaParam,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
         processor: str | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -976,7 +1144,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         *,
         last_event_id: Optional[str] | Omit = omit,
         api_timeout: Optional[float] | Omit = omit,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1042,7 +1223,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         findall_id: str,
         *,
         additional_match_limit: int,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1096,7 +1290,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         self,
         *,
         objective: str,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1149,7 +1356,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -1196,7 +1416,20 @@ class AsyncFindAllResource(AsyncAPIResource):
         self,
         findall_id: str,
         *,
-        betas: List[ParallelBetaParam] | Omit = omit,
+        betas: List[
+            Union[
+                Literal[
+                    "mcp-server-2025-07-17",
+                    "events-sse-2025-07-24",
+                    "webhook-2025-08-12",
+                    "findall-2025-09-15",
+                    "search-extract-2025-10-10",
+                    "field-basis-2025-11-25",
+                ],
+                str,
+            ]
+        ]
+        | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
