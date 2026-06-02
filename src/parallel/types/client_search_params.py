@@ -35,12 +35,13 @@ class ClientSearchParams(TypedDict, total=False):
     max_chars_total: Optional[int]
     """Upper bound on total characters across excerpts from all results."""
 
-    mode: Optional[Literal["basic", "advanced"]]
-    """Search mode preset: supported values are `basic` and `advanced`.
+    mode: Optional[Literal["basic", "advanced", "turbo"]]
+    """Search mode preset: supported values are `basic`, `advanced`, and `turbo`.
 
     Basic mode offers the lowest latency and works best with 2-3 high-quality
     search_queries. Advanced mode provides higher quality with more advanced
-    retrieval and compression. Defaults to `advanced` when omitted.
+    retrieval and compression. Turbo mode is optimized for the fastest responses.
+    Defaults to `advanced` when omitted.
     """
 
     objective: Optional[str]

@@ -25,7 +25,7 @@ from ...types.beta import (
     findall_events_params,
     findall_extend_params,
     findall_ingest_params,
-    findall_candidates_params,
+    findall_entity_search_params,
 )
 from ..._base_client import make_request_options
 from ...types.webhook_param import WebhookParam
@@ -37,7 +37,7 @@ from ...types.beta.findall_run_result import FindAllRunResult
 from ...types.beta.parallel_beta_param import ParallelBetaParam
 from ...types.beta.match_condition_param import MatchConditionParam
 from ...types.beta.findall_events_response import FindAllEventsResponse
-from ...types.beta.findall_candidates_response import FindAllCandidatesResponse
+from ...types.beta.findall_entity_search_response import FindAllEntitySearchResponse
 
 __all__ = ["FindAllResource", "AsyncFindAllResource"]
 
@@ -254,59 +254,6 @@ class FindAllResource(SyncAPIResource):
             cast_to=NoneType,
         )
 
-    def candidates(
-        self,
-        *,
-        entity_type: Literal["company", "people"],
-        objective: str,
-        match_limit: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindAllCandidatesResponse:
-        """
-        Return ranked entity candidates matching a natural language objective.
-
-        This endpoint performs a best-effort search optimised for low latency. For
-        comprehensive match evaluation and enrichment, use the
-        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
-
-        Args:
-          entity_type: Type of entity to search for.
-
-          objective: Natural language description of target entities.
-
-          match_limit: Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
-              May return fewer results. Defaults to 100.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
-        return self._post(
-            "/v1beta/findall/candidates",
-            body=maybe_transform(
-                {
-                    "entity_type": entity_type,
-                    "objective": objective,
-                    "match_limit": match_limit,
-                },
-                findall_candidates_params.FindAllCandidatesParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FindAllCandidatesResponse,
-        )
-
     def enrich(
         self,
         findall_id: str,
@@ -369,6 +316,62 @@ class FindAllResource(SyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FindAllSchema,
+        )
+
+    def entity_search(
+        self,
+        *,
+        entity_type: Literal["people", "companies"],
+        objective: str,
+        match_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FindAllEntitySearchResponse:
+        """
+        Return ranked entities matching a natural language objective.
+
+        This endpoint performs a best-effort search optimized for low latency. To keep
+        responses fast, it returns a fixed set of attributes and supports queries of
+        limited complexity.
+
+        For comprehensive match evaluation and enrichment, use the
+        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+
+        Args:
+          entity_type: Type of entity to search for.
+
+          objective: Natural language description of target entities.
+
+          match_limit: Maximum number of entities to return. Must be between 5 and 1000 (inclusive).
+              May return fewer results. Defaults to 100.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return self._post(
+            "/v1beta/findall/entity-search",
+            body=maybe_transform(
+                {
+                    "entity_type": entity_type,
+                    "objective": objective,
+                    "match_limit": match_limit,
+                },
+                findall_entity_search_params.FindAllEntitySearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FindAllEntitySearchResponse,
         )
 
     def events(
@@ -853,59 +856,6 @@ class AsyncFindAllResource(AsyncAPIResource):
             cast_to=NoneType,
         )
 
-    async def candidates(
-        self,
-        *,
-        entity_type: Literal["company", "people"],
-        objective: str,
-        match_limit: int | Omit = omit,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = not_given,
-    ) -> FindAllCandidatesResponse:
-        """
-        Return ranked entity candidates matching a natural language objective.
-
-        This endpoint performs a best-effort search optimised for low latency. For
-        comprehensive match evaluation and enrichment, use the
-        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
-
-        Args:
-          entity_type: Type of entity to search for.
-
-          objective: Natural language description of target entities.
-
-          match_limit: Maximum number of candidates to return. Must be between 5 and 1000 (inclusive).
-              May return fewer results. Defaults to 100.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
-        return await self._post(
-            "/v1beta/findall/candidates",
-            body=await async_maybe_transform(
-                {
-                    "entity_type": entity_type,
-                    "objective": objective,
-                    "match_limit": match_limit,
-                },
-                findall_candidates_params.FindAllCandidatesParams,
-            ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=FindAllCandidatesResponse,
-        )
-
     async def enrich(
         self,
         findall_id: str,
@@ -968,6 +918,62 @@ class AsyncFindAllResource(AsyncAPIResource):
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
             cast_to=FindAllSchema,
+        )
+
+    async def entity_search(
+        self,
+        *,
+        entity_type: Literal["people", "companies"],
+        objective: str,
+        match_limit: int | Omit = omit,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = not_given,
+    ) -> FindAllEntitySearchResponse:
+        """
+        Return ranked entities matching a natural language objective.
+
+        This endpoint performs a best-effort search optimized for low latency. To keep
+        responses fast, it returns a fixed set of attributes and supports queries of
+        limited complexity.
+
+        For comprehensive match evaluation and enrichment, use the
+        [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart).
+
+        Args:
+          entity_type: Type of entity to search for.
+
+          objective: Natural language description of target entities.
+
+          match_limit: Maximum number of entities to return. Must be between 5 and 1000 (inclusive).
+              May return fewer results. Defaults to 100.
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        extra_headers = {"parallel-beta": "findall-2025-09-15", **(extra_headers or {})}
+        return await self._post(
+            "/v1beta/findall/entity-search",
+            body=await async_maybe_transform(
+                {
+                    "entity_type": entity_type,
+                    "objective": objective,
+                    "match_limit": match_limit,
+                },
+                findall_entity_search_params.FindAllEntitySearchParams,
+            ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=FindAllEntitySearchResponse,
         )
 
     async def events(
@@ -1253,11 +1259,11 @@ class FindAllResourceWithRawResponse:
         self.cancel = to_raw_response_wrapper(
             findall.cancel,
         )
-        self.candidates = to_raw_response_wrapper(
-            findall.candidates,
-        )
         self.enrich = to_raw_response_wrapper(
             findall.enrich,
+        )
+        self.entity_search = to_raw_response_wrapper(
+            findall.entity_search,
         )
         self.events = to_raw_response_wrapper(
             findall.events,
@@ -1289,11 +1295,11 @@ class AsyncFindAllResourceWithRawResponse:
         self.cancel = async_to_raw_response_wrapper(
             findall.cancel,
         )
-        self.candidates = async_to_raw_response_wrapper(
-            findall.candidates,
-        )
         self.enrich = async_to_raw_response_wrapper(
             findall.enrich,
+        )
+        self.entity_search = async_to_raw_response_wrapper(
+            findall.entity_search,
         )
         self.events = async_to_raw_response_wrapper(
             findall.events,
@@ -1325,11 +1331,11 @@ class FindAllResourceWithStreamingResponse:
         self.cancel = to_streamed_response_wrapper(
             findall.cancel,
         )
-        self.candidates = to_streamed_response_wrapper(
-            findall.candidates,
-        )
         self.enrich = to_streamed_response_wrapper(
             findall.enrich,
+        )
+        self.entity_search = to_streamed_response_wrapper(
+            findall.entity_search,
         )
         self.events = to_streamed_response_wrapper(
             findall.events,
@@ -1361,11 +1367,11 @@ class AsyncFindAllResourceWithStreamingResponse:
         self.cancel = async_to_streamed_response_wrapper(
             findall.cancel,
         )
-        self.candidates = async_to_streamed_response_wrapper(
-            findall.candidates,
-        )
         self.enrich = async_to_streamed_response_wrapper(
             findall.enrich,
+        )
+        self.entity_search = async_to_streamed_response_wrapper(
+            findall.entity_search,
         )
         self.events = async_to_streamed_response_wrapper(
             findall.events,
