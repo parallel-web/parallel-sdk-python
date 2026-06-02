@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.0.0 (2026-06-02)
+
+Full Changelog: [v0.6.0...v1.0.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.6.0...v1.0.0)
+
+### ⚠ BREAKING CHANGES
+
+* **api:** clean up beta features
+
+### Features
+
+* **api:** 1.0.0 changes ([f399080](https://github.com/parallel-web/parallel-sdk-python/commit/f3990800a98eefef82f21902406d90073c050de1))
+* **api:** Add parallel_beta typing back ([004ce9f](https://github.com/parallel-web/parallel-sdk-python/commit/004ce9f53eaabe12e676f9f6ae3d0a000dfeabc2))
+* **api:** clean up beta features ([f533161](https://github.com/parallel-web/parallel-sdk-python/commit/f53316197d11be2900710b447007c07f9c89e427))
+* **api:** Remove beta: tasks, task groups, search, and extract from SDK ([b7bcade](https://github.com/parallel-web/parallel-sdk-python/commit/b7bcade5a866ea8ef08de244b251c140b17f18f2))
+* **internal/types:** support eagerly validating pydantic iterators ([6c148b4](https://github.com/parallel-web/parallel-sdk-python/commit/6c148b449af221b634c8dd77c3846401c2d092b8))
+
+
+### Bug Fixes
+
+* **client:** add missing f-string prefix in file type error message ([6fa3eac](https://github.com/parallel-web/parallel-sdk-python/commit/6fa3eaca98c7d94d0a98596227ab2f10968cea86))
+
 ## 0.6.0 (2026-05-06)
 
 Full Changelog: [v0.5.1...v0.6.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.5.1...v0.6.0)
