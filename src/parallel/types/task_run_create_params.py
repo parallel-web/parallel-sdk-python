@@ -69,8 +69,3 @@ class TaskRunCreateParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
-
-
-# Backwards-compat alias (deprecated). `AdvancedSettings` was an inline TypedDict
-# in this module; it now lives as the top-level `TaskAdvancedSettingsParam`.
-AdvancedSettings = TaskAdvancedSettingsParam

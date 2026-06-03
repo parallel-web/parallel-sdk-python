@@ -64,8 +64,3 @@ class RunInput(BaseModel):
 
     webhook: Optional[Webhook] = None
     """Webhooks for Task Runs."""
-
-
-# Backwards-compat alias (deprecated). `AdvancedSettings` was an inline class in
-# this module; it now lives as the top-level `TaskAdvancedSettings` model.
-AdvancedSettings = TaskAdvancedSettings

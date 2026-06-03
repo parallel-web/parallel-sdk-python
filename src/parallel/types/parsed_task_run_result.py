@@ -29,10 +29,3 @@ class ParsedTaskRunJsonOutput(TaskRunJsonOutput, GenericModel, Generic[ContentTy
 class ParsedTaskRunResult(TaskRunResult, GenericModel, Generic[ContentType]):
     output: Union[ParsedTaskRunTextOutput[ContentType], ParsedTaskRunJsonOutput[ContentType]]  # type: ignore[assignment]
     """The parsed output from the task run."""
-
-
-ParsedOutputTaskRunTextOutput = ParsedTaskRunTextOutput  # for backwards compatibility with v0.1.3
-"""This is deprecated, `ParsedTaskRunTextOutput` should be used instead"""
-
-ParsedOutputTaskRunJsonOutput = ParsedTaskRunJsonOutput  # for backwards compatibility with v0.1.3
-"""This is deprecated, `ParsedTaskRunJsonOutput` should be used instead"""

@@ -10,7 +10,7 @@ from ..webhook_param import WebhookParam
 from .parallel_beta_param import ParallelBetaParam
 from .match_condition_param import MatchConditionParam
 
-__all__ = ["FindAllCreateParams", "FindallCreateParams", "ExcludeList"]
+__all__ = ["FindAllCreateParams", "ExcludeList"]
 
 
 class FindAllCreateParams(TypedDict, total=False):
@@ -53,11 +53,3 @@ class ExcludeList(TypedDict, total=False):
 
     url: Required[str]
     """URL of the entity to exclude from results."""
-
-
-FindallCreateParams = FindAllCreateParams  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllCreateParams` should be used instead"""
-
-# Backwards-compat alias (deprecated). `MatchCondition` was an inline TypedDict
-# in this module; it now lives as the top-level `MatchConditionParam`.
-MatchCondition = MatchConditionParam
