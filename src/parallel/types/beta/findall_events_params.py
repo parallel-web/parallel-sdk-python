@@ -8,7 +8,7 @@ from typing_extensions import Annotated, TypedDict
 from ..._utils import PropertyInfo
 from .parallel_beta_param import ParallelBetaParam
 
-__all__ = ["FindAllEventsParams", "FindallEventsParams"]
+__all__ = ["FindAllEventsParams"]
 
 
 class FindAllEventsParams(TypedDict, total=False):
@@ -18,7 +18,3 @@ class FindAllEventsParams(TypedDict, total=False):
 
     betas: Annotated[List[ParallelBetaParam], PropertyInfo(alias="parallel-beta")]
     """Optional header to specify the beta version(s) to enable."""
-
-
-FindallEventsParams = FindAllEventsParams  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllEventsParams` should be used instead"""

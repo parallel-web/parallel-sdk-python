@@ -33,9 +33,3 @@ class AdvancedExtractSettingsParam(TypedDict, total=False):
     Set to true to enable with defaults, false to disable, or provide
     FullContentSettings for fine-grained control.
     """
-
-
-# Backwards-compat alias (deprecated). `FullContentFullContentSettings` was the
-# auto-generated nested-class name in this module; it now lives as the top-level
-# `FullContentSettingsParam`.
-FullContentFullContentSettings = FullContentSettingsParam

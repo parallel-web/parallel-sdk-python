@@ -6,7 +6,7 @@ from ..._models import BaseModel
 from .findall_run import FindAllRun
 from .findall_candidate import FindAllCandidate
 
-__all__ = [ "FindallRunResult", "FindAllRunResult"]
+__all__ = ["FindAllRunResult"]
 
 
 class FindAllRunResult(BaseModel):
@@ -28,11 +28,3 @@ class FindAllRunResult(BaseModel):
 
     This can be used to resume streaming from the last event.
     """
-
-
-FindallRunResult = FindAllRunResult  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllRunResult` should be used instead"""
-
-# Backwards-compat alias (deprecated). `Candidate` was an inline class in this
-# module; it now lives as the top-level `FindAllCandidate` model.
-Candidate = FindAllCandidate

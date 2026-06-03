@@ -158,11 +158,6 @@ reportOverlappingOverload = false
 
 reportImportCycles = false
 reportPrivateUsage = false
-# Deprecation is a runtime concern; type-check warnings produce noise when the
-# breaking-change detector compares against pre-deprecation baseline tests.
-# Newly-generated tests already add a per-file `# pyright: reportDeprecated=false`
-# marker for deprecated resources, so this just promotes that to project-level.
-reportDeprecated = false
 
 [tool.mypy]
 pretty = true

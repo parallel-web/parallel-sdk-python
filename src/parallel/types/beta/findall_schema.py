@@ -7,7 +7,7 @@ from ..._models import BaseModel
 from .match_condition import MatchCondition
 from .findall_enrich_input import FindAllEnrichInput
 
-__all__ = ["FindAllSchema", "FindallSchema"]
+__all__ = ["FindAllSchema"]
 
 
 class FindAllSchema(BaseModel):
@@ -30,7 +30,3 @@ class FindAllSchema(BaseModel):
 
     match_limit: Optional[int] = None
     """Max number of candidates to evaluate"""
-
-
-FindallSchema = FindAllSchema  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllSchema` should be used instead"""
