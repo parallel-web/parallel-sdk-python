@@ -6,7 +6,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .findall_run_status import FindAllRunStatus
 
-__all__ = [ "FindallRun", "FindAllRun"]
+__all__ = ["FindAllRun"]
 
 
 class FindAllRun(BaseModel):
@@ -32,15 +32,3 @@ class FindAllRun(BaseModel):
     Timestamp of the latest modification to the FindAll run result, in RFC 3339
     format.
     """
-
-
-FindallRun = FindAllRun  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllRun` should be used instead"""
-
-# Backwards-compat aliases (deprecated). `Status` and `StatusMetrics` were
-# inline classes in this module; they now live as top-level `FindAllRunStatus`
-# and `FindAllCandidateMetrics` models.
-from .findall_candidate_metrics import FindAllCandidateMetrics  # noqa: E402
-
-Status = FindAllRunStatus
-StatusMetrics = FindAllCandidateMetrics

@@ -6,7 +6,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .findall_schema import FindAllSchema
 
-__all__ = ["FindAllSchemaUpdatedEvent", "FindallSchemaUpdatedEvent"]
+__all__ = ["FindAllSchemaUpdatedEvent"]
 
 
 class FindAllSchemaUpdatedEvent(BaseModel):
@@ -23,7 +23,3 @@ class FindAllSchemaUpdatedEvent(BaseModel):
 
     type: Literal["findall.schema.updated"]
     """Event type; always 'findall.schema.updated'."""
-
-
-FindallSchemaUpdatedEvent = FindAllSchemaUpdatedEvent  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllSchemaUpdatedEvent` should be used instead"""

@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.1 (2026-06-03)
+
+Full Changelog: [v1.0.0...v1.0.1](https://github.com/parallel-web/parallel-sdk-python/compare/v1.0.0...v1.0.1)
+
+### Chores
+
+* remove undocumented backwards-compat alias shims ([e5a2ad8](https://github.com/parallel-web/parallel-sdk-python/commit/e5a2ad80cdd6e4f708c3ec05c9df8b8ede79a772))
+* **types:** drop redundant NotRequired on task_spec input_schema ([b356c22](https://github.com/parallel-web/parallel-sdk-python/commit/b356c22e718ab1a95a40b6b37917a5b8bcbb091a))
+
+
+### Documentation
+
+* regenerate api.md from spec (drop hand-maintained patch) ([05d2897](https://github.com/parallel-web/parallel-sdk-python/commit/05d28970ff8b3efc77b1c4ef60beecc654a52385))
+* regenerate README from spec (drop hand-maintained patch) ([c7ed169](https://github.com/parallel-web/parallel-sdk-python/commit/c7ed169c66a60485b309147fb7aa1b6d2e551766))
+
 ## 1.0.0 (2026-06-02)
 
 Full Changelog: [v0.6.0...v1.0.0](https://github.com/parallel-web/parallel-sdk-python/compare/v0.6.0...v1.0.0)

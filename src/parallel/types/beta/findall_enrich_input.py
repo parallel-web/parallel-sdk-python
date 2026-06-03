@@ -6,7 +6,7 @@ from ..._models import BaseModel
 from ..mcp_server import McpServer
 from ..json_schema import JsonSchema
 
-__all__ = ["FindAllEnrichInput", "FindallEnrichInput"]
+__all__ = ["FindAllEnrichInput"]
 
 
 class FindAllEnrichInput(BaseModel):
@@ -20,7 +20,3 @@ class FindAllEnrichInput(BaseModel):
 
     processor: Optional[str] = None
     """Processor to use for the task."""
-
-
-FindallEnrichInput = FindAllEnrichInput  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllEnrichInput` should be used instead"""

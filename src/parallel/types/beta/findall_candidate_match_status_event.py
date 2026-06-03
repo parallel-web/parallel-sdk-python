@@ -6,7 +6,7 @@ from typing_extensions import Literal
 from ..._models import BaseModel
 from .findall_candidate import FindAllCandidate
 
-__all__ = [ "FindallCandidateMatchStatusEvent", "FindAllCandidateMatchStatusEvent"]
+__all__ = ["FindAllCandidateMatchStatusEvent"]
 
 
 class FindAllCandidateMatchStatusEvent(BaseModel):
@@ -33,11 +33,3 @@ class FindAllCandidateMatchStatusEvent(BaseModel):
     findall.candidate.unmatched, findall.candidate.discarded,
     findall.candidate.enriched.
     """
-
-
-FindallCandidateMatchStatusEvent = FindAllCandidateMatchStatusEvent  # for backwards compatibility with v0.3.4
-"""This is deprecated, `FindAllCandidateMatchStatusEvent` should be used instead"""
-
-# Backwards-compat alias (deprecated). `Data` was an inline class in earlier
-# releases; it is now the top-level `FindAllCandidate` model.
-Data = FindAllCandidate
