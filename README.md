@@ -6,14 +6,12 @@
 The Parallel Python library provides convenient access to the Parallel REST API from any Python 3.9+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
-It is strongly encouraged to use the asynchronous client for best performance.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
 ## Documentation
 
-The REST API documentation can be found in our [docs](https://docs.parallel.ai).
-The full API of this Python library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.parallel.ai](https://docs.parallel.ai). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -35,22 +33,16 @@ client = Parallel(
 )
 
 task_run = client.task_run.create(
-    input="France (2023)",
-    processor="core",
+    input="What was the GDP of France in 2023?",
+    processor="base",
 )
-task_run_result = client.task_run.result(run_id=task_run.run_id)
-print(task_run_result.output)
+print(task_run.interaction_id)
 ```
 
 While you can provide an `api_key` keyword argument,
 we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
 to add `PARALLEL_API_KEY="My API Key"` to your `.env` file
 so that your API Key is not stored in source control.
-
-The API also supports typed inputs and outputs via Pydantic objects. See the relevant
-section on [convenience methods](#convenience-methods).
-
-For information on what tasks are and how to specify them, see [our docs](https://docs.parallel.ai/task-api/core-concepts/specify-a-task).
 
 ## Async usage
 
@@ -67,101 +59,78 @@ client = AsyncParallel(
 
 
 async def main() -> None:
-    task_run = await client.task_run.create(input="France (2023)", processor="core")
-    run_result = await client.task_run.result(run_id=task_run.run_id)
-    print(run_result.output.content)
+    task_run = await client.task_run.create(
+        input="What was the GDP of France in 2023?",
+        processor="base",
+    )
+    print(task_run.interaction_id)
 
 
-if __name__ == "__main__":
-    asyncio.run(main())
+asyncio.run(main())
 ```
 
-To get the best performance out of Parallel's API, we recommend
-using the asynchronous client, especially for executing multiple Task Runs concurrently.
-Functionality between the synchronous and asynchronous clients is identical, including
-the convenience methods.
+Functionality between the synchronous and asynchronous clients is otherwise identical.
 
-## Frequently Asked Questions
+### With aiohttp
 
-**Does the Task API accept prompts or objectives?**
+By default, the async client uses `httpx` for HTTP requests. However, for improved concurrency performance you may also use `aiohttp` as the HTTP backend.
 
-No, there are no `objective` or `prompt` parameters that can be specified for calls to
-the Task API. Instead, provide any directives or instructions via the schemas. For
-more information, check [our docs](https://docs.parallel.ai/task-api/core-concepts/specify-a-task).
+You can enable this by installing `aiohttp`:
 
-**Can I access beta parameters or endpoints via the SDK?**
+```sh
+# install from PyPI
+pip install parallel-web[aiohttp]
+```
 
-Yes, the SDK supports both beta endpoints and beta header parameters for the Task API.
-All beta parameters are accessible via the `client.beta` namespace in the SDK.
+Then you can enable it by instantiating the client with `http_client=DefaultAioHttpClient()`:
 
-**Can I specify a timeout for API calls?**
+```python
+import os
+import asyncio
+from parallel import DefaultAioHttpClient
+from parallel import AsyncParallel
 
-Yes, all methods support a timeout. For more information, see [Timeouts](#timeouts).
+
+async def main() -> None:
+    async with AsyncParallel(
+        api_key=os.environ.get("PARALLEL_API_KEY"),  # This is the default and can be omitted
+        http_client=DefaultAioHttpClient(),
+    ) as client:
+        task_run = await client.task_run.create(
+            input="What was the GDP of France in 2023?",
+            processor="base",
+        )
+        print(task_run.interaction_id)
 
 
-**Can I specify retries via the SDK?**
+asyncio.run(main())
+```
 
-Yes, errors can be retried via the SDK — the default retry count is 2. The maximum number
-of retries can be configured at the client level. For information on which errors
-are automatically retried and how to configure retry settings, see [Retries](#retries).
+## Using types
 
-## Low‑level API access
+Nested request parameters are [TypedDicts](https://docs.python.org/3/library/typing.html#typing.TypedDict). Responses are [Pydantic models](https://docs.pydantic.dev) which also provide helper methods for things like:
 
-The library also provides low‑level access to the Parallel API.
+- Serializing back into JSON, `model.to_json()`
+- Converting to a dictionary, `model.to_dict()`
+
+Typed requests and responses provide autocomplete and documentation within your editor. If you would like to see type errors in VS Code to help catch bugs earlier, set `python.analysis.typeCheckingMode` to `basic`.
+
+## Nested params
+
+Nested parameters are dictionaries, typed using `TypedDict`, for example:
 
 ```python
 from parallel import Parallel
-from parallel.types import TaskSpecParam
 
 client = Parallel()
 
 task_run = client.task_run.create(
-    input={"country": "France", "year": 2023},
-    processor="core",
-    task_spec={
-        "output_schema": {
-            "json_schema": {
-                "additionalProperties": False,
-                "properties": {
-                    "gdp": {
-                        "description": "GDP in USD for the year",
-                        "type": "string",
-                    }
-                },
-                "required": ["gdp"],
-                "type": "object",
-            },
-            "type": "json",
-        },
-        "input_schema": {
-            "json_schema": {
-                "additionalProperties": False,
-                "properties": {
-                    "country": {
-                        "description": "Name of the country to research",
-                        "type": "string",
-                    },
-                    "year": {
-                        "description": "Year for which to retrieve information",
-                        "type": "integer",
-                    },
-                },
-                "required": ["country", "year"],
-                "type": "object",
-            },
-            "type": "json",
-        },
-    },
+    input="What was the GDP of France in 2023?",
+    processor="base",
+    advanced_settings={},
 )
-
-run_result = client.task_run.result(task_run.run_id)
-print(run_result.output.content)
+print(task_run.advanced_settings)
 ```
-
-For more information, please check out the relevant section in our docs:
-
-- [Task Spec](https://docs.parallel.ai/task-api/core-concepts/specify-a-task)
-- [Task Runs](https://docs.parallel.ai/task-api/core-concepts/execute-task-run)
 
 ## Handling errors
 
@@ -179,7 +148,10 @@ from parallel import Parallel
 client = Parallel()
 
 try:
-    client.task_run.create(input="France (2023)", processor="core")
+    client.task_run.create(
+        input="What was the GDP of France in 2023?",
+        processor="base",
+    )
 except parallel.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -222,7 +194,10 @@ client = Parallel(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).task_run.create(input="France (2023)", processor="core")
+client.with_options(max_retries=5).task_run.create(
+    input="What was the GDP of France in 2023?",
+    processor="base",
+)
 ```
 
 ### Timeouts
@@ -245,7 +220,10 @@ client = Parallel(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).task_run.create(input="France (2023)", processor="core")
+client.with_options(timeout=5.0).task_run.create(
+    input="What was the GDP of France in 2023?",
+    processor="base",
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -287,12 +265,12 @@ from parallel import Parallel
 
 client = Parallel()
 response = client.task_run.with_raw_response.create(
-    input="France (2023)",
-    processor="core",
+    input="What was the GDP of France in 2023?",
+    processor="base",
 )
 print(response.headers.get('X-My-Header'))
 
-task_run = response.parse()
+task_run = response.parse()  # get the object that `task_run.create()` would have returned
 print(task_run.interaction_id)
 ```
 
@@ -308,7 +286,8 @@ To stream the response body, use `.with_streaming_response` instead, which requi
 
 ```python
 with client.task_run.with_streaming_response.create(
-    input="France (2023)", processor="core"
+    input="What was the GDP of France in 2023?",
+    processor="base",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
