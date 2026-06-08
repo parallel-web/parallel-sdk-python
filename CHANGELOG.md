@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 (2026-06-08)
+
+Full Changelog: [v1.0.1...v1.1.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.0.1...v1.1.0)
+
+### Features
+
+* **api:** add turbo mode to search ([8ee340d](https://github.com/parallel-web/parallel-sdk-python/commit/8ee340d76c4af67c15371b3d786aa870f14ded9e))
+
 ## 1.0.1 (2026-06-03)
 
 Full Changelog: [v1.0.0...v1.0.1](https://github.com/parallel-web/parallel-sdk-python/compare/v1.0.0...v1.0.1)

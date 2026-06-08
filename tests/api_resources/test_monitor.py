@@ -159,7 +159,8 @@ class TestMonitor:
                         "exclude_domains": ["reddit.com", "x.com", ".ai"],
                         "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
                     },
-                }
+                },
+                "query": "Extract recent news about AI",
             },
             type="event_stream",
             webhook={
@@ -503,7 +504,8 @@ class TestAsyncMonitor:
                         "exclude_domains": ["reddit.com", "x.com", ".ai"],
                         "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
                     },
-                }
+                },
+                "query": "Extract recent news about AI",
             },
             type="event_stream",
             webhook={
