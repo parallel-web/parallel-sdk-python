@@ -511,8 +511,6 @@ class FindAllResource(SyncAPIResource):
         """
         Transforms a natural language search objective into a structured FindAll spec.
 
-        Note: Access to this endpoint requires the parallel-beta header.
-
         The generated specification serves as a suggested starting point and can be
         further customized by the user.
 
@@ -1112,8 +1110,6 @@ class AsyncFindAllResource(AsyncAPIResource):
     ) -> FindAllSchema:
         """
         Transforms a natural language search objective into a structured FindAll spec.
-
-        Note: Access to this endpoint requires the parallel-beta header.
 
         The generated specification serves as a suggested starting point and can be
         further customized by the user.

@@ -355,7 +355,7 @@ class Parallel(SyncAPIClient):
         advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
-        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
+        mode: Optional[Literal["turbo", "basic", "advanced"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -388,10 +388,11 @@ class Parallel(SyncAPIClient):
 
           max_chars_total: Upper bound on total characters across excerpts from all results.
 
-          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
-              offers the lowest latency and works best with 2-3 high-quality search_queries.
-              Advanced mode provides higher quality with more advanced retrieval and
-              compression. Defaults to `advanced` when omitted.
+          mode: Search mode preset: supported values are `turbo`, `basic`, and `advanced`. Turbo
+              mode is optimized for the fastest responses. Basic mode offers low latency and
+              works best with 2-3 high-quality search_queries. Advanced mode provides higher
+              quality with more advanced retrieval and compression. Defaults to `advanced`
+              when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
@@ -747,7 +748,7 @@ class AsyncParallel(AsyncAPIClient):
         advanced_settings: Optional[AdvancedSearchSettingsParam] | Omit = omit,
         client_model: Optional[str] | Omit = omit,
         max_chars_total: Optional[int] | Omit = omit,
-        mode: Optional[Literal["basic", "advanced"]] | Omit = omit,
+        mode: Optional[Literal["turbo", "basic", "advanced"]] | Omit = omit,
         objective: Optional[str] | Omit = omit,
         session_id: Optional[str] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -780,10 +781,11 @@ class AsyncParallel(AsyncAPIClient):
 
           max_chars_total: Upper bound on total characters across excerpts from all results.
 
-          mode: Search mode preset: supported values are `basic` and `advanced`. Basic mode
-              offers the lowest latency and works best with 2-3 high-quality search_queries.
-              Advanced mode provides higher quality with more advanced retrieval and
-              compression. Defaults to `advanced` when omitted.
+          mode: Search mode preset: supported values are `turbo`, `basic`, and `advanced`. Turbo
+              mode is optimized for the fastest responses. Basic mode offers low latency and
+              works best with 2-3 high-quality search_queries. Advanced mode provides higher
+              quality with more advanced retrieval and compression. Defaults to `advanced`
+              when omitted.
 
           objective: Natural-language description of the underlying question or goal driving the
               search. Used together with search_queries to focus results on the most relevant
