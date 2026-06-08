@@ -15,3 +15,11 @@ class UpdateMonitorEventStreamSettingsParam(TypedDict, total=False):
 
     advanced_settings: Optional[AdvancedMonitorSettingsParam]
     """Advanced monitor configuration."""
+
+    query: Optional[str]
+    """Updated search query for the monitor.
+
+    Use this for minor updates to prompts and instructions only. Major changes to
+    the query may lead to unexpected results in change detection, as the monitor
+    compares new results with what was previously seen.
+    """
