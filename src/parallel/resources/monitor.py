@@ -68,6 +68,7 @@ class MonitorResource(SyncAPIResource):
         frequency: str,
         settings: monitor_create_params.Settings,
         type: Literal["event_stream", "snapshot"],
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
         processor: Literal["lite", "base"] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -98,6 +99,9 @@ class MonitorResource(SyncAPIResource):
               changes; `snapshot` monitors a specific task run's output. Determines the
               expected shape of `settings`.
 
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
+
           metadata: User-provided metadata stored with the monitor and echoed back in webhook
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
@@ -122,6 +126,7 @@ class MonitorResource(SyncAPIResource):
                     "frequency": frequency,
                     "settings": settings,
                     "type": type,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "processor": processor,
                     "webhook": webhook,
@@ -480,6 +485,7 @@ class AsyncMonitorResource(AsyncAPIResource):
         frequency: str,
         settings: monitor_create_params.Settings,
         type: Literal["event_stream", "snapshot"],
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
         processor: Literal["lite", "base"] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -510,6 +516,9 @@ class AsyncMonitorResource(AsyncAPIResource):
               changes; `snapshot` monitors a specific task run's output. Determines the
               expected shape of `settings`.
 
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
+
           metadata: User-provided metadata stored with the monitor and echoed back in webhook
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
@@ -534,6 +543,7 @@ class AsyncMonitorResource(AsyncAPIResource):
                     "frequency": frequency,
                     "settings": settings,
                     "type": type,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "processor": processor,
                     "webhook": webhook,

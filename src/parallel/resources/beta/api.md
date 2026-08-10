@@ -39,3 +39,26 @@ Methods:
 - <code title="post /v1beta/findall/ingest">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">ingest</a>(\*\*<a href="src/parallel/types/beta/findall_ingest_params.py">params</a>) -> <a href="./src/parallel/types/beta/findall_schema.py">FindAllSchema</a></code>
 - <code title="get /v1beta/findall/runs/{findall_id}/result">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">result</a>(findall_id) -> <a href="./src/parallel/types/beta/findall_run_result.py">FindAllRunResult</a></code>
 - <code title="get /v1beta/findall/runs/{findall_id}/schema">client.beta.findall.<a href="./src/parallel/resources/beta/findall.py">schema</a>(findall_id) -> <a href="./src/parallel/types/beta/findall_schema.py">FindAllSchema</a></code>
+
+## Memory
+
+Types:
+
+```python
+from parallel.types.beta import (
+    FindAllMemoryResult,
+    MemoryClearRequest,
+    MemoryEvictRequest,
+    MemoryRetrieveRequest,
+    MemoryRetrieveResponse,
+    MonitorMemoryEvent,
+    MonitorMemoryResult,
+    TaskMemoryResult,
+)
+```
+
+Methods:
+
+- <code title="post /v1beta/memory/retrieve">client.beta.memory.<a href="./src/parallel/resources/beta/memory.py">retrieve</a>(\*\*<a href="src/parallel/types/beta/memory_retrieve_params.py">params</a>) -> <a href="./src/parallel/types/beta/memory_retrieve_response.py">MemoryRetrieveResponse</a></code>
+- <code title="post /v1beta/memory/clear">client.beta.memory.<a href="./src/parallel/resources/beta/memory.py">clear</a>(\*\*<a href="src/parallel/types/beta/memory_clear_params.py">params</a>) -> None</code>
+- <code title="post /v1beta/memory/evict">client.beta.memory.<a href="./src/parallel/resources/beta/memory.py">evict</a>(\*\*<a href="src/parallel/types/beta/memory_evict_params.py">params</a>) -> None</code>

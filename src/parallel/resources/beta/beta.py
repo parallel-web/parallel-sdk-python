@@ -2,6 +2,14 @@
 
 from __future__ import annotations
 
+from .memory import (
+    MemoryResource,
+    AsyncMemoryResource,
+    MemoryResourceWithRawResponse,
+    AsyncMemoryResourceWithRawResponse,
+    MemoryResourceWithStreamingResponse,
+    AsyncMemoryResourceWithStreamingResponse,
+)
 from .findall import (
     FindAllResource,
     AsyncFindAllResource,
@@ -23,6 +31,13 @@ class BetaResource(SyncAPIResource):
         The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
         """
         return FindAllResource(self._client)
+
+    @cached_property
+    def memory(self) -> MemoryResource:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return MemoryResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> BetaResourceWithRawResponse:
@@ -51,6 +66,13 @@ class AsyncBetaResource(AsyncAPIResource):
         The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
         """
         return AsyncFindAllResource(self._client)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResource:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return AsyncMemoryResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncBetaResourceWithRawResponse:
@@ -83,6 +105,13 @@ class BetaResourceWithRawResponse:
         """
         return FindAllResourceWithRawResponse(self._beta.findall)
 
+    @cached_property
+    def memory(self) -> MemoryResourceWithRawResponse:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return MemoryResourceWithRawResponse(self._beta.memory)
+
 
 class AsyncBetaResourceWithRawResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
@@ -94,6 +123,13 @@ class AsyncBetaResourceWithRawResponse:
         The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
         """
         return AsyncFindAllResourceWithRawResponse(self._beta.findall)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResourceWithRawResponse:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return AsyncMemoryResourceWithRawResponse(self._beta.memory)
 
 
 class BetaResourceWithStreamingResponse:
@@ -107,6 +143,13 @@ class BetaResourceWithStreamingResponse:
         """
         return FindAllResourceWithStreamingResponse(self._beta.findall)
 
+    @cached_property
+    def memory(self) -> MemoryResourceWithStreamingResponse:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return MemoryResourceWithStreamingResponse(self._beta.memory)
+
 
 class AsyncBetaResourceWithStreamingResponse:
     def __init__(self, beta: AsyncBetaResource) -> None:
@@ -118,3 +161,10 @@ class AsyncBetaResourceWithStreamingResponse:
         The FindAll API discovers and evaluates entities that match complex criteria from natural language objectives. Submit a high-level goal and the service automatically generates structured match conditions, discovers relevant candidates, and evaluates each against the criteria. Returns comprehensive results with detailed reasoning, citations, and confidence scores for each match decision. Streaming events and webhooks are supported.
         """
         return AsyncFindAllResourceWithStreamingResponse(self._beta.findall)
+
+    @cached_property
+    def memory(self) -> AsyncMemoryResourceWithStreamingResponse:
+        """
+        The Memory API retrieves and manages memories created by Tasks, Monitors, and FindAll runs. Memories can be personal or isolated with a `memory_scope_key`.
+        """
+        return AsyncMemoryResourceWithStreamingResponse(self._beta.memory)

@@ -75,6 +75,7 @@ class FindAllResource(SyncAPIResource):
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -111,7 +112,11 @@ class FindAllResource(SyncAPIResource):
 
           objective: Natural language objective of the FindAll run.
 
-          exclude_list: List of entity names/IDs to exclude from results.
+          exclude_list: List of entity names/IDs to exclude from results. At most 10,000 entries are
+              allowed.
+
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
 
           metadata: Metadata for the FindAll run.
 
@@ -148,6 +153,7 @@ class FindAllResource(SyncAPIResource):
                     "match_limit": match_limit,
                     "objective": objective,
                     "exclude_list": exclude_list,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "webhook": webhook,
                 },
@@ -675,6 +681,7 @@ class AsyncFindAllResource(AsyncAPIResource):
         match_limit: int,
         objective: str,
         exclude_list: Optional[Iterable[findall_create_params.ExcludeList]] | Omit = omit,
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         webhook: Optional[WebhookParam] | Omit = omit,
         betas: List[ParallelBetaParam] | Omit = omit,
@@ -711,7 +718,11 @@ class AsyncFindAllResource(AsyncAPIResource):
 
           objective: Natural language objective of the FindAll run.
 
-          exclude_list: List of entity names/IDs to exclude from results.
+          exclude_list: List of entity names/IDs to exclude from results. At most 10,000 entries are
+              allowed.
+
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
 
           metadata: Metadata for the FindAll run.
 
@@ -748,6 +759,7 @@ class AsyncFindAllResource(AsyncAPIResource):
                     "match_limit": match_limit,
                     "objective": objective,
                     "exclude_list": exclude_list,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "webhook": webhook,
                 },

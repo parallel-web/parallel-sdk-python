@@ -37,6 +37,12 @@ class RunInput(BaseModel):
     mcp_servers: Optional[List[McpServer]] = None
     """Optional list of MCP servers to use for the run."""
 
+    memory_scope_key: Optional[str] = None
+    """User-provided key identifying the memory scope to use.
+
+    Omit to use personal memory, if available.
+    """
+
     metadata: Optional[Dict[str, Union[str, float, bool]]] = None
     """User-provided metadata stored with the run.
 
