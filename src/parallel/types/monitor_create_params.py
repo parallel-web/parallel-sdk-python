@@ -35,6 +35,12 @@ class MonitorCreateParams(TypedDict, total=False):
     a specific task run's output. Determines the expected shape of `settings`.
     """
 
+    memory_scope_key: Optional[str]
+    """User-provided key identifying the memory scope to use.
+
+    Omit to use personal memory, if available.
+    """
+
     metadata: Optional[Dict[str, str]]
     """
     User-provided metadata stored with the monitor and echoed back in webhook

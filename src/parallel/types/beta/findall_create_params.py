@@ -33,7 +33,16 @@ class FindAllCreateParams(TypedDict, total=False):
     """Natural language objective of the FindAll run."""
 
     exclude_list: Optional[Iterable[ExcludeList]]
-    """List of entity names/IDs to exclude from results."""
+    """List of entity names/IDs to exclude from results.
+
+    At most 10,000 entries are allowed.
+    """
+
+    memory_scope_key: Optional[str]
+    """User-provided key identifying the memory scope to use.
+
+    Omit to use personal memory, if available.
+    """
 
     metadata: Optional[Dict[str, Union[str, float, bool]]]
     """Metadata for the FindAll run."""

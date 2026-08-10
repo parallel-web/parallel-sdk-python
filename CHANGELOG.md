@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0 (2026-08-10)
+
+Full Changelog: [v1.1.0...v1.2.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.1.0...v1.2.0)
+
+### Features
+
+* **api:** add memory support ([15f1f47](https://github.com/parallel-web/parallel-sdk-python/commit/15f1f47985c735a57e7985a01f1eb5abbd07f1d9))
+* **api:** manual updates ([e726e10](https://github.com/parallel-web/parallel-sdk-python/commit/e726e105f6711ad49ce8f756f3d2bc07404c27ca))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([a2b4daa](https://github.com/parallel-web/parallel-sdk-python/commit/a2b4daa3caed18e5159da0747f1f3a5ccaa0b645))
+
 ## 1.1.0 (2026-06-08)
 
 Full Changelog: [v1.0.1...v1.1.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.0.1...v1.1.0)

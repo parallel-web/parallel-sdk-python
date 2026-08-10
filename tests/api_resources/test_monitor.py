@@ -57,6 +57,7 @@ class TestMonitor:
                 },
             },
             type="event_stream",
+            memory_scope_key="memory_scope_key",
             metadata={
                 "slack_thread_id": "1234567890.123456",
                 "user_id": "U123ABC",
@@ -402,6 +403,7 @@ class TestAsyncMonitor:
                 },
             },
             type="event_stream",
+            memory_scope_key="memory_scope_key",
             metadata={
                 "slack_thread_id": "1234567890.123456",
                 "user_id": "U123ABC",
