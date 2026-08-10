@@ -57,6 +57,7 @@ class TestFindAll:
                     "url": "url",
                 }
             ],
+            memory_scope_key="memory_scope_key",
             metadata={"foo": "string"},
             webhook={
                 "url": "url",
@@ -610,6 +611,7 @@ class TestAsyncFindAll:
                     "url": "url",
                 }
             ],
+            memory_scope_key="memory_scope_key",
             metadata={"foo": "string"},
             webhook={
                 "url": "url",

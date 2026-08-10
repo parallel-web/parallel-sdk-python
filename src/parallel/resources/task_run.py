@@ -84,6 +84,7 @@ class TaskRunResource(SyncAPIResource):
         advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
@@ -119,6 +120,9 @@ class TaskRunResource(SyncAPIResource):
               processors (pro and above).
 
           mcp_servers: Optional list of MCP servers to use for the run.
+
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -161,6 +165,7 @@ class TaskRunResource(SyncAPIResource):
                     "advanced_settings": advanced_settings,
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,
@@ -499,6 +504,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
         advanced_settings: Optional[TaskAdvancedSettingsParam] | Omit = omit,
         enable_events: Optional[bool] | Omit = omit,
         mcp_servers: Optional[Iterable[McpServerParam]] | Omit = omit,
+        memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, Union[str, float, bool]]] | Omit = omit,
         previous_interaction_id: Optional[str] | Omit = omit,
         source_policy: Optional[SourcePolicy] | Omit = omit,
@@ -534,6 +540,9 @@ class AsyncTaskRunResource(AsyncAPIResource):
               processors (pro and above).
 
           mcp_servers: Optional list of MCP servers to use for the run.
+
+          memory_scope_key: User-provided key identifying the memory scope to use. Omit to use personal
+              memory, if available.
 
           metadata: User-provided metadata stored with the run. Keys and values must be strings with
               a maximum length of 16 and 512 characters respectively.
@@ -576,6 +585,7 @@ class AsyncTaskRunResource(AsyncAPIResource):
                     "advanced_settings": advanced_settings,
                     "enable_events": enable_events,
                     "mcp_servers": mcp_servers,
+                    "memory_scope_key": memory_scope_key,
                     "metadata": metadata,
                     "previous_interaction_id": previous_interaction_id,
                     "source_policy": source_policy,

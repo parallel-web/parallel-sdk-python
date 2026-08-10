@@ -124,6 +124,7 @@ class TestTaskGroup:
                             "type": "url",
                         }
                     ],
+                    "memory_scope_key": "memory_scope_key",
                     "metadata": {"foo": "string"},
                     "previous_interaction_id": "previous_interaction_id",
                     "source_policy": {
@@ -465,6 +466,7 @@ class TestAsyncTaskGroup:
                             "type": "url",
                         }
                     ],
+                    "memory_scope_key": "memory_scope_key",
                     "metadata": {"foo": "string"},
                     "previous_interaction_id": "previous_interaction_id",
                     "source_policy": {
