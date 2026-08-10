@@ -39,6 +39,12 @@ class TaskRunCreateParams(TypedDict, total=False):
     mcp_servers: Optional[Iterable[McpServerParam]]
     """Optional list of MCP servers to use for the run."""
 
+    memory_scope_key: Optional[str]
+    """User-provided key identifying the memory scope to use.
+
+    Omit to use personal memory, if available.
+    """
+
     metadata: Optional[Dict[str, Union[str, float, bool]]]
     """User-provided metadata stored with the run.
 

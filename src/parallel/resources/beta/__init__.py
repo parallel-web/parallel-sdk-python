@@ -8,6 +8,14 @@ from .beta import (
     BetaResourceWithStreamingResponse,
     AsyncBetaResourceWithStreamingResponse,
 )
+from .memory import (
+    MemoryResource,
+    AsyncMemoryResource,
+    MemoryResourceWithRawResponse,
+    AsyncMemoryResourceWithRawResponse,
+    MemoryResourceWithStreamingResponse,
+    AsyncMemoryResourceWithStreamingResponse,
+)
 from .findall import (
     FindAllResource,
     AsyncFindAllResource,
@@ -24,6 +32,12 @@ __all__ = [
     "AsyncFindAllResourceWithRawResponse",
     "FindAllResourceWithStreamingResponse",
     "AsyncFindAllResourceWithStreamingResponse",
+    "MemoryResource",
+    "AsyncMemoryResource",
+    "MemoryResourceWithRawResponse",
+    "AsyncMemoryResourceWithRawResponse",
+    "MemoryResourceWithStreamingResponse",
+    "AsyncMemoryResourceWithStreamingResponse",
     "BetaResource",
     "AsyncBetaResource",
     "BetaResourceWithRawResponse",
