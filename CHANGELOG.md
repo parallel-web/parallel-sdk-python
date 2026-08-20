@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.1 (2026-08-20)
+
+Full Changelog: [v1.3.0...v1.3.1](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.0...v1.3.1)
+
+### Chores
+
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([aec54fe](https://github.com/parallel-web/parallel-sdk-python/commit/aec54fe53d97e12c4e3fb6bf01a841bc27a51be3))
+
 ## 1.3.0 (2026-08-12)
 
 Full Changelog: [v1.2.0...v1.3.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.2.0...v1.3.0)
