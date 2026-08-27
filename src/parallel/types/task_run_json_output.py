@@ -16,8 +16,8 @@ class TaskRunJsonOutput(BaseModel):
     basis: List[FieldBasis]
     """Basis for each top-level field in the JSON output.
 
-    Per-list-element basis entries are available only when the
-    `parallel-beta: field-basis-2025-11-25` header is supplied.
+    List fields also include per-element entries with dot-delimited indexes, such as
+    `key_executives.0`.
     """
 
     content: Dict[str, object]
