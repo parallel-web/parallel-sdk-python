@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.1...v1.3.2) (2026-08-27)
+
+
+### Chores
+
+* sync SDK OpenAPI spec from monorepo ([6b191dc](https://github.com/parallel-web/parallel-sdk-python/commit/6b191dc326109eb6f4a8c4f8fe958221b50c37e2))
+
 ## [1.3.1](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.0...v1.3.1) (2026-08-27)
 
 
