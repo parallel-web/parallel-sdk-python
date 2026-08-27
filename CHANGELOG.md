@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.3.1](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.0...v1.3.1) (2026-08-27)
+
+
+### Chores
+
+* back-sync production 1.3.0 (merge; trunks had forked) ([f94dc19](https://github.com/parallel-web/parallel-sdk-python/commit/f94dc19f7833b1ddd1cd49e3505263415b4698dd))
+* **internal:** allow the mock server port to be set with STAINLESS_MOCK_PORT ([aec54fe](https://github.com/parallel-web/parallel-sdk-python/commit/aec54fe53d97e12c4e3fb6bf01a841bc27a51be3))
+* sync SDK OpenAPI spec from monorepo ([9c80eff](https://github.com/parallel-web/parallel-sdk-python/commit/9c80effc5eb1cce8ed0df122e982615f57c0be79))
+* sync stainless-sdks next (unreleased 1.3.x codegen + custom code) ([cfa72c7](https://github.com/parallel-web/parallel-sdk-python/commit/cfa72c79e3f1eabb19cfcad894ae27ac709b9fc0))
+
 ## 1.3.0 (2026-08-12)
 
 Full Changelog: [v1.2.0...v1.3.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.2.0...v1.3.0)
