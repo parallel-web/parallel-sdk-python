@@ -21,5 +21,6 @@ class UpdateMonitorEventStreamSettingsParam(TypedDict, total=False):
 
     Use this for minor updates to prompts and instructions only. Major changes to
     the query may lead to unexpected results in change detection, as the monitor
-    compares new results with what was previously seen.
+    compares new results with what was previously seen. Omit to keep the current
+    query; `null` is rejected.
     """

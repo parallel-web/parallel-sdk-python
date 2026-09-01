@@ -182,6 +182,7 @@ class MonitorResource(SyncAPIResource):
         *,
         frequency: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
+        processor: Optional[Literal["lite", "base"]] | Omit = omit,
         settings: Optional[UpdateMonitorEventStreamSettingsParam] | Omit = omit,
         type: Optional[Literal["event_stream", "snapshot"]] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -195,23 +196,31 @@ class MonitorResource(SyncAPIResource):
         """
         Update a monitor.
 
-        Only fields explicitly included in the request body are changed. Pass `null` for
-        `webhook` or `metadata` to clear those fields. Pass `type` and `settings` to
-        update type-specific settings on an `event_stream` monitor. At least one field
-        must be provided. Cancelled monitors cannot be updated.
+        Only fields explicitly included in the request body are changed. Pass `null` to
+        clear `webhook`, `metadata`, or `settings.advanced_settings`; every other field
+        rejects `null`, so omit it to leave it unchanged. Pass `type` and `settings` to
+        update type-specific settings on an `event_stream` monitor. Pass `processor` to
+        change the processor used by subsequent monitor runs. At least one field must be
+        provided. Cancelled monitors cannot be updated.
 
         Args:
           frequency: Frequency of the monitor. Format: '<number><unit>' where unit is 'h' (hours),
-              'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive).
+              'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive). Omit to keep
+              the current frequency; `null` is rejected.
 
           metadata: User-provided metadata stored with the monitor and echoed back in webhook
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
+          processor: Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
+              `base` performs more thorough analysis at higher cost and latency. Omit to keep
+              the current processor; `null` is rejected.
+
           settings: Type-specific update settings for an `event_stream` monitor.
 
           type: Type of the monitor being updated. Required when `settings` is provided; must be
               `event_stream` (snapshot monitors have no updatable type-specific settings).
+              Omit when `settings` is not provided; `null` is rejected.
 
           webhook: Webhook configuration for a monitor.
 
@@ -231,6 +240,7 @@ class MonitorResource(SyncAPIResource):
                 {
                     "frequency": frequency,
                     "metadata": metadata,
+                    "processor": processor,
                     "settings": settings,
                     "type": type,
                     "webhook": webhook,
@@ -599,6 +609,7 @@ class AsyncMonitorResource(AsyncAPIResource):
         *,
         frequency: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
+        processor: Optional[Literal["lite", "base"]] | Omit = omit,
         settings: Optional[UpdateMonitorEventStreamSettingsParam] | Omit = omit,
         type: Optional[Literal["event_stream", "snapshot"]] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -612,23 +623,31 @@ class AsyncMonitorResource(AsyncAPIResource):
         """
         Update a monitor.
 
-        Only fields explicitly included in the request body are changed. Pass `null` for
-        `webhook` or `metadata` to clear those fields. Pass `type` and `settings` to
-        update type-specific settings on an `event_stream` monitor. At least one field
-        must be provided. Cancelled monitors cannot be updated.
+        Only fields explicitly included in the request body are changed. Pass `null` to
+        clear `webhook`, `metadata`, or `settings.advanced_settings`; every other field
+        rejects `null`, so omit it to leave it unchanged. Pass `type` and `settings` to
+        update type-specific settings on an `event_stream` monitor. Pass `processor` to
+        change the processor used by subsequent monitor runs. At least one field must be
+        provided. Cancelled monitors cannot be updated.
 
         Args:
           frequency: Frequency of the monitor. Format: '<number><unit>' where unit is 'h' (hours),
-              'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive).
+              'd' (days), or 'w' (weeks). Must be between 1h and 30d (inclusive). Omit to keep
+              the current frequency; `null` is rejected.
 
           metadata: User-provided metadata stored with the monitor and echoed back in webhook
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
+          processor: Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
+              `base` performs more thorough analysis at higher cost and latency. Omit to keep
+              the current processor; `null` is rejected.
+
           settings: Type-specific update settings for an `event_stream` monitor.
 
           type: Type of the monitor being updated. Required when `settings` is provided; must be
               `event_stream` (snapshot monitors have no updatable type-specific settings).
+              Omit when `settings` is not provided; `null` is rejected.
 
           webhook: Webhook configuration for a monitor.
 
@@ -648,6 +667,7 @@ class AsyncMonitorResource(AsyncAPIResource):
                 {
                     "frequency": frequency,
                     "metadata": metadata,
+                    "processor": processor,
                     "settings": settings,
                     "type": type,
                     "webhook": webhook,

@@ -152,6 +152,7 @@ class TestMonitor:
                 "slack_thread_id": "1234567890.123456",
                 "user_id": "U123ABC",
             },
+            processor="lite",
             settings={
                 "advanced_settings": {
                     "location": "us",
@@ -498,6 +499,7 @@ class TestAsyncMonitor:
                 "slack_thread_id": "1234567890.123456",
                 "user_id": "U123ABC",
             },
+            processor="lite",
             settings={
                 "advanced_settings": {
                     "location": "us",
