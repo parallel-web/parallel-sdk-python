@@ -15,7 +15,11 @@ __all__ = ["SourcePolicy"]
 class SourcePolicy(TypedDict, total=False):
     """Source policy for web search results.
 
-    This policy governs which sources are allowed/disallowed in results.
+    Plain domains match that domain and its subdomains. Domain/path entries use
+    case-sensitive path matching at segment boundaries; trailing slashes are ignored,
+    dot segments are normalized, and other percent-encoded path spelling is preserved.
+    Entries omit schemes, ports, query strings, and fragments. When include_domains is
+    non-empty, it defines the complete allowlist and exclude_domains is ignored.
     """
 
     after_date: Annotated[Union[str, date, None], PropertyInfo(format="iso8601")]
@@ -26,19 +30,21 @@ class SourcePolicy(TypedDict, total=False):
     """
 
     exclude_domains: SequenceNotStr[str]
-    """List of domains to exclude from results.
+    """List of domains or domain/path prefixes to exclude from results.
 
-    If specified, sources from these domains will be excluded. Accepts plain domains
-    (e.g., example.com, subdomain.example.gov) or bare domain extension starting
-    with a period (e.g., .gov, .edu, .co.uk). The combined number of domains in
-    include_domains and exclude_domains cannot exceed 200.
+    Applied only when include_domains is empty. If specified, matching sources will
+    be excluded. Accepts plain domains (e.g., reddit.com), domain/path prefixes
+    (e.g., youtube.com/shorts), or bare domain extensions (e.g., .gov, .edu,
+    .co.uk). The combined number of entries in include_domains and exclude_domains
+    cannot exceed 200.
     """
 
     include_domains: SequenceNotStr[str]
-    """List of domains to restrict the results to.
+    """List of domains or domain/path prefixes to restrict results to.
 
-    If specified, only sources from these domains will be included. Accepts plain
-    domains (e.g., example.com, subdomain.example.gov) or bare domain extension
-    starting with a period (e.g., .gov, .edu, .co.uk). The combined number of
-    domains in include_domains and exclude_domains cannot exceed 200.
+    If specified, only matching sources will be included and exclude_domains will be
+    ignored. Accepts plain domains (e.g., wikipedia.org), domain/path prefixes
+    (e.g., docs.python.org/3), or bare domain extensions (e.g., .gov, .edu, .co.uk).
+    The combined number of entries in include_domains and exclude_domains cannot
+    exceed 200.
     """

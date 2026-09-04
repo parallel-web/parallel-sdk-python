@@ -41,8 +41,8 @@ class TestMonitor:
                     "location": "us",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
-                        "exclude_domains": ["reddit.com", "x.com", ".ai"],
-                        "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
+                        "exclude_domains": ["reddit.com", "youtube.com/shorts", ".ai"],
+                        "include_domains": ["wikipedia.org", "docs.python.org/3", ".edu"],
                     },
                 },
                 "include_backfill": True,
@@ -158,8 +158,8 @@ class TestMonitor:
                     "location": "us",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
-                        "exclude_domains": ["reddit.com", "x.com", ".ai"],
-                        "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
+                        "exclude_domains": ["reddit.com", "youtube.com/shorts", ".ai"],
+                        "include_domains": ["wikipedia.org", "docs.python.org/3", ".edu"],
                     },
                 },
                 "query": "Extract recent news about AI",
@@ -388,8 +388,8 @@ class TestAsyncMonitor:
                     "location": "us",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
-                        "exclude_domains": ["reddit.com", "x.com", ".ai"],
-                        "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
+                        "exclude_domains": ["reddit.com", "youtube.com/shorts", ".ai"],
+                        "include_domains": ["wikipedia.org", "docs.python.org/3", ".edu"],
                     },
                 },
                 "include_backfill": True,
@@ -505,8 +505,8 @@ class TestAsyncMonitor:
                     "location": "us",
                     "source_policy": {
                         "after_date": parse_date("2024-01-01"),
-                        "exclude_domains": ["reddit.com", "x.com", ".ai"],
-                        "include_domains": ["wikipedia.org", "usa.gov", ".edu"],
+                        "exclude_domains": ["reddit.com", "youtube.com/shorts", ".ai"],
+                        "include_domains": ["wikipedia.org", "docs.python.org/3", ".edu"],
                     },
                 },
                 "query": "Extract recent news about AI",

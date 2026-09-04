@@ -34,5 +34,10 @@ class AdvancedSearchSettingsParam(TypedDict, total=False):
     source_policy: Optional[SourcePolicy]
     """Source policy for web search results.
 
-    This policy governs which sources are allowed/disallowed in results.
+    Plain domains match that domain and its subdomains. Domain/path entries use
+    case-sensitive path matching at segment boundaries; trailing slashes are
+    ignored, dot segments are normalized, and other percent-encoded path spelling is
+    preserved. Entries omit schemes, ports, query strings, and fragments. When
+    include_domains is non-empty, it defines the complete allowlist and
+    exclude_domains is ignored.
     """
