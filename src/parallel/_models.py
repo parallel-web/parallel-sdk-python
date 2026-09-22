@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import os
+import sys
+import types
 import inspect
 import weakref
 from typing import (
@@ -687,6 +689,15 @@ class CachedDiscriminatorType(Protocol):
 DISCRIMINATOR_CACHE: weakref.WeakKeyDictionary[type, DiscriminatorDetails] = weakref.WeakKeyDictionary()
 
 
+def _discriminator_cache_key(union: type) -> type:
+    union_type = cast(Optional[type[object]], getattr(types, "UnionType", None))
+    if (3, 10) <= sys.version_info < (3, 14) and union_type is not None and isinstance(union, union_type):
+        # PEP 604 unions cannot be weakly referenced before Python 3.14. The
+        # equivalent typing.Union can still serve as a weak cache key.
+        return cast(type, cast(Any, Union)[get_args(union)])
+    return union
+
+
 class DiscriminatorDetails:
     field_name: str
     """The name of the discriminator field in the variant class, e.g.
@@ -729,7 +740,8 @@ class DiscriminatorDetails:
 
 
 def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any, ...]) -> DiscriminatorDetails | None:
-    cached = DISCRIMINATOR_CACHE.get(union)
+    key = _discriminator_cache_key(union)
+    cached = DISCRIMINATOR_CACHE.get(key)
     if cached is not None:
         return cached
 
@@ -784,7 +796,7 @@ def _build_discriminated_union_meta(*, union: type, meta_annotations: tuple[Any,
         discriminator_field=discriminator_field_name,
         discriminator_alias=discriminator_alias,
     )
-    DISCRIMINATOR_CACHE.setdefault(union, details)
+    DISCRIMINATOR_CACHE.setdefault(key, details)
     return details
 
 
