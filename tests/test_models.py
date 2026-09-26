@@ -1,3 +1,4 @@
+import sys
 import json
 from typing import TYPE_CHECKING, Any, Dict, List, Union, Iterable, Optional, cast
 from datetime import datetime, timezone
@@ -831,6 +832,63 @@ def test_discriminated_unions_invalid_data_uses_cache() -> None:
 
     # if the discriminator details object stays the same between invocations then
     # we hit the cache
+    assert DISCRIMINATOR_CACHE.get(UnionType) is discriminator
+
+
+@pytest.mark.skipif(sys.version_info < (3, 10), reason="PEP 604 unions require Python 3.10")
+def test_pep604_union_invalid_data() -> None:
+    class A(BaseModel):
+        type: Literal["a"]
+
+        data: str
+
+    class B(BaseModel):
+        type: Literal["b"]
+
+        data: int
+
+    PEP604Union = cast(Any, A).__or__(B).__or__(type(None))
+    m = construct_type(value={"type": "b", "data": "foo"}, type_=PEP604Union)
+
+    assert isinstance(m, A)
+    assert m.type == "b"  # type: ignore[comparison-overlap]
+    assert m.data == "foo"
+
+
+@pytest.mark.skipif(sys.version_info < (3, 10), reason="PEP 604 unions require Python 3.10")
+def test_discriminated_pep604_union_invalid_data_uses_cache() -> None:
+    class A(BaseModel):
+        type: Literal["a"]
+
+        data: str
+
+    class B(BaseModel):
+        type: Literal["b"]
+
+        data: int
+
+    UnionType = cast(Any, Union[A, B, None])
+    PEP604Union = cast(Any, A).__or__(B).__or__(type(None))
+
+    assert not DISCRIMINATOR_CACHE.get(UnionType)
+
+    m = construct_type(
+        value={"type": "b", "data": "foo"},
+        type_=cast(Any, Annotated[PEP604Union, PropertyInfo(discriminator="type")]),
+    )
+    assert isinstance(m, B)
+    assert m.type == "b"
+    assert m.data == "foo"  # type: ignore[comparison-overlap]
+
+    discriminator = DISCRIMINATOR_CACHE.get(UnionType)
+    assert discriminator is not None
+
+    m = construct_type(
+        value={"type": "b", "data": "bar"},
+        type_=cast(Any, Annotated[PEP604Union, PropertyInfo(discriminator="type")]),
+    )
+    assert isinstance(m, B)
+    assert m.data == "bar"  # type: ignore[comparison-overlap]
     assert DISCRIMINATOR_CACHE.get(UnionType) is discriminator
 
 
