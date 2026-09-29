@@ -35,7 +35,13 @@ class TestTaskRun:
         task_run = client.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
-            advanced_settings={"location": "us"},
+            advanced_settings={
+                "data_sources": {
+                    "free": ["string"],
+                    "pay_per_use": ["string"],
+                },
+                "location": "us",
+            },
             enable_events=True,
             mcp_servers=[
                 {
@@ -279,7 +285,13 @@ class TestAsyncTaskRun:
         task_run = await async_client.task_run.create(
             input="What was the GDP of France in 2023?",
             processor="base",
-            advanced_settings={"location": "us"},
+            advanced_settings={
+                "data_sources": {
+                    "free": ["string"],
+                    "pay_per_use": ["string"],
+                },
+                "location": "us",
+            },
             enable_events=True,
             mcp_servers=[
                 {

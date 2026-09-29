@@ -291,11 +291,6 @@ class Parallel(SyncAPIClient):
         """
         Extracts relevant content from specific web URLs.
 
-        The legacy Extract API reference (`/v1beta/extract` endpoint) is available
-        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract), and
-        migration guide is
-        [here](https://docs.parallel.ai/extract/extract-migration-guide).
-
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
@@ -367,11 +362,6 @@ class Parallel(SyncAPIClient):
     ) -> SearchResult:
         """
         Searches the web.
-
-        The legacy Search API reference (`/v1beta/search` endpoint) is available
-        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search), and
-        migration guide is
-        [here](https://docs.parallel.ai/search/search-migration-guide).
 
         Args:
           search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,
@@ -685,11 +675,6 @@ class AsyncParallel(AsyncAPIClient):
         """
         Extracts relevant content from specific web URLs.
 
-        The legacy Extract API reference (`/v1beta/extract` endpoint) is available
-        [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract), and
-        migration guide is
-        [here](https://docs.parallel.ai/extract/extract-migration-guide).
-
         Args:
           urls: URLs to extract content from. Up to 20 URLs.
 
@@ -761,11 +746,6 @@ class AsyncParallel(AsyncAPIClient):
     ) -> SearchResult:
         """
         Searches the web.
-
-        The legacy Search API reference (`/v1beta/search` endpoint) is available
-        [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search), and
-        migration guide is
-        [here](https://docs.parallel.ai/search/search-migration-guide).
 
         Args:
           search_queries: Concise keyword search queries, 3-6 words each. At least one query is required,

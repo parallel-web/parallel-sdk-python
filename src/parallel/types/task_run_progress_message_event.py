@@ -23,5 +23,6 @@ class TaskRunProgressMessageEvent(BaseModel):
         "task_run.progress_msg.result",
         "task_run.progress_msg.tool_call",
         "task_run.progress_msg.exec_status",
+        "task_run.progress_msg.extract",
     ]
     """Event type; always starts with 'task_run.progress_msg'."""
