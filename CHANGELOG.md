@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.5...v1.3.6) (2026-10-21)
+
+
+### Chores
+
+* **deps:** bump vulnerable pins in the rye lockfiles ([#2](https://github.com/parallel-web/parallel-sdk-python/issues/2)) ([6adf28a](https://github.com/parallel-web/parallel-sdk-python/commit/6adf28a7b4c7251403fbbe5e44f379cef9ab838f))
+
 ## [1.3.5](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.4...v1.3.5) (2026-09-29)
 
 
