@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.7](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.6...v1.3.7) (2026-10-23)
+
+
+### Chores
+
+* **deps:** bump certifi and virtualenv in the rye lockfiles ([#3](https://github.com/parallel-web/parallel-sdk-python/issues/3)) ([809ca30](https://github.com/parallel-web/parallel-sdk-python/commit/809ca30bc50fba30adb86b74d68e324e3249c85f))
+
 ## [1.3.6](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.5...v1.3.6) (2026-10-21)
 
 
