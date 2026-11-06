@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.8](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.7...v1.3.8) (2026-11-06)
+
+
+### Chores
+
+* sync sdk-openapi.json from shapleyai/code@5cffe4fecf ([1b566f6](https://github.com/parallel-web/parallel-sdk-python/commit/1b566f6d6747d86ab97783345ba52195e92e2ed5))
+
 ## [1.3.7](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.6...v1.3.7) (2026-10-23)
 
 
