@@ -70,7 +70,7 @@ class MonitorResource(SyncAPIResource):
         type: Literal["event_stream", "snapshot"],
         memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        processor: Literal["lite", "base"] | Omit = omit,
+        processor: Literal["lite", "base", "core"] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -106,8 +106,10 @@ class MonitorResource(SyncAPIResource):
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
-          processor: Processor to use for the monitor. `lite` is faster and cheaper; `base` performs
-              more thorough analysis at higher cost and latency. Defaults to `lite`.
+          processor: Processor to use for the monitor. `lite` is the cheapest; `base` performs more
+              thorough analysis for higher-quality results at higher cost; `core` performs the
+              most thorough analysis for the highest-quality results at the highest cost.
+              Defaults to `lite`.
 
           webhook: Webhook configuration for a monitor.
 
@@ -182,7 +184,7 @@ class MonitorResource(SyncAPIResource):
         *,
         frequency: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        processor: Optional[Literal["lite", "base"]] | Omit = omit,
+        processor: Optional[Literal["lite", "base", "core"]] | Omit = omit,
         settings: Optional[UpdateMonitorEventStreamSettingsParam] | Omit = omit,
         type: Optional[Literal["event_stream", "snapshot"]] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -212,9 +214,10 @@ class MonitorResource(SyncAPIResource):
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
-          processor: Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
-              `base` performs more thorough analysis at higher cost and latency. Omit to keep
-              the current processor; `null` is rejected.
+          processor: Processor to use for subsequent monitor runs. `lite` is the cheapest; `base`
+              performs more thorough analysis for higher-quality results at higher cost;
+              `core` performs the most thorough analysis for the highest-quality results at
+              the highest cost. Omit to keep the current processor; `null` is rejected.
 
           settings: Type-specific update settings for an `event_stream` monitor.
 
@@ -497,7 +500,7 @@ class AsyncMonitorResource(AsyncAPIResource):
         type: Literal["event_stream", "snapshot"],
         memory_scope_key: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        processor: Literal["lite", "base"] | Omit = omit,
+        processor: Literal["lite", "base", "core"] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -533,8 +536,10 @@ class AsyncMonitorResource(AsyncAPIResource):
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
-          processor: Processor to use for the monitor. `lite` is faster and cheaper; `base` performs
-              more thorough analysis at higher cost and latency. Defaults to `lite`.
+          processor: Processor to use for the monitor. `lite` is the cheapest; `base` performs more
+              thorough analysis for higher-quality results at higher cost; `core` performs the
+              most thorough analysis for the highest-quality results at the highest cost.
+              Defaults to `lite`.
 
           webhook: Webhook configuration for a monitor.
 
@@ -609,7 +614,7 @@ class AsyncMonitorResource(AsyncAPIResource):
         *,
         frequency: Optional[str] | Omit = omit,
         metadata: Optional[Dict[str, str]] | Omit = omit,
-        processor: Optional[Literal["lite", "base"]] | Omit = omit,
+        processor: Optional[Literal["lite", "base", "core"]] | Omit = omit,
         settings: Optional[UpdateMonitorEventStreamSettingsParam] | Omit = omit,
         type: Optional[Literal["event_stream", "snapshot"]] | Omit = omit,
         webhook: Optional[MonitorWebhookParam] | Omit = omit,
@@ -639,9 +644,10 @@ class AsyncMonitorResource(AsyncAPIResource):
               notifications and GET responses, so you can map events to objects in your
               application. Keys: max 16 chars; values: max 512 chars.
 
-          processor: Processor to use for subsequent monitor runs. `lite` is faster and cheaper;
-              `base` performs more thorough analysis at higher cost and latency. Omit to keep
-              the current processor; `null` is rejected.
+          processor: Processor to use for subsequent monitor runs. `lite` is the cheapest; `base`
+              performs more thorough analysis for higher-quality results at higher cost;
+              `core` performs the most thorough analysis for the highest-quality results at
+              the highest cost. Omit to keep the current processor; `null` is rejected.
 
           settings: Type-specific update settings for an `event_stream` monitor.
 

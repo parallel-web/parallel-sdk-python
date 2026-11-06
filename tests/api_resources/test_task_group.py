@@ -115,6 +115,7 @@ class TestTaskGroup:
                     "processor": "base",
                     "advanced_settings": {
                         "data_sources": {
+                            "excluded": ["string"],
                             "free": ["string"],
                             "pay_per_use": ["string"],
                         },
@@ -463,6 +464,7 @@ class TestAsyncTaskGroup:
                     "processor": "base",
                     "advanced_settings": {
                         "data_sources": {
+                            "excluded": ["string"],
                             "free": ["string"],
                             "pay_per_use": ["string"],
                         },

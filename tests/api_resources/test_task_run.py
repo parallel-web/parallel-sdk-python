@@ -37,6 +37,7 @@ class TestTaskRun:
             processor="base",
             advanced_settings={
                 "data_sources": {
+                    "excluded": ["string"],
                     "free": ["string"],
                     "pay_per_use": ["string"],
                 },
@@ -287,6 +288,7 @@ class TestAsyncTaskRun:
             processor="base",
             advanced_settings={
                 "data_sources": {
+                    "excluded": ["string"],
                     "free": ["string"],
                     "pay_per_use": ["string"],
                 },

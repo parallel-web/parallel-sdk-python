@@ -48,11 +48,13 @@ class MonitorCreateParams(TypedDict, total=False):
     application. Keys: max 16 chars; values: max 512 chars.
     """
 
-    processor: Literal["lite", "base"]
+    processor: Literal["lite", "base", "core"]
     """Processor to use for the monitor.
 
-    `lite` is faster and cheaper; `base` performs more thorough analysis at higher
-    cost and latency. Defaults to `lite`.
+    `lite` is the cheapest; `base` performs more thorough analysis for
+    higher-quality results at higher cost; `core` performs the most thorough
+    analysis for the highest-quality results at the highest cost. Defaults to
+    `lite`.
     """
 
     webhook: Optional[MonitorWebhookParam]

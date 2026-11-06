@@ -13,6 +13,13 @@ class DataSources(BaseModel):
     Supported on standard processors only; a selected partner name must not collide with an `mcp_servers` entry.
     """
 
+    excluded: Optional[List[str]] = None
+    """Data partners included with the processor to keep out of this task.
+
+    Excluding a partner also blocks its own domains. See the Data Sources
+    documentation for the available names.
+    """
+
     free: Optional[List[str]] = None
     """
     Free data partners to enable for this task, in addition to sources included with

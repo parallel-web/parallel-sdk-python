@@ -33,3 +33,10 @@ class AdvancedExtractSettingsParam(TypedDict, total=False):
     Set to true to enable with defaults, false to disable, or provide
     FullContentSettings for fine-grained control.
     """
+
+    links: Optional[bool]
+    """
+    Include each page's links: absolute URLs from the same rendered content as the
+    other outputs, deduplicated in document order, at most 512 per page. Does not
+    change caching or fetching.
+    """

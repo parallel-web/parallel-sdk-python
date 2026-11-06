@@ -27,11 +27,13 @@ class MonitorUpdateParams(TypedDict, total=False):
     application. Keys: max 16 chars; values: max 512 chars.
     """
 
-    processor: Optional[Literal["lite", "base"]]
+    processor: Optional[Literal["lite", "base", "core"]]
     """Processor to use for subsequent monitor runs.
 
-    `lite` is faster and cheaper; `base` performs more thorough analysis at higher
-    cost and latency. Omit to keep the current processor; `null` is rejected.
+    `lite` is the cheapest; `base` performs more thorough analysis for
+    higher-quality results at higher cost; `core` performs the most thorough
+    analysis for the highest-quality results at the highest cost. Omit to keep the
+    current processor; `null` is rejected.
     """
 
     settings: Optional[UpdateMonitorEventStreamSettingsParam]
