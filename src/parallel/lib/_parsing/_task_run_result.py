@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import Any, Type, Union, Callable, Coroutine, cast
+import time
+from typing import Any, Type, Union, Callable, NoReturn, Coroutine, cast
 
-from .._time import timeout_retry_context
 from ...types import TaskRunResult, ParsedTaskRunResult
 from ..._types import Omit
 from ..._utils import is_str, is_given
@@ -10,6 +10,7 @@ from ..._compat import model_parse, model_parse_json
 from ..._models import construct_type_unchecked
 from .._pydantic import is_basemodel_type
 from ._task_spec import is_output_schema_param
+from ..._exceptions import APIStatusError, APITimeoutError
 from ...types.task_spec_param import OutputT, OutputSchema
 
 
@@ -20,8 +21,17 @@ def wait_for_result(
     callable: Callable[[str, float], TaskRunResult | ParsedTaskRunResult[OutputT]],
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
     """Wait for a task run to complete within the given timeout."""
-    with timeout_retry_context(run_id, deadline):
-        return callable(run_id, deadline)
+    exc: Exception | None = None
+    while time.monotonic() < deadline:
+        try:
+            return callable(run_id, deadline)
+        except APITimeoutError as error:
+            exc = error
+        except APIStatusError as error:
+            if not _is_retryable_error(error.status_code):
+                raise
+            exc = error
+    _raise_timeout(run_id, exc)
 
 
 async def wait_for_result_async(
@@ -31,8 +41,17 @@ async def wait_for_result_async(
     callable: Callable[[str, float], Coroutine[Any, Any, TaskRunResult | ParsedTaskRunResult[OutputT]]],
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
     """Wait for a task run to complete within the given timeout."""
-    with timeout_retry_context(run_id, deadline):
-        return await callable(run_id, deadline)
+    exc: Exception | None = None
+    while time.monotonic() < deadline:
+        try:
+            return await callable(run_id, deadline)
+        except APITimeoutError as error:
+            exc = error
+        except APIStatusError as error:
+            if not _is_retryable_error(error.status_code):
+                raise
+            exc = error
+    _raise_timeout(run_id, exc)
 
 
 def task_run_result_parser(
@@ -97,3 +116,25 @@ def _parse_content(response_format: type[OutputT], content: str | object) -> Out
             return cast(OutputT, model_parse(response_format, content))
 
     raise TypeError(f"Unable to automatically parse response format type {response_format}")
+
+
+def _raise_timeout(run_id: str, exc: Union[Exception, None]) -> NoReturn:
+    raise TimeoutError(f"Fetching task run result for run id {run_id} timed out.") from exc
+
+
+def _is_retryable_error(status_code: int) -> bool:
+    """Determine if an error is retryable.
+
+    We retry the following HTTP status codes within the SDK:
+    - 408 (Request Timeout): The server timed out waiting for the request
+    - 503 (Service Unavailable): The server is temporarily unable to handle the request
+    - 504 (Gateway Timeout): The gateway server timed out
+
+    These errors typically indicate temporary issues with the server or network
+    that may resolve upon retry. We don't include 429 (Too Many Requests) as this
+    indicates rate limiting, which requires backing off rather than immediate retries.
+
+    Note: This is a low-level retry mechanism within the SDK. Customers may want to
+    implement their own retry logic at the application level for other error types.
+    """
+    return status_code in (408, 503, 504)
