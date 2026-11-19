@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import time
 from typing import Any, Type, Union, Callable, Coroutine, cast
 
-from .._time import timeout_retry_context
+import anyio
+
+from .._time import raise_timeout, delay_before_retry, is_retryable_wait_error
 from ...types import TaskRunResult, ParsedTaskRunResult
 from ..._types import Omit
 from ..._utils import is_str, is_given
@@ -10,6 +13,7 @@ from ..._compat import model_parse, model_parse_json
 from ..._models import construct_type_unchecked
 from .._pydantic import is_basemodel_type
 from ._task_spec import is_output_schema_param
+from ..._exceptions import APIStatusError, APITimeoutError
 from ...types.task_spec_param import OutputT, OutputSchema
 
 
@@ -19,9 +23,18 @@ def wait_for_result(
     deadline: float,
     callable: Callable[[str, float], TaskRunResult | ParsedTaskRunResult[OutputT]],
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-    """Wait for a task run to complete within the given timeout."""
-    with timeout_retry_context(run_id, deadline):
-        return callable(run_id, deadline)
+    """Wait for a task run to complete within the given timeout, fetching its result
+    again when a fetch times out or the server answers 408, 503 or 504."""
+    exc: Union[Exception, None] = None
+    while time.monotonic() < deadline:
+        try:
+            return callable(run_id, deadline)
+        except (APITimeoutError, APIStatusError) as e:
+            if not is_retryable_wait_error(e):
+                raise
+            exc = e
+            time.sleep(delay_before_retry(e, deadline))
+    raise_timeout(run_id, exc)
 
 
 async def wait_for_result_async(
@@ -30,9 +43,18 @@ async def wait_for_result_async(
     deadline: float,
     callable: Callable[[str, float], Coroutine[Any, Any, TaskRunResult | ParsedTaskRunResult[OutputT]]],
 ) -> TaskRunResult | ParsedTaskRunResult[OutputT]:
-    """Wait for a task run to complete within the given timeout."""
-    with timeout_retry_context(run_id, deadline):
-        return await callable(run_id, deadline)
+    """Wait for a task run to complete within the given timeout, fetching its result
+    again when a fetch times out or the server answers 408, 503 or 504."""
+    exc: Union[Exception, None] = None
+    while time.monotonic() < deadline:
+        try:
+            return await callable(run_id, deadline)
+        except (APITimeoutError, APIStatusError) as e:
+            if not is_retryable_wait_error(e):
+                raise
+            exc = e
+            await anyio.sleep(delay_before_retry(e, deadline))
+    raise_timeout(run_id, exc)
 
 
 def task_run_result_parser(
