@@ -2,14 +2,26 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import TypedDict
+from typing import Union, Optional
+from datetime import datetime
+from typing_extensions import Annotated, TypedDict
+
+from .._utils import PropertyInfo
 
 __all__ = ["FetchPolicyParam"]
 
 
 class FetchPolicyParam(TypedDict, total=False):
     """Policy for live fetching web results."""
+
+    as_of: Annotated[Union[str, datetime, None], PropertyInfo(format="iso8601")]
+    """Accepts an ISO 8601 date or timestamp.
+
+    A date is treated as 00:00 UTC. Timestamps without an offset are treated as UTC.
+    Timestamps are rounded down to the start of the UTC hour. Serves the latest
+    available version of each page captured at or before that cutoff. Contact sales
+    for access.
+    """
 
     disable_cache_fallback: bool
     """

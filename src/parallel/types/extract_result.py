@@ -33,7 +33,7 @@ class ExtractResult(BaseModel):
     """
 
     publish_date: Optional[str] = None
-    """Publish date of the webpage in YYYY-MM-DD format, if available."""
+    """Estimated publish date of the webpage in YYYY-MM-DD format, if available."""
 
     title: Optional[str] = None
     """Title of the webpage, if available."""

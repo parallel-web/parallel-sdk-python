@@ -13,7 +13,7 @@ from parallel.types import (
     SearchResult,
     ExtractResponse,
 )
-from parallel._utils import parse_date
+from parallel._utils import parse_date, parse_datetime
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -35,6 +35,7 @@ class TestClient:
             advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
+                    "as_of": parse_datetime("2026-07-01T12:00:00Z"),
                     "disable_cache_fallback": True,
                     "max_age_seconds": 86400,
                     "timeout_seconds": 60,
@@ -88,6 +89,7 @@ class TestClient:
             advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
+                    "as_of": parse_datetime("2026-07-01T12:00:00Z"),
                     "disable_cache_fallback": True,
                     "max_age_seconds": 86400,
                     "timeout_seconds": 60,
@@ -152,6 +154,7 @@ class TestAsyncClient:
             advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
+                    "as_of": parse_datetime("2026-07-01T12:00:00Z"),
                     "disable_cache_fallback": True,
                     "max_age_seconds": 86400,
                     "timeout_seconds": 60,
@@ -205,6 +208,7 @@ class TestAsyncClient:
             advanced_settings={
                 "excerpt_settings": {"max_chars_per_result": 0},
                 "fetch_policy": {
+                    "as_of": parse_datetime("2026-07-01T12:00:00Z"),
                     "disable_cache_fallback": True,
                     "max_age_seconds": 86400,
                     "timeout_seconds": 60,

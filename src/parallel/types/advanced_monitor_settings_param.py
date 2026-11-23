@@ -22,7 +22,9 @@ class AdvancedMonitorSettingsParam(TypedDict, total=False):
     Plain domains match that domain and its subdomains. Domain/path entries use
     case-sensitive path matching at segment boundaries; trailing slashes are
     ignored, dot segments are normalized, and other percent-encoded path spelling is
-    preserved. Entries omit schemes, ports, query strings, and fragments. When
-    include_domains is non-empty, it defines the complete allowlist and
-    exclude_domains is ignored.
+    preserved. Entries omit schemes, ports, query strings, and fragments. A source
+    must match include_domains, when set, and must not match exclude_domains. Use
+    exclude_domains to block a subdomain or path of an allowed domain. Only the same
+    entry in both lists fails validation, compared after lowercasing the domain and
+    dropping a leading www. and a trailing slash.
     """

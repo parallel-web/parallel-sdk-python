@@ -22,6 +22,7 @@ from .error_event import ErrorEvent as ErrorEvent
 from .field_basis import FieldBasis as FieldBasis
 from .json_schema import JsonSchema as JsonSchema
 from .text_schema import TextSchema as TextSchema
+from .fetch_policy import FetchPolicy as FetchPolicy
 from .extract_error import ExtractError as ExtractError
 from .mcp_tool_call import McpToolCall as McpToolCall
 from .search_result import SearchResult as SearchResult

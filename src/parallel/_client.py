@@ -54,11 +54,12 @@ from .types.advanced_search_settings_param import AdvancedSearchSettingsParam
 from .types.advanced_extract_settings_param import AdvancedExtractSettingsParam
 
 if TYPE_CHECKING:
-    from .resources import beta, monitor, task_run, task_group
+    from .resources import beta, monitor, task_run, responses, task_group
     from .resources.monitor import MonitorResource, AsyncMonitorResource
     from .resources.task_run import TaskRunResource, AsyncTaskRunResource
     from .resources.beta.beta import BetaResource, AsyncBetaResource
     from .resources.task_group import TaskGroupResource, AsyncTaskGroupResource
+    from .resources.responses.responses import ResponsesResource, AsyncResponsesResource
 
 __all__ = [
     "Timeout",
@@ -135,6 +136,20 @@ class Parallel(SyncAPIClient):
             custom_query=default_query,
             _strict_response_validation=_strict_response_validation,
         )
+
+    @cached_property
+    def responses(self) -> ResponsesResource:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import ResponsesResource
+
+        return ResponsesResource(self)
 
     @cached_property
     def task_run(self) -> TaskRunResource:
@@ -521,6 +536,20 @@ class AsyncParallel(AsyncAPIClient):
         )
 
     @cached_property
+    def responses(self) -> AsyncResponsesResource:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import AsyncResponsesResource
+
+        return AsyncResponsesResource(self)
+
+    @cached_property
     def task_run(self) -> AsyncTaskRunResource:
         """The Task API executes web research and extraction tasks.
 
@@ -854,6 +883,20 @@ class ParallelWithRawResponse:
         )
 
     @cached_property
+    def responses(self) -> responses.ResponsesResourceWithRawResponse:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import ResponsesResourceWithRawResponse
+
+        return ResponsesResourceWithRawResponse(self._client.responses)
+
+    @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithRawResponse:
         """The Task API executes web research and extraction tasks.
 
@@ -922,6 +965,20 @@ class AsyncParallelWithRawResponse:
         self.search = async_to_raw_response_wrapper(
             client.search,
         )
+
+    @cached_property
+    def responses(self) -> responses.AsyncResponsesResourceWithRawResponse:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import AsyncResponsesResourceWithRawResponse
+
+        return AsyncResponsesResourceWithRawResponse(self._client.responses)
 
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithRawResponse:
@@ -994,6 +1051,20 @@ class ParallelWithStreamedResponse:
         )
 
     @cached_property
+    def responses(self) -> responses.ResponsesResourceWithStreamingResponse:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import ResponsesResourceWithStreamingResponse
+
+        return ResponsesResourceWithStreamingResponse(self._client.responses)
+
+    @cached_property
     def task_run(self) -> task_run.TaskRunResourceWithStreamingResponse:
         """The Task API executes web research and extraction tasks.
 
@@ -1062,6 +1133,20 @@ class AsyncParallelWithStreamedResponse:
         self.search = async_to_streamed_response_wrapper(
             client.search,
         )
+
+    @cached_property
+    def responses(self) -> responses.AsyncResponsesResourceWithStreamingResponse:
+        """
+        An OpenAI-Responses-compatible interface for answers grounded in live web research, with URL citations. Point any Responses-API client — the OpenAI Python SDK, OpenAI TypeScript SDK, the Agents SDK, or raw HTTP — at `https://api.parallel.ai` with your Parallel API key, set `model` to `parallel`, and call `/v1/responses`.
+        - `input` accepts a plain string or an array of role/content messages (canonical OpenAI shape; text content only).
+        - `reasoning.effort` (`low`/`medium`/`high`/`auto`) controls how much research is performed, trading response time for answer quality.
+        - Multi-turn via `previous_response_id`.
+        - Structured outputs via `text.format = {"type": "json_schema", "name": ..., "schema": {...}}`.
+        - Streaming (`stream=true`) emits the standard OpenAI Responses SSE lifecycle: `response.created` and `response.in_progress`, then output item / content part / text delta events with URL-citation annotations, the matching `*.done` events, and a terminal `response.completed` — or `response.failed` if the request fails mid-stream.
+        """
+        from .resources.responses import AsyncResponsesResourceWithStreamingResponse
+
+        return AsyncResponsesResourceWithStreamingResponse(self._client.responses)
 
     @cached_property
     def task_run(self) -> task_run.AsyncTaskRunResourceWithStreamingResponse:

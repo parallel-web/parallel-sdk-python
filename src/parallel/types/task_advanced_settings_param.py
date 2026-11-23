@@ -6,6 +6,7 @@ from typing import Optional
 from typing_extensions import TypedDict
 
 from .._types import SequenceNotStr
+from .fetch_policy_param import FetchPolicyParam
 
 __all__ = ["TaskAdvancedSettingsParam", "DataSources"]
 
@@ -47,6 +48,9 @@ class TaskAdvancedSettingsParam(TypedDict, total=False):
     Supported on standard processors only; a selected partner name must not collide
     with an `mcp_servers` entry.
     """
+
+    fetch_policy: Optional[FetchPolicyParam]
+    """Policy for live fetching web results."""
 
     location: Optional[str]
     """ISO 3166-1 alpha-2 country code for geo-targeted search results."""
