@@ -87,6 +87,7 @@ from ._exceptions import (
     APIResponseValidationError,
 )
 from ._utils._json import openapi_dumps
+from .lib._deprecation import warn_on_deprecation_body, warn_on_deprecation_headers
 
 log: logging.Logger = logging.getLogger(__name__)
 
@@ -642,6 +643,8 @@ class BaseClient(Generic[_HttpxClientT, _DefaultStreamT]):
         if data is None:
             return cast(ResponseT, None)
 
+        warn_on_deprecation_body(data, response)
+
         if cast_to is object:
             return cast(ResponseT, data)
 
@@ -1106,6 +1109,8 @@ class SyncAPIClient(BaseClient[httpx.Client, Stream[Any]]):
         stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
         retries_taken: int = 0,
     ) -> ResponseT:
+        warn_on_deprecation_headers(response)
+
         origin = get_origin(cast_to) or cast_to
 
         if (
@@ -1690,6 +1695,8 @@ class AsyncAPIClient(BaseClient[httpx.AsyncClient, AsyncStream[Any]]):
         stream_cls: type[Stream[Any]] | type[AsyncStream[Any]] | None,
         retries_taken: int = 0,
     ) -> ResponseT:
+        warn_on_deprecation_headers(response)
+
         origin = get_origin(cast_to) or cast_to
 
         if (
