@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.5.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.4.0...v1.5.0) (2026-11-24)
+
+
+### Features
+
+* warn when the API marks a call as deprecated ([3e5e333](https://github.com/parallel-web/parallel-sdk-python/commit/3e5e333d91e76e8af348459a8fa75036383d53e9))
+
+
+### Chores
+
+* merge production main (release 1.4.0) back into staging ([dfd9d7c](https://github.com/parallel-web/parallel-sdk-python/commit/dfd9d7c87f0d99bbfe61d3cac4f480a39f2feb3a))
+* merge production main (release 1.4.0) back into staging ([6110ad2](https://github.com/parallel-web/parallel-sdk-python/commit/6110ad24a4a1b0dadb6d529c00568b60e5877b0a))
+
 ## [1.4.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.7...v1.4.0) (2026-11-24)
 
 
