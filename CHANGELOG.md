@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.4.0](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.7...v1.4.0) (2026-11-24)
+
+
+### Features
+
+* add Responses API ([1945244](https://github.com/parallel-web/parallel-sdk-python/commit/1945244bf93b52aca8658cf01bfa468658e1e382))
+* add Responses API ([cf5d963](https://github.com/parallel-web/parallel-sdk-python/commit/cf5d96386b2748da2b802dc4e8f19d5d914447d6))
+
+
+### Bug Fixes
+
+* **task_run:** retry execute's result wait when it ends unfinished ([d1a3ed3](https://github.com/parallel-web/parallel-sdk-python/commit/d1a3ed3c19304d36df6836138fff66b54867f2e7))
+* **task_run:** retry execute's result wait when it ends unfinished ([08e8a6f](https://github.com/parallel-web/parallel-sdk-python/commit/08e8a6ff0692c9c10551e38f140f7faeb5b2b2cd))
+
+
+### Chores
+
+* sync sdk-openapi.json from shapleyai/code@5cffe4fecf ([1b566f6](https://github.com/parallel-web/parallel-sdk-python/commit/1b566f6d6747d86ab97783345ba52195e92e2ed5))
+
 ## [1.3.7](https://github.com/parallel-web/parallel-sdk-python/compare/v1.3.6...v1.3.7) (2026-10-23)
 
 
